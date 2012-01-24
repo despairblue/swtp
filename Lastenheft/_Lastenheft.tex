@@ -1,0 +1,97 @@
+% !TEX root = Lastenheft.tex
+% !TEX TS-program = pdflatex
+% !TEX encoding = UTF-8 Unicode
+
+\definecolor{fgcgray}{rgb}{0.4, 0.4, 0.4}
+
+\definecolor{bgctitle}{rgb}{0.0, 0.0, 0.5} 
+\definecolor{fgctitle}{rgb}{0.99, 0.99, 0.95} 
+
+\newcommand{\titlefont}[1] {
+	\textcolor{fgctitle} {
+		\fontfamily{cmss}
+		\fontseries{bx}
+		\fontshape{n}
+		\fontsize{20.48}{0pt} \selectfont #1
+	}
+}
+ 
+\newcommand{\inversetitlefont}[1]{
+	\textcolor{bgctitle} {
+		\fontfamily{cmss}
+		\fontseries{bx}
+		\fontshape{n}
+		\fontsize{20.48}{0pt} \selectfont #1
+	}
+}
+
+\setlength{\headheight}{13pt}
+
+\addtolength{\oddsidemargin}{-1.0cm}
+\addtolength{\evensidemargin}{-1.0cm} 
+\addtolength{\headwidth}{2.0cm} 
+\addtolength{\textwidth}{2.0cm}
+
+\setlength{\parindent}{0cm}
+
+\renewcommand{\labelitemi}{$\circ$}
+
+\newcommand{\comment}[1]{\vskip 5pt \textcolor{fgcgray}{\scriptsize #1} \vskip 15pt} 
+\newcommand{\attrname}[1]{\textcolor{fgcgray}{\scriptsize #1}}
+
+\makeatletter
+
+\newcommand*{\project}[1]{\gdef\@project{#1}} 
+\newcommand*{\version}[1]{\gdef\@version{#1}} 
+\newcommand*{\home}[1]{\gdef\@home{#1}} 
+\newcommand*{\homeref}[1]{\gdef\@homeref{#1}}
+
+\def\@maketitle { 
+	\begin{center}
+	
+		\colorbox{bgctitle} {
+			\parbox{\textwidth} {
+				\vskip 8pt 
+				\centering {
+					\titlefont{\@title}
+				}
+				\vskip 8pt 
+			} 
+		}
+		
+		\colorbox{white} {
+			\parbox{\textwidth} {
+				\vskip 8pt
+				\centering{\inversetitlefont{\@project}}
+				\vskip 8pt
+			} 
+		}
+		
+	\end{center}
+	
+	\vskip 1.0em {
+		\lineskip .5em 
+		\begin{flushright}
+			\begin{tabular}[t]{rl}
+				\attrname{Projekt:} & \@project ~ \@version \\
+				\attrname{Autor:} & \@author \\
+				\attrname{Home:} & \href{\@homeref}{\@home} \\
+				\attrname{letzte Änderung:} & \@date 
+			\end{tabular}
+		\end{flushright}
+		\par 
+	}
+	
+	\vskip 5.5em
+}
+
+\setcounter{secnumdepth}{4}
+\setcounter{tocdepth}{4}
+
+\newcounter{subsubsubsection}[subsubsection] 
+\def\subsubsubsectionmark#1{} 
+\def\thesubsubsubsection{\thesubsubsection .\arabic{subsubsubsection}} 
+\def\subsubsubsection{\@startsection{subsubsubsection}{4}{\z@}{-3.25ex plus -1 ex minus -.2ex}{1.5ex plus .2ex}{\normalsize\bf}} 
+\def\l@subsubsubsection{\@dottedtocline{4}{4.8em}{4.2em}}
+
+\makeatother 
