@@ -1,0 +1,45 @@
+% !TEX encoding = UTF-8 Unicode
+% !TEX TS-program = Make
+
+\documentclass[a4paper, 10pt]{article}
+\usepackage[utf8]{inputenc} 
+\usepackage[ngerman]{babel} 
+\usepackage{coordsys,logsys,color} 
+\usepackage{fancyhdr} 
+\usepackage{hyperref}
+\usepackage{texdraw}
+\usepackage{colortbl}
+\usepackage[xindy, acronym, toc, style=altlist]{glossaries}
+
+\input{txdtools}
+
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{hyperref}
+\definecolor{darkblue}{rgb}{0,0,.6}
+\hypersetup{pdftex=false, colorlinks=true, breaklinks=true, linkcolor=darkblue, menucolor=darkblue, pagecolor=darkblue, urlcolor=darkblue, citecolor=darkblue}
+
+\pagestyle{fancy}
+
+\makeglossary
+\input{Glossaries.tex}
+
+\input{_Pflichtenheft.tex}
+
+\begin{document}
+  \input{PH00-Titelblatt} \newpage
+  \tableofcontents \newpage
+  \input{PH01-Zielbestimmungen} \newpage
+  \input{PH02-Produkteinsatz} \newpage
+  \input{PH03-Produktumgebung} \newpage
+  \input{PH04-Produktfunktionen} \newpage
+  \input{PH05-Produktdaten} \newpage
+  \input{PH06-Produktleistungen} \newpage
+  \input{PH07-Benutzungsoberflaeche} \newpage
+  \input{PH08-Qualitaetszielbestimmungen} \newpage
+  \input{PH09-Testszenarien} \newpage
+  \input{PH10-Entwicklungsumgebung} \newpage
+  \input{PH11-Ergaenzungen} \newpage
+  \input{PH12-Glossar}
+  \printglossaries
+  
+\end{document}
