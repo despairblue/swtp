@@ -26,6 +26,9 @@
 \input{_Pflichtenheft.tex}
 
 \begin{document}
+	\deftranslation{Glossary}{Glossar}
+	\deftranslation{Acronyms}{Akronyme}
+
   \input{PH00-Titelblatt} \newpage
   \tableofcontents \newpage
   \input{PH01-Zielbestimmungen} \newpage
@@ -40,6 +43,10 @@
   \input{PH10-Entwicklungsumgebung} \newpage
   \input{PH11-Ergaenzungen} \newpage
   \input{PH12-Glossar}
+  
+  \newpage
+  
+  \glsaddall
   \printglossaries
   
 \end{document}
