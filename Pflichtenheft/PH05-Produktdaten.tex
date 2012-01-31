@@ -1,0 +1,44 @@
+% !TEX encoding = UTF-8 Unicode
+% !TEX root =  Pflichtenheft.tex
+
+\section{Produktdaten}
+
+%\comment{Was speichert das Produkt (langfristig) aus Benutzersicht?}
+
+Es sollen folgende Daten persistent gespeichert werden. \\
+Die Speicherung erfolgt in einer simplen Textdatei (\gls{CSV}).\\
+Eingangsgrößentabellen werden in separaten Texdateien gespeichert.
+\begin{description}
+	\item[D010/] \emph{Gatterdaten:} Alle Informationen zu einem Gatter.
+	\begin{itemize}
+		\item \emph{Typ}
+		\item \emph{Name} 
+		\item \emph{Position} 
+	\end{itemize}
+	
+	\item[/D020/] \emph{Leitungsdaten:} Alle Informationen zu einer Leitung
+	\begin{itemize}
+		\item \emph{Name}
+		\item \emph{Gatter A:} Das Gatter mit dessen Eingang die Leitung verbunden wird
+		\item \emph{Gatter B:} Dast Gatter mit dessem Ausgang die Leitung verbunden wird
+	\end{itemize}
+	
+	\item[/D030/] \emph{Eingangsgrößendaten:} Alle Information zu den Eingangsgrößen
+	\begin{itemize}
+		\item \emph{Name}
+		\item \emph{Position}
+		\item \emph{1 oder 0}
+	\end{itemize}
+	
+	\item[/D040/] \emph{Ausgangsgrößen:} Alle Informationen zu den Ausgangsgrößen
+	\begin{itemize}
+		\item \emph{Name}
+		\item \emph{Position}
+	\end{itemize}
+	
+	\item[/D050/] \emph{Eingangsgrößentabelle:} Alle Informationen zu einer Eingangsgrößentabelle
+	\begin{itemize}
+		\item \emph{Anzahl der Eingänge}
+		\item \emph{Die verschiedenen Belegungen der Eingänge}
+	\end{itemize}
+\end{description}
