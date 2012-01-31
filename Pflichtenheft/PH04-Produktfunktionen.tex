@@ -1,0 +1,51 @@
+% !TEX encoding = UTF-8 Unicode
+% !TEX root =  Pflichtenheft.tex
+
+\section{Produktfunktionen}
+
+%\comment{Was leistet das Produkt aus Benutzersicht?}
+
+\subsection{Schaltplanerstellung}
+
+Der Benutzer soll die Möglichkeit haben einen Schaltplan zu erstellen.
+\begin{description}
+	\item[/F010/] Möglichkeit Gatter von einer Toolbar per Drag and Drop in einem bestimmten Bereich des Fensters anzuordnen.
+	\begin{description}
+		\item[/F020/] zu implementierende Gatterarten: AND, OR, NOT, XOR, NOR, NAND
+		\item[/F030/] besonderes Gatter: Knoten\\
+		Wird benutzt um Leitungen zu teilen, damit ein Ausgangssignal zu mehreren Eingängen fließen kann
+		\item[/WF040/] zu implementierende Gatterarten: FLIPFLOP, LATCH\\
+		nötig für sequentielle Schaltungen
+	\end{description}
+	\item[/F050/] Möglichkeit die Gatter mittels Leitungen miteinander zu verbinden
+	\item[/F060/] Möglichkeit Eingangsgrößen festzulegen
+	\begin{description}
+		\item[/F070/] Eingangsgrößen sollen separat auf dem \gls{Canvas} angeordnet werden können, ähnlich wie Gatter
+	\end{description}
+	\item[/F080/] Schaltungsausgänge festlegen
+	\begin{description}
+		\item[/F090/] Schaltungsausgänge sollen separat auf dem \gls{Canvas} angeordnet werden können, ähnlich wie Gatter
+	\end{description}
+\end{description}
+
+\subsection{Simulation}
+
+Der Benutzer soll den von ihm erstellten Schaltplan simulieren können. 
+\begin{description}
+	\item[/F100/] Für die Eingänge soll es möglich sein eine Liste von Kombination von Eingangsgrößen angeben zu können (Einganggrößentabelle)
+	\item[/F110/] Es soll möglich sein die Eingangsgrößentabelle Kombination für Kombination durchzugehen
+	\item[/F120/] Es soll möglich sein die Eingangsgrößentabelle auf einmal abarbeiten zu lassen und sich für jede Zeile die Ausgangsgrößen in einer Tabelle in Verbindung mit der jeweiligen Kombination der Eingangsgrößen ansehen zu können
+	\item[/F130/] Signalverlauf in den Leitungen grafisch darstellen, Leitungen auf den eine Spannung anliegt werden rot gefärbt
+	\item[/F140/] Signalverlauf von ausgewählten Leitungen soll als Grafik angezeigt werden
+	
+	\item[/WF150/] Möglichkeit Takt für Takt durchzugehen für sequentielle Schaltungen
+	\item[/WF160/] Möglichkeit alle Zwischenergebnisse nach x Takten tabellarisch sich auszugeben lassen
+\end{description}
+
+\subsection{Sonstiges}
+
+Der Benutzer kann Schaltungen speichern und laden.
+\begin{description}
+	\item[/F200/] Das Speichern und Laden von Schaltungen soll möglich sein
+	\item[/F210/] Die Eingangsgrößentabelle soll separat von der Schaltung abgespeichert und geladen werden können
+\end{description}
