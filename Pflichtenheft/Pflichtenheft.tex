@@ -10,6 +10,7 @@
 \usepackage{texdraw}
 \usepackage{colortbl}
 \usepackage[xindy, acronym, toc, style=altlist]{glossaries}
+\usepackage[normal,font={small,color=black}, labelfont=bf,figurename=Abbildung]{caption} 
 
 \input{txdtools}
 
@@ -17,6 +18,16 @@
 \ProvidesPackage{hyperref}
 \definecolor{darkblue}{rgb}{0,0,.6}
 \hypersetup{pdftex=false, colorlinks=true, breaklinks=true, linkcolor=darkblue, menucolor=darkblue, pagecolor=darkblue, urlcolor=darkblue, citecolor=darkblue}
+
+\newlength{\myx}
+\newlength{\myy}
+\newcommand\includegraphicstotab[2][\relax]{%
+\settowidth{\myx}{\includegraphics[{#1}]{#2}}%
+\settoheight{\myy}{\includegraphics[{#1}]{#2}}%
+\parbox[c][1.1\myy][c]{\myx}{%
+\includegraphics[{#1}]{#2}%
+}%
+}%\includegraphicstotab[..]{..} (wie bei \includegraphics)
 
 \pagestyle{fancy}
 
