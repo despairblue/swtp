@@ -25,9 +25,8 @@ namespace Logik_Simulator {
 		Form1(void)
 		{
 			InitializeComponent();
-			//
-			//TODO: Konstruktorcode hier hinzufügen.
-			//
+			
+			this->rnd = (gcnew System::Random());
 		}
 
 	protected:
@@ -41,6 +40,11 @@ namespace Logik_Simulator {
 				delete components;
 			}
 		}
+	private: System::Windows::Forms::SplitContainer^  splitContainer1;
+	protected: System::Random^ rnd;
+	private: System::Windows::Forms::Button^  btn_add_AND;
+	protected: 
+
 
 	private:
 		/// <summary>
@@ -55,19 +59,66 @@ namespace Logik_Simulator {
 		/// </summary>
 		void InitializeComponent(void)
 		{
+			this->splitContainer1 = (gcnew System::Windows::Forms::SplitContainer());
+			this->btn_add_AND = (gcnew System::Windows::Forms::Button());
+			this->splitContainer1->Panel1->SuspendLayout();
+			this->splitContainer1->SuspendLayout();
 			this->SuspendLayout();
+			// 
+			// splitContainer1
+			// 
+			this->splitContainer1->Dock = System::Windows::Forms::DockStyle::Fill;
+			this->splitContainer1->Location = System::Drawing::Point(0, 0);
+			this->splitContainer1->Name = L"splitContainer1";
+			// 
+			// splitContainer1.Panel1
+			// 
+			this->splitContainer1->Panel1->Controls->Add(this->btn_add_AND);
+			this->splitContainer1->Size = System::Drawing::Size(266, 232);
+			this->splitContainer1->SplitterDistance = 92;
+			this->splitContainer1->TabIndex = 0;
+			// 
+			// btn_add_AND
+			// 
+			this->btn_add_AND->Location = System::Drawing::Point(10, 12);
+			this->btn_add_AND->Name = L"btn_add_AND";
+			this->btn_add_AND->Size = System::Drawing::Size(75, 23);
+			this->btn_add_AND->TabIndex = 0;
+			this->btn_add_AND->Text = L"AND";
+			this->btn_add_AND->UseVisualStyleBackColor = true;
+			this->btn_add_AND->Click += gcnew System::EventHandler(this, &Form1::button1_Click);
 			// 
 			// Form1
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
 			this->ClientSize = System::Drawing::Size(266, 232);
+			this->Controls->Add(this->splitContainer1);
 			this->Name = L"Form1";
 			this->Text = L"Form1";
+			this->splitContainer1->Panel1->ResumeLayout(false);
+			this->splitContainer1->ResumeLayout(false);
 			this->ResumeLayout(false);
 
 		}
 #pragma endregion
+	private: System::Void button1_Click(System::Object^  sender, System::EventArgs^  e) {
+				System::Windows::Forms::Button^  btn;
+				btn = (gcnew System::Windows::Forms::Button());
+				btn->Name = L"AND";
+				btn->Text = L"AND";
+				btn->Click += gcnew EventHandler(this, &Form1::AND_Click);
+				btn->Location = System::Drawing::Point(this->rnd->Next(0, this->splitContainer1->Panel2->Size.Width), this->rnd->Next(0, this->splitContainer1->Panel2->Size.Height));
+				this->splitContainer1->Panel2->Controls->Add(btn);
+			 }
+
+			 System::Void AND_Click(System::Object^ sender, System::EventArgs^ e) {
+				 Button^ btn = safe_cast<Button^>(sender);
+				 String^ x_coord = L"X: " + btn->Location.X.ToString();
+				 String^ y_coord = L"Y: " + btn->Location.Y.ToString();
+
+				 MessageBox::Show(L"You clicked a Button", x_coord + " " + y_coord, MessageBoxButtons::OK,MessageBoxIcon::Information , MessageBoxDefaultButton::Button1, MessageBoxOptions::DefaultDesktopOnly, false);
+			 }
 	};
 }
 
