@@ -41,11 +41,15 @@ namespace Logik_Simulator {
 				delete components;
 			}
 		}
-	private: System::Windows::Forms::SplitContainer^  splitContainer1;
+
 	protected: System::Random^ rnd;
 			   Boolean mouse_down;
 			   Point loc_mouse_down;
 	private: System::Windows::Forms::Button^  btn_add_AND;
+	private: System::Windows::Forms::ToolStrip^  toolStrip1;
+	private: System::Windows::Forms::ToolStripButton^  toolStripButton1;
+	protected: 
+
 	protected: 
 
 
@@ -62,46 +66,54 @@ namespace Logik_Simulator {
 		/// </summary>
 		void InitializeComponent(void)
 		{
-			this->splitContainer1 = (gcnew System::Windows::Forms::SplitContainer());
+			System::ComponentModel::ComponentResourceManager^  resources = (gcnew System::ComponentModel::ComponentResourceManager(Form1::typeid));
 			this->btn_add_AND = (gcnew System::Windows::Forms::Button());
-			this->splitContainer1->Panel1->SuspendLayout();
-			this->splitContainer1->SuspendLayout();
+			this->toolStrip1 = (gcnew System::Windows::Forms::ToolStrip());
+			this->toolStripButton1 = (gcnew System::Windows::Forms::ToolStripButton());
+			this->toolStrip1->SuspendLayout();
 			this->SuspendLayout();
-			// 
-			// splitContainer1
-			// 
-			this->splitContainer1->Dock = System::Windows::Forms::DockStyle::Fill;
-			this->splitContainer1->Location = System::Drawing::Point(0, 0);
-			this->splitContainer1->Name = L"splitContainer1";
-			// 
-			// splitContainer1.Panel1
-			// 
-			this->splitContainer1->Panel1->Controls->Add(this->btn_add_AND);
-			this->splitContainer1->Size = System::Drawing::Size(266, 232);
-			this->splitContainer1->SplitterDistance = 92;
-			this->splitContainer1->TabIndex = 0;
 			// 
 			// btn_add_AND
 			// 
-			this->btn_add_AND->Location = System::Drawing::Point(10, 12);
+			this->btn_add_AND->Location = System::Drawing::Point(96, 105);
 			this->btn_add_AND->Name = L"btn_add_AND";
 			this->btn_add_AND->Size = System::Drawing::Size(75, 23);
-			this->btn_add_AND->TabIndex = 0;
+			this->btn_add_AND->TabIndex = 1;
 			this->btn_add_AND->Text = L"AND";
 			this->btn_add_AND->UseVisualStyleBackColor = true;
-			this->btn_add_AND->Click += gcnew System::EventHandler(this, &Form1::button1_Click);
+			// 
+			// toolStrip1
+			// 
+			this->toolStrip1->Items->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(1) {this->toolStripButton1});
+			this->toolStrip1->Location = System::Drawing::Point(0, 0);
+			this->toolStrip1->Name = L"toolStrip1";
+			this->toolStrip1->Size = System::Drawing::Size(266, 25);
+			this->toolStrip1->TabIndex = 2;
+			this->toolStrip1->Text = L"toolStrip1";
+			// 
+			// toolStripButton1
+			// 
+			this->toolStripButton1->DisplayStyle = System::Windows::Forms::ToolStripItemDisplayStyle::Image;
+			this->toolStripButton1->Image = (cli::safe_cast<System::Drawing::Image^  >(resources->GetObject(L"toolStripButton1.Image")));
+			this->toolStripButton1->ImageTransparentColor = System::Drawing::Color::Magenta;
+			this->toolStripButton1->Name = L"toolStripButton1";
+			this->toolStripButton1->Size = System::Drawing::Size(23, 22);
+			this->toolStripButton1->Text = L"toolStripButton1";
+			this->toolStripButton1->Click += gcnew System::EventHandler(this, &Form1::toolStripButton1_Click);
 			// 
 			// Form1
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
 			this->ClientSize = System::Drawing::Size(266, 232);
-			this->Controls->Add(this->splitContainer1);
+			this->Controls->Add(this->toolStrip1);
+			this->Controls->Add(this->btn_add_AND);
 			this->Name = L"Form1";
 			this->Text = L"Form1";
-			this->splitContainer1->Panel1->ResumeLayout(false);
-			this->splitContainer1->ResumeLayout(false);
+			this->toolStrip1->ResumeLayout(false);
+			this->toolStrip1->PerformLayout();
 			this->ResumeLayout(false);
+			this->PerformLayout();
 
 		}
 #pragma endregion
@@ -113,8 +125,8 @@ namespace Logik_Simulator {
 				btn->Click += gcnew EventHandler(this, &Form1::AND_Click);
 				btn->MouseDown += gcnew MouseEventHandler(this, &Form1::AND_MouseDown);
 				btn->MouseUp   += gcnew MouseEventHandler(this, &Form1::AND_MouseUp);
-				btn->Location = System::Drawing::Point(this->rnd->Next(0, this->splitContainer1->Panel2->Size.Width), this->rnd->Next(0, this->splitContainer1->Panel2->Size.Height));
-				this->splitContainer1->Panel2->Controls->Add(btn);
+				btn->Location = System::Drawing::Point(this->rnd->Next(0, this->Size.Width), this->rnd->Next(0, this->Size.Height));
+				this->Controls->Add(btn);
 			 }
 
 			 System::Void AND_Click(System::Object^ sender, System::EventArgs^ e) {
@@ -139,6 +151,17 @@ namespace Logik_Simulator {
 				Point new_loc = Point(btn->Location.X + x_diff, btn->Location.Y + y_diff);
 				btn->Location = new_loc;
 			 }
+private: System::Void toolStripButton1_Click(System::Object^  sender, System::EventArgs^  e) {
+			 	System::Windows::Forms::Button^  btn;
+				btn = (gcnew System::Windows::Forms::Button());
+				btn->Name = L"AND";
+				btn->Text = L"AND";
+				btn->Click += gcnew EventHandler(this, &Form1::AND_Click);
+				btn->MouseDown += gcnew MouseEventHandler(this, &Form1::AND_MouseDown);
+				btn->MouseUp   += gcnew MouseEventHandler(this, &Form1::AND_MouseUp);
+				btn->Location = System::Drawing::Point(this->rnd->Next(0, this->Size.Width), this->rnd->Next(0, this->Size.Height));
+				this->Controls->Add(btn);
+		 }
 };
 }
 
