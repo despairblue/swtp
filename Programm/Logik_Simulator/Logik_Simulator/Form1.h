@@ -27,6 +27,7 @@ namespace Logik_Simulator {
 			InitializeComponent();
 			
 			this->rnd = (gcnew System::Random());
+			this->mouse_down = false;
 		}
 
 	protected:
@@ -42,6 +43,8 @@ namespace Logik_Simulator {
 		}
 	private: System::Windows::Forms::SplitContainer^  splitContainer1;
 	protected: System::Random^ rnd;
+			   Boolean mouse_down;
+			   Point loc_mouse_down;
 	private: System::Windows::Forms::Button^  btn_add_AND;
 	protected: 
 
@@ -108,6 +111,8 @@ namespace Logik_Simulator {
 				btn->Name = L"AND";
 				btn->Text = L"AND";
 				btn->Click += gcnew EventHandler(this, &Form1::AND_Click);
+				btn->MouseDown += gcnew MouseEventHandler(this, &Form1::AND_MouseDown);
+				btn->MouseUp   += gcnew MouseEventHandler(this, &Form1::AND_MouseUp);
 				btn->Location = System::Drawing::Point(this->rnd->Next(0, this->splitContainer1->Panel2->Size.Width), this->rnd->Next(0, this->splitContainer1->Panel2->Size.Height));
 				this->splitContainer1->Panel2->Controls->Add(btn);
 			 }
@@ -119,6 +124,21 @@ namespace Logik_Simulator {
 
 				 MessageBox::Show(L"You clicked a Button", x_coord + " " + y_coord, MessageBoxButtons::OK,MessageBoxIcon::Information , MessageBoxDefaultButton::Button1, MessageBoxOptions::DefaultDesktopOnly, false);
 			 }
-	};
+
+			 System::Void AND_MouseDown(System::Object^ sender, MouseEventArgs^ e) {
+				 this->mouse_down = true;
+				 this->loc_mouse_down = e->Location;
+			 }
+
+			 Void AND_MouseUp(Object^ sender, MouseEventArgs^ e) {
+				this->mouse_down = false;
+				Button^ btn = safe_cast<Button^>(sender);
+				int x_diff = e->X - this->loc_mouse_down.X;
+				int y_diff = e->Y - this->loc_mouse_down.Y;
+
+				Point new_loc = Point(btn->Location.X + x_diff, btn->Location.Y + y_diff);
+				btn->Location = new_loc;
+			 }
+};
 }
 
