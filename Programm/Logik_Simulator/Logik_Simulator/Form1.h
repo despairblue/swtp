@@ -134,6 +134,8 @@ namespace Logik_Simulator {
 			// 
 			// toolStripButton5
 			// 
+			this->toolStripButton5->Checked = true;
+			this->toolStripButton5->CheckState = System::Windows::Forms::CheckState::Checked;
 			this->toolStripButton5->DisplayStyle = System::Windows::Forms::ToolStripItemDisplayStyle::Text;
 			this->toolStripButton5->Image = (cli::safe_cast<System::Drawing::Image^  >(resources->GetObject(L"toolStripButton5.Image")));
 			this->toolStripButton5->ImageTransparentColor = System::Drawing::Color::Magenta;
@@ -160,6 +162,8 @@ namespace Logik_Simulator {
 			this->Controls->Add(this->toolStrip1);
 			this->Name = L"Form1";
 			this->Text = L"Form1";
+			this->MouseUp += gcnew System::Windows::Forms::MouseEventHandler(this, &Form1::Form1_MouseUp);
+			this->Click += gcnew System::EventHandler(this, &Form1::Form1_Click);
 			this->toolStrip1->ResumeLayout(false);
 			this->toolStrip1->PerformLayout();
 			this->ResumeLayout(false);
@@ -191,17 +195,39 @@ namespace Logik_Simulator {
 			 }
 private: System::Void toolStripButtons_Click(System::Object^  sender, System::EventArgs^  e) {
 				ToolStripButton^ sen = safe_cast<ToolStripButton^>(sender);
-				Button^ btn = (gcnew System::Windows::Forms::Button());
-
-				btn->Name     = sen->Name;
-				btn->Text     = sen->Text;
-				btn->Location = System::Drawing::Point(5, this->toolStrip1->Height + 5);
-
-				btn->Click     += gcnew EventHandler(this, &Form1::AND_Click);
-				btn->MouseDown += gcnew MouseEventHandler(this, &Form1::AND_MouseDown);
-				btn->MouseUp   += gcnew MouseEventHandler(this, &Form1::AND_MouseUp);
+				Boolean new_state = !(sen->Checked);
 				
-				this->Controls->Add(btn);
+				for each (ToolStripButton^ btn in this->toolStrip1->Items) {
+					btn->Checked = false;
+				}
+
+				sen->Checked = new_state;
+		 }
+private: System::Void Form1_Click(System::Object^  sender, System::EventArgs^  e) {
+		 }
+
+private: System::Void Form1_MouseUp(System::Object^  sender, System::Windows::Forms::MouseEventArgs^  e) {
+			 ToolStripButton^ btn;
+
+			 for each (ToolStripButton^ ts_btn in this->toolStrip1->Items) {
+				if ( ts_btn->Checked ) {
+					btn = ts_btn;
+				}
+			 }
+
+			 if ( btn ) {
+				Button^ new_btn = (gcnew System::Windows::Forms::Button());
+
+				new_btn->Name     = btn->Name;
+				new_btn->Text     = btn->Text;
+				new_btn->Location = System::Drawing::Point(e->X, e->Y);
+
+				new_btn->Click     += gcnew EventHandler(this, &Form1::AND_Click);
+				new_btn->MouseDown += gcnew MouseEventHandler(this, &Form1::AND_MouseDown);
+				new_btn->MouseUp   += gcnew MouseEventHandler(this, &Form1::AND_MouseUp);
+				
+				this->Controls->Add(new_btn);
+			 }
 		 }
 };
 }
