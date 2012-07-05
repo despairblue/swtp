@@ -185,6 +185,41 @@ namespace Logik_Simulator {
 		}
 #pragma endregion
 
+	private:
+
+		 Boolean check_widget_hit(Point^ location) {
+		 	for each (Object^ obj in this->logic_widgets) {
+		 		LogicWidget^ lw =  safe_cast<LogicWidget^>(obj);
+		 		Point^ widget_location = lw->location;
+
+		 		if (lw->widget_hit(location))
+		 		{
+		 				this->widget_grabbed = true;
+		 				this->grabbed_widget = lw;
+						this->grabbed_widget_location = lw->location;
+		 				return true;
+		 		}
+		 	}
+
+		 	this->widget_grabbed = false;
+			this->grabbed_widget = nullptr;
+		 	return false;
+		 }
+
+		 Void move_widget(Point^ location){
+		 			int x_diff = location->X - this->mouse_down_location->X;
+					int y_diff = location->Y - this->mouse_down_location->Y;
+
+					Point new_loc = Point(grabbed_widget_location->X + x_diff, grabbed_widget_location->Y + y_diff);
+
+					grabbed_widget->location = new_loc;
+
+					this->Invalidate();
+					this->Update();
+		 }
+
+
+
 private: System::Void toolStripButtons_Click(System::Object^  sender, System::EventArgs^  e) {
 				ToolStripButton^ sen = safe_cast<ToolStripButton^>(sender);
 				Boolean new_state = !(sen->Checked);
@@ -202,65 +237,62 @@ private: System::Void Form1_Click(System::Object^  sender, System::EventArgs^  e
 private: System::Void Form1_MouseUp(System::Object^  sender, System::Windows::Forms::MouseEventArgs^  e) {
 
 			if (widget_grabbed) {
+				// MouseDown inside of a Widget, might be drag 'n drop or click
 
 				if ( (mouse_down_location->X == e->X) && (mouse_down_location->Y == e->Y) ) {
-					grabbed_widget->selected = !(grabbed_widget->selected);
+					// MouseDown location equals MouseUp location -> click
+					// change selection and repaint form
 
-					if (grabbed_widget == selected_widget)
-					{
+					if (grabbed_widget == selected_widget) {
+						// grabbed widget equals selected widget -> deselect widget
+
 						grabbed_widget->selected = false;
 						selected_widget = nullptr;
 					} else {
+						// grabbed widget different from selected widget -> select another widget and deselect currently selected
+
 						grabbed_widget->selected = true;
-						if (selected_widget)
-						{
+
+						if (selected_widget) {
 							selected_widget->selected = false;
 						}
 
 						selected_widget = grabbed_widget;
 					}
 
+					// repaint
 					this->Invalidate();
 					this->Update();
+
 				} else {
+					// MouseDown location different from MouseUp location -> drag 'n drop
 
-					int x_diff = e->X - this->mouse_down_location->X;
-					int y_diff = e->Y - this->mouse_down_location->Y;
-
-					Point new_loc = Point(grabbed_widget_location->X + x_diff, grabbed_widget_location->Y + y_diff);
-
-					grabbed_widget->location = new_loc;
-
-					this->Invalidate();
-					this->Update();
-
+					move_widget(gcnew Point(e->X, e->Y));
 				}
 
+				// ungrab widget
+				this->grabbed_widget = nullptr;
 				this->widget_grabbed = false;
 
 			} else {
+				// MouseDown outside of a Widget -> create a widget here
 
 				ToolStripButton^ btn;
 
-				 for each (ToolStripButton^ ts_btn in this->toolStrip1->Items) {
+				for each (ToolStripButton^ ts_btn in this->toolStrip1->Items) {
 					if ( ts_btn->Checked ) {
 						btn = ts_btn;
 					}
-				 }
+				}
 
-				 if ( btn ) {
-					 LogicWidget^ lw = gcnew LogicWidget(btn->Text, gcnew Point(e->X, e->Y));
-
-
-					// new_btn->Click     += gcnew EventHandler(this, &Form1::AND_Click);
-					// new_btn->MouseDown += gcnew MouseEventHandler(this, &Form1::AND_MouseDown);
-					// new_btn->MouseUp   += gcnew MouseEventHandler(this, &Form1::AND_MouseUp);
+				if ( btn ) {
+					LogicWidget^ lw = gcnew LogicWidget(btn->Text, gcnew Point(e->X, e->Y));
 
 					this->logic_widgets->Add(lw);
 
-
-					 this->Invalidate();
-					 this->Update();
+					// repaint
+					this->Invalidate();
+					this->Update();
 
 				}
 			}
@@ -283,37 +315,12 @@ private: System::Void Form1_MouseDown(System::Object^  sender, System::Windows::
 			this->mouse_down_location = e->Location;
 		 }
 
-		 Boolean check_widget_hit(Point^ location) {
-		 	for each (Object^ obj in this->logic_widgets) {
-		 		LogicWidget^ lw =  safe_cast<LogicWidget^>(obj);
-		 		Point^ widget_location = lw->location;
-
-		 		if (lw->widget_hit(location))
-		 		{
-		 				this->widget_grabbed = true;
-		 				this->grabbed_widget = lw;
-						this->grabbed_widget_location = lw->location;
-		 				return true;
-		 		}
-		 	}
-
-		 	this->widget_grabbed = false;
-			this->grabbed_widget = nullptr;
-		 	return false;
-		 }
-
 private: System::Void Form1_MouseMove(System::Object^  sender, System::Windows::Forms::MouseEventArgs^  e) {
 			if (widget_grabbed)
 			{
-				int x_diff = e->X - this->mouse_down_location->X;
-				int y_diff = e->Y - this->mouse_down_location->Y;
 
-				Point new_loc = Point(grabbed_widget_location->X + x_diff, grabbed_widget_location->Y + y_diff);
+				move_widget( gcnew Point( e->X, e->Y ) );
 
-				grabbed_widget->location = new_loc;
-
-				this->Invalidate();
-				this->Update();
 			}
 		 }
 };
