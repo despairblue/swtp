@@ -1,5 +1,7 @@
 #pragma once
 
+#include "LogicWidget.h"
+
 
 namespace Logik_Simulator {
 
@@ -9,6 +11,7 @@ namespace Logik_Simulator {
 	using namespace System::Windows::Forms;
 	using namespace System::Data;
 	using namespace System::Drawing;
+	using namespace LogicWidgets;
 
 	/// <summary>
 	/// Zusammenfassung für Form1
@@ -28,6 +31,7 @@ namespace Logik_Simulator {
 			
 			this->rnd = (gcnew System::Random());
 			this->mouse_down = false;
+			this->logic_widgets = gcnew ArrayList();
 		}
 
 	protected:
@@ -63,6 +67,7 @@ namespace Logik_Simulator {
 		/// Erforderliche Designervariable.
 		/// </summary>
 		System::ComponentModel::Container ^components;
+		ArrayList^ logic_widgets;
 
 #pragma region Windows Form Designer generated code
 		/// <summary>
@@ -162,7 +167,9 @@ namespace Logik_Simulator {
 			this->Controls->Add(this->toolStrip1);
 			this->Name = L"Form1";
 			this->Text = L"Form1";
+			this->Load += gcnew System::EventHandler(this, &Form1::Form1_Load);
 			this->MouseUp += gcnew System::Windows::Forms::MouseEventHandler(this, &Form1::Form1_MouseUp);
+			this->Paint += gcnew System::Windows::Forms::PaintEventHandler(this, &Form1::Form1_Paint);
 			this->Click += gcnew System::EventHandler(this, &Form1::Form1_Click);
 			this->toolStrip1->ResumeLayout(false);
 			this->toolStrip1->PerformLayout();
@@ -226,7 +233,21 @@ private: System::Void Form1_MouseUp(System::Object^  sender, System::Windows::Fo
 				new_btn->MouseDown += gcnew MouseEventHandler(this, &Form1::AND_MouseDown);
 				new_btn->MouseUp   += gcnew MouseEventHandler(this, &Form1::AND_MouseUp);
 				
-				this->Controls->Add(new_btn);
+				//this->Controls->Add(new_btn);
+			 }
+
+			 LogicWidget^ lw = gcnew LogicWidget("And", this);
+			 lw->coords = gcnew Point(e->X, e->Y);
+			 lw->LogicWidget_Paint();
+			 this->logic_widgets->Add(lw);
+		 }
+private: System::Void Form1_Load(System::Object^  sender, System::EventArgs^  e) {
+		 }
+private: System::Void Form1_Paint(System::Object^  sender, System::Windows::Forms::PaintEventArgs^  e) {
+			 e->Graphics->Clear(Color::White);
+
+			 for each (Object^ obj in this->logic_widgets) {
+				 (safe_cast<LogicWidget^>(obj))->LogicWidget_Paint();
 			 }
 		 }
 };

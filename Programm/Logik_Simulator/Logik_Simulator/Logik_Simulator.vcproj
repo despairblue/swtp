@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="9,00"
+	Version="9.00"
 	Name="Logik_Simulator"
 	ProjectGUID="{BF9BF427-C009-4ADD-882E-74408CEE8F9B}"
 	RootNamespace="Logik_Simulator"
@@ -200,6 +200,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\LogicWidget.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\Logik_Simulator.cpp"
 				>
 			</File>
@@ -238,6 +242,10 @@
 					SubType="Designer"
 					>
 				</File>
+			</File>
+			<File
+				RelativePath=".\LogicWidget.h"
+				>
 			</File>
 			<File
 				RelativePath=".\resource.h"
