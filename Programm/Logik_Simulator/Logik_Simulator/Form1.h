@@ -49,6 +49,7 @@ namespace Logik_Simulator {
 	protected: System::Random^ rnd;
 			   Boolean widget_grabbed;
 			   LogicWidget^ grabbed_widget;
+			   LogicWidget^ selected_widget;
 			   Point^ mouse_down_location;
 			   Point^ grabbed_widget_location;
 
@@ -199,19 +200,46 @@ private: System::Void Form1_Click(System::Object^  sender, System::EventArgs^  e
 		 }
 
 private: System::Void Form1_MouseUp(System::Object^  sender, System::Windows::Forms::MouseEventArgs^  e) {
-			if (widget_grabbed)
-			{
-			 	this->widget_grabbed = false;
-				int x_diff = e->X - this->mouse_down_location->X;
-				int y_diff = e->Y - this->mouse_down_location->Y;
 
-				Point new_loc = Point(grabbed_widget_location->X + x_diff, grabbed_widget_location->Y + y_diff);
+			if (widget_grabbed) {
 
-				grabbed_widget->location = new_loc;
+				if ( (mouse_down_location->X == e->X) && (mouse_down_location->Y == e->Y) ) {
+					grabbed_widget->selected = !(grabbed_widget->selected);
 
-				this->Invalidate();
-				this->Update();
+					if (grabbed_widget == selected_widget)
+					{
+						grabbed_widget->selected = false;
+						selected_widget = nullptr;
+					} else {
+						grabbed_widget->selected = true;
+						if (selected_widget)
+						{
+							selected_widget->selected = false;
+						}
+
+						selected_widget = grabbed_widget;
+					}
+
+					this->Invalidate();
+					this->Update();
+				} else {
+
+					int x_diff = e->X - this->mouse_down_location->X;
+					int y_diff = e->Y - this->mouse_down_location->Y;
+
+					Point new_loc = Point(grabbed_widget_location->X + x_diff, grabbed_widget_location->Y + y_diff);
+
+					grabbed_widget->location = new_loc;
+
+					this->Invalidate();
+					this->Update();
+
+				}
+
+				this->widget_grabbed = false;
+
 			} else {
+
 				ToolStripButton^ btn;
 
 				 for each (ToolStripButton^ ts_btn in this->toolStrip1->Items) {
@@ -223,17 +251,21 @@ private: System::Void Form1_MouseUp(System::Object^  sender, System::Windows::Fo
 				 if ( btn ) {
 					 LogicWidget^ lw = gcnew LogicWidget(btn->Text, gcnew Point(e->X, e->Y));
 
-					 this->Invalidate();
-					 this->Update();
 
 					// new_btn->Click     += gcnew EventHandler(this, &Form1::AND_Click);
 					// new_btn->MouseDown += gcnew MouseEventHandler(this, &Form1::AND_MouseDown);
 					// new_btn->MouseUp   += gcnew MouseEventHandler(this, &Form1::AND_MouseUp);
 
 					this->logic_widgets->Add(lw);
-				 }
+
+
+					 this->Invalidate();
+					 this->Update();
+
+				}
 			}
-		 }
+		}
+
 private: System::Void Form1_Load(System::Object^  sender, System::EventArgs^  e) {
 		 }
 
@@ -244,35 +276,32 @@ private: System::Void Form1_Paint(System::Object^  sender, System::Windows::Form
 				 (safe_cast<LogicWidget^>(obj))->LogicWidget_Paint(e->Graphics);
 			 }
 		 }
+
 private: System::Void Form1_MouseDown(System::Object^  sender, System::Windows::Forms::MouseEventArgs^  e) {
-			if (widget_hit(e->Location))
-			{
-				this->widget_grabbed = true;
-			} else {
-				this->widget_grabbed = false;
-			}
+			check_widget_hit(e->Location);
 
 			this->mouse_down_location = e->Location;
 		 }
 
-		 Boolean widget_hit(Point^ location) {
+		 Boolean check_widget_hit(Point^ location) {
 		 	for each (Object^ obj in this->logic_widgets) {
 		 		LogicWidget^ lw =  safe_cast<LogicWidget^>(obj);
 		 		Point^ widget_location = lw->location;
-		 		if ( ( location->X >= widget_location->X ) && ( location->X  <= widget_location->X + 40 ) )
+
+		 		if (lw->widget_hit(location))
 		 		{
-		 			if ( ( location->Y >= widget_location->Y ) && ( location->Y <= widget_location->Y  + 20 ) )
-		 			{
+		 				this->widget_grabbed = true;
 		 				this->grabbed_widget = lw;
-		 				this->grabbed_widget_location = lw->location;
+						this->grabbed_widget_location = lw->location;
 		 				return true;
-		 			}
 		 		}
 		 	}
 
+		 	this->widget_grabbed = false;
 			this->grabbed_widget = nullptr;
 		 	return false;
 		 }
+
 private: System::Void Form1_MouseMove(System::Object^  sender, System::Windows::Forms::MouseEventArgs^  e) {
 			if (widget_grabbed)
 			{
