@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="9,00"
+	Version="9.00"
 	Name="Logik_Simulator"
 	ProjectGUID="{BF9BF427-C009-4ADD-882E-74408CEE8F9B}"
 	RootNamespace="Logik_Simulator"
@@ -279,6 +279,10 @@
 					/>
 				</FileConfiguration>
 			</File>
+			<File
+				RelativePath=".\test.cpp"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="Headerdateien"
@@ -353,6 +357,10 @@
 			</File>
 			<File
 				RelativePath=".\stdafx.h"
+				>
+			</File>
+			<File
+				RelativePath=".\test.h"
 				>
 			</File>
 		</Filter>

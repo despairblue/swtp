@@ -1,7 +1,18 @@
 #pragma once
 
 #include "LogicWidget.h"
-#include "SignalWidget.h"
+#include "SignalWidget.cpp"
+
+#include "Gatter.h"
+#include "Signal.h"
+#include "Input.h"
+#include "Output.h"
+#include "And.h"
+#include "Or.h"
+#include "Not.h"
+#include "Nand.h"
+#include "Nor.h"
+#include "Exor.h"
 
 using namespace System;
 using namespace System::ComponentModel;
@@ -31,7 +42,7 @@ namespace Logik_Simulator {
 			InitializeComponent();
 
 			this->rnd = (gcnew System::Random());
-			this->widget_grabbed = false;
+			//this->widget_grabbed = false;
 			this->logic_widgets = gcnew ArrayList();
 			this->signal_widgets = gcnew ArrayList();
 		}
@@ -49,7 +60,7 @@ namespace Logik_Simulator {
 		}
 
 	protected: System::Random^ rnd;
-			   Boolean widget_grabbed;
+			   // Boolean widget_grabbed;
 			   LogicWidget^ grabbed_widget;
 			   LogicWidget^ selected_widget;
 			   Point^ mouse_down_location;
@@ -185,23 +196,24 @@ namespace Logik_Simulator {
 
 	private:
 
-		 Boolean check_widget_hit(Point^ location) {
+		LogicWidget^ check_widget_hit(Point^ location) {
 		 	for each (Object^ obj in this->logic_widgets) {
 		 		LogicWidget^ lw =  safe_cast<LogicWidget^>(obj);
 		 		Point^ widget_location = lw->location;
 
 		 		if (lw->widget_hit(location))
 		 		{
-		 				this->widget_grabbed = true;
-		 				this->grabbed_widget = lw;
-						this->grabbed_widget_location = lw->location;
-		 				return true;
+		 			// 	this->widget_grabbed = true;
+		 			// 	this->grabbed_widget = lw;
+						// this->grabbed_widget_location = lw->location;
+
+		 				return lw;
 		 		}
 		 	}
 
-		 	this->widget_grabbed = false;
-			this->grabbed_widget = nullptr;
-		 	return false;
+		 // 	this->widget_grabbed = false;
+			// this->grabbed_widget = nullptr;
+		 	return nullptr;
 		 }
 
 		 Void move_widget(Point^ location){
@@ -234,7 +246,7 @@ private: System::Void MainForm_Click(System::Object^  sender, System::EventArgs^
 
 private: System::Void MainForm_MouseUp(System::Object^  sender, System::Windows::Forms::MouseEventArgs^  e) {
 
-			if (widget_grabbed) {
+			if (grabbed_widget) {
 				// MouseDown inside of a Widget, might be drag 'n drop or click
 
 				if ( (mouse_down_location->X == e->X) && (mouse_down_location->Y == e->Y) ) {
@@ -265,15 +277,25 @@ private: System::Void MainForm_MouseUp(System::Object^  sender, System::Windows:
 				} else {
 					// MouseDown location different from MouseUp location -> drag 'n drop or connect
 
-					if (grabbed_widget == selected_widget) {
+					if (grabbed_widget->selected) {
 						// grabbed_widget was selected -> connect to other widget
 
-						SignalWidget^ sw = gcnew SignalWidget();
-						sw->input = this->grabbed_widget;
-						check_widget_hit(e->Location);
-						sw->outputs->Add(this->grabbed_widget);
+						LogicWidget^ other_widget = check_widget_hit(e->Location);
 
-						this->signal_widgets->Add(sw);
+						// only connect if the mouse if over another widget
+						if ( other_widget && (other_widget != grabbed_widget) ) {
+
+							SignalWidget^ sw = gcnew SignalWidget();
+							sw->input = this->grabbed_widget;
+							sw->output = other_widget;
+
+							this->signal_widgets->Add(sw);
+
+							// repaint
+							this->Invalidate();
+							this->Update();
+
+						}
 
 
 					} else {
@@ -285,7 +307,6 @@ private: System::Void MainForm_MouseUp(System::Object^  sender, System::Windows:
 
 				// ungrab widget
 				this->grabbed_widget = nullptr;
-				this->widget_grabbed = false;
 
 			} else {
 				// MouseDown outside of a Widget -> create a widget here
@@ -299,7 +320,8 @@ private: System::Void MainForm_MouseUp(System::Object^  sender, System::Windows:
 				}
 
 				if ( btn ) {
-					LogicWidget^ lw = gcnew LogicWidget(btn->Text, gcnew Point(e->X, e->Y));
+					Gatter^ gate = gcnew And();
+					LogicWidget^ lw = gcnew LogicWidget(btn->Text, gcnew Point(e->X, e->Y), gate);
 
 					this->logic_widgets->Add(lw);
 
@@ -327,13 +349,18 @@ private: System::Void MainForm_Paint(System::Object^  sender, System::Windows::F
 		 }
 
 private: System::Void MainForm_MouseDown(System::Object^  sender, System::Windows::Forms::MouseEventArgs^  e) {
-			check_widget_hit(e->Location);
+			this->grabbed_widget = check_widget_hit(e->Location);
+
+			// if the mouse was over a widget, save it's old location
+			if (grabbed_widget) {
+				this->grabbed_widget_location = this->grabbed_widget->location;
+			}
 
 			this->mouse_down_location = e->Location;
 		 }
 
 private: System::Void MainForm_MouseMove(System::Object^  sender, System::Windows::Forms::MouseEventArgs^  e) {
-			if (widget_grabbed && !(grabbed_widget->selected) )
+			if (grabbed_widget && !(grabbed_widget->selected) )
 			{
 
 				move_widget( gcnew Point( e->X, e->Y ) );
