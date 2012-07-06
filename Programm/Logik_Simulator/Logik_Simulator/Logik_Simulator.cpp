@@ -15,13 +15,6 @@ using namespace Logik_Simulator;
 int main(array<System::String ^> ^args)
 {
 	
-	// Aktivieren visueller Effekte von Windows XP, bevor Steuerelemente erstellt werden
-	Application::EnableVisualStyles();
-	Application::SetCompatibleTextRenderingDefault(false); 
-
-	// Hauptfenster erstellen und ausführen
-	Application::Run(gcnew MainForm());
-
 	Gatter^ and = gcnew And(1,1);
 	Input^ input1 = gcnew Input();
 	Input^ input2 = gcnew Input();
@@ -48,6 +41,13 @@ int main(array<System::String ^> ^args)
 //	s2->setValue(1);
 
 	//test->calculate(0);
+
+	// Aktivieren visueller Effekte von Windows XP, bevor Steuerelemente erstellt werden
+	Application::EnableVisualStyles();
+	Application::SetCompatibleTextRenderingDefault(false); 
+
+	// Hauptfenster erstellen und ausführen
+	Application::Run(gcnew MainForm());
 
 	//TODO remove line below in Final Application
 	System::Console::ReadLine();

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="9.00"
+	Version="9,00"
 	Name="Logik_Simulator"
 	ProjectGUID="{BF9BF427-C009-4ADD-882E-74408CEE8F9B}"
 	RootNamespace="Logik_Simulator"
@@ -63,7 +63,7 @@
 				LinkIncremental="2"
 				GenerateDebugInformation="true"
 				AssemblyDebug="1"
-				SubSystem="2"
+				SubSystem="1"
 				EntryPointSymbol="main"
 				TargetMachine="1"
 			/>
