@@ -13,6 +13,7 @@ namespace LogicWidgets {
 	{
 	public:
 		SignalWidget( ) {
+			this->outputs = gcnew ArrayList();
 		}
 
 		LogicWidget^ input;
@@ -23,7 +24,8 @@ namespace LogicWidgets {
 
 			for each (Object^ obj in outputs) {
 				LogicWidget^ lw = safe_cast<LogicWidget^>(obj);
-				canvas->DrawLine(pen, input->location->X + 40, input->location->Y + 20, lw->location->X, lw->location->Y + 20);
+				canvas->DrawLine(pen, input->location->X + input->size->Width, input->location->Y + (input->size->Height / 2),
+					lw->location->X, lw->location->Y + ( input->size->Height / 2 ) );
 			}
 		}
 	};

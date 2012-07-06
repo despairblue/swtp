@@ -1,6 +1,7 @@
 #pragma once
 
 #include "LogicWidget.h"
+#include "SignalWidget.h"
 
 using namespace System;
 using namespace System::ComponentModel;
@@ -32,6 +33,7 @@ namespace Logik_Simulator {
 			this->rnd = (gcnew System::Random());
 			this->widget_grabbed = false;
 			this->logic_widgets = gcnew ArrayList();
+			this->signal_widgets = gcnew ArrayList();
 		}
 
 	protected:
@@ -71,6 +73,7 @@ namespace Logik_Simulator {
 		/// </summary>
 		System::ComponentModel::Container ^components;
 		ArrayList^ logic_widgets;
+		ArrayList^ signal_widgets;
 
 #pragma region Windows Form Designer generated code
 		/// <summary>
@@ -89,46 +92,46 @@ namespace Logik_Simulator {
 			this->toolStripButton6 = (gcnew System::Windows::Forms::ToolStripButton());
 			this->toolStrip1->SuspendLayout();
 			this->SuspendLayout();
-			// 
+			//
 			// toolStrip1
-			// 
-			this->toolStrip1->Items->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(6) {this->toolStripButton1, 
+			//
+			this->toolStrip1->Items->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(6) {this->toolStripButton1,
 				this->toolStripButton2, this->toolStripButton3, this->toolStripButton4, this->toolStripButton5, this->toolStripButton6});
 			this->toolStrip1->Location = System::Drawing::Point(0, 0);
 			this->toolStrip1->Name = L"toolStrip1";
 			this->toolStrip1->Size = System::Drawing::Size(457, 25);
 			this->toolStrip1->TabIndex = 2;
 			this->toolStrip1->Text = L"toolStrip1";
-			// 
+			//
 			// toolStripButton1
-			// 
+			//
 			this->toolStripButton1->DisplayStyle = System::Windows::Forms::ToolStripItemDisplayStyle::Text;
 			this->toolStripButton1->ImageTransparentColor = System::Drawing::Color::Magenta;
 			this->toolStripButton1->Name = L"toolStripButton1";
 			this->toolStripButton1->Size = System::Drawing::Size(36, 22);
 			this->toolStripButton1->Text = L"AND";
 			this->toolStripButton1->Click += gcnew System::EventHandler(this, &MainForm::toolStripButtons_Click);
-			// 
+			//
 			// toolStripButton2
-			// 
+			//
 			this->toolStripButton2->DisplayStyle = System::Windows::Forms::ToolStripItemDisplayStyle::Text;
 			this->toolStripButton2->ImageTransparentColor = System::Drawing::Color::Magenta;
 			this->toolStripButton2->Name = L"toolStripButton2";
 			this->toolStripButton2->Size = System::Drawing::Size(27, 22);
 			this->toolStripButton2->Text = L"OR";
 			this->toolStripButton2->Click += gcnew System::EventHandler(this, &MainForm::toolStripButtons_Click);
-			// 
+			//
 			// toolStripButton3
-			// 
+			//
 			this->toolStripButton3->DisplayStyle = System::Windows::Forms::ToolStripItemDisplayStyle::Text;
 			this->toolStripButton3->ImageTransparentColor = System::Drawing::Color::Magenta;
 			this->toolStripButton3->Name = L"toolStripButton3";
 			this->toolStripButton3->Size = System::Drawing::Size(36, 22);
 			this->toolStripButton3->Text = L"NOT";
 			this->toolStripButton3->Click += gcnew System::EventHandler(this, &MainForm::toolStripButtons_Click);
-			// 
+			//
 			// toolStripButton4
-			// 
+			//
 			this->toolStripButton4->DisplayStyle = System::Windows::Forms::ToolStripItemDisplayStyle::Text;
 			this->toolStripButton4->Image = (cli::safe_cast<System::Drawing::Image^  >(resources->GetObject(L"toolStripButton4.Image")));
 			this->toolStripButton4->ImageTransparentColor = System::Drawing::Color::Magenta;
@@ -136,9 +139,9 @@ namespace Logik_Simulator {
 			this->toolStripButton4->Size = System::Drawing::Size(34, 22);
 			this->toolStripButton4->Text = L"XOR";
 			this->toolStripButton4->Click += gcnew System::EventHandler(this, &MainForm::toolStripButtons_Click);
-			// 
+			//
 			// toolStripButton5
-			// 
+			//
 			this->toolStripButton5->Checked = true;
 			this->toolStripButton5->CheckState = System::Windows::Forms::CheckState::Checked;
 			this->toolStripButton5->DisplayStyle = System::Windows::Forms::ToolStripItemDisplayStyle::Text;
@@ -147,18 +150,18 @@ namespace Logik_Simulator {
 			this->toolStripButton5->Size = System::Drawing::Size(36, 22);
 			this->toolStripButton5->Text = L"NOR";
 			this->toolStripButton5->Click += gcnew System::EventHandler(this, &MainForm::toolStripButtons_Click);
-			// 
+			//
 			// toolStripButton6
-			// 
+			//
 			this->toolStripButton6->DisplayStyle = System::Windows::Forms::ToolStripItemDisplayStyle::Text;
 			this->toolStripButton6->ImageTransparentColor = System::Drawing::Color::Magenta;
 			this->toolStripButton6->Name = L"toolStripButton6";
 			this->toolStripButton6->Size = System::Drawing::Size(45, 22);
 			this->toolStripButton6->Text = L"NAND";
 			this->toolStripButton6->Click += gcnew System::EventHandler(this, &MainForm::toolStripButtons_Click);
-			// 
+			//
 			// MainForm
-			// 
+			//
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
 			this->ClientSize = System::Drawing::Size(457, 271);
@@ -260,9 +263,24 @@ private: System::Void MainForm_MouseUp(System::Object^  sender, System::Windows:
 					this->Update();
 
 				} else {
-					// MouseDown location different from MouseUp location -> drag 'n drop
+					// MouseDown location different from MouseUp location -> drag 'n drop or connect
 
-					move_widget(gcnew Point(e->X, e->Y));
+					if (grabbed_widget == selected_widget) {
+						// grabbed_widget was selected -> connect to other widget
+
+						SignalWidget^ sw = gcnew SignalWidget();
+						sw->input = this->grabbed_widget;
+						check_widget_hit(e->Location);
+						sw->outputs->Add(this->grabbed_widget);
+
+						this->signal_widgets->Add(sw);
+
+
+					} else {
+						// grabbed widget was not selected -> move widget
+
+						move_widget(gcnew Point(e->X, e->Y));
+					}
 				}
 
 				// ungrab widget
@@ -302,6 +320,10 @@ private: System::Void MainForm_Paint(System::Object^  sender, System::Windows::F
 			 for each (Object^ obj in this->logic_widgets) {
 				 (safe_cast<LogicWidget^>(obj))->LogicWidget_Paint(e->Graphics);
 			 }
+
+			 for each (Object^ obj in this->signal_widgets) {
+				 (safe_cast<SignalWidget^>(obj))->SignalWidget_Paint(e->Graphics);
+			 }
 		 }
 
 private: System::Void MainForm_MouseDown(System::Object^  sender, System::Windows::Forms::MouseEventArgs^  e) {
@@ -311,7 +333,7 @@ private: System::Void MainForm_MouseDown(System::Object^  sender, System::Window
 		 }
 
 private: System::Void MainForm_MouseMove(System::Object^  sender, System::Windows::Forms::MouseEventArgs^  e) {
-			if (widget_grabbed)
+			if (widget_grabbed && !(grabbed_widget->selected) )
 			{
 
 				move_widget( gcnew Point( e->X, e->Y ) );
