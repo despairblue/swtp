@@ -23,7 +23,7 @@ Gatter::Gatter(int inputNumber, int time)
 void Gatter::setInputValue(int number, bool value)
 {
 	this->input[number] = value;
-	System::Console::WriteLine("{0} {1}: {2}",this->GetType(), number, value);
+	System::Console::WriteLine("{0} {1}: {2}",this->ToString(), number, value);
 }
 
 void Gatter::addInput(int number)

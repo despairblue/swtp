@@ -208,6 +208,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Fork.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\Gatter.cpp"
 				>
 			</File>
@@ -287,6 +291,10 @@
 			</File>
 			<File
 				RelativePath=".\Exor.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Fork.h"
 				>
 			</File>
 			<File
