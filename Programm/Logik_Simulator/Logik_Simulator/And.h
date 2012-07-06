@@ -1,7 +1,7 @@
 #pragma once
 #include "Gatter.h"
 
-ref class And :
+public ref class And :
 public Gatter
 {
 public:

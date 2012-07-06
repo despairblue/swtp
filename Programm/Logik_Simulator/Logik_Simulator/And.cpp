@@ -20,4 +20,5 @@ void And::calculate(int time){
   }
   Gatter::setResult(result);
   Gatter::calculate(time);
+  this->CalculationFinish();
 }

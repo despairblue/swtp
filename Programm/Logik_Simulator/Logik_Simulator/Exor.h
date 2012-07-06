@@ -1,7 +1,7 @@
 #pragma once
 #include "Gatter.h"
 
-ref class Exor :
+public ref class Exor :
 public Gatter
 {
 public:

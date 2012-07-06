@@ -16,6 +16,16 @@
 
 using namespace Logik_Simulator;
 
+void startSimulation(ArrayList^ inputList)
+{
+	int index = inputList->Count;
+
+	for(int i = 0;i< index; i++)
+	{
+		safe_cast<Signal^>(inputList[i])->transmit();
+	}
+}
+
 [STAThreadAttribute]
 int main(array<System::String ^> ^args)
 {
@@ -24,25 +34,27 @@ int main(array<System::String ^> ^args)
 	Or^ or = gcnew Or(2,1);
 	And^ and1 = gcnew And(2,1);
 
+	ArrayList^ inputList = gcnew ArrayList();
+
 	Input^ input1 = gcnew Input();
 	Input^ input2 = gcnew Input();
 	Input^ input3 = gcnew Input();
-
+	
 	Output^ output = gcnew Output();
 
 	Signal^ s1 = gcnew Signal();
 	Signal^ s2 = gcnew Signal();
 	Signal^ s3 = gcnew Signal();
 
+	inputList->Add(s1);
+	inputList->Add(s2);
+	inputList->Add(s3);
+
 	Signal^ s4 = gcnew Signal();
 	Signal^ s5 = gcnew Signal();
 
 	Signal^ s6 = gcnew Signal();
 
-	input1->setInputValue(0,true);
-	input2->setInputValue(0,false);
-	input3->setInputValue(0,false);
-	
 	s1->setInputGate(input1, 0);
 	s1->addOutputGate(and,0);
 	
@@ -57,22 +69,16 @@ int main(array<System::String ^> ^args)
 	s4->addOutputGate(and1,0);
 
 	s5->setInputGate(or, 0);
-	s5->addOutputGate(and1,0);
+	s5->addOutputGate(and1,1);
 
 	s6->setInputGate(and1,0);
 	s6->addOutputGate(output, 0);
 
+	input1->setInputValue(0,true);
+	input2->setInputValue(0,true);
+	input3->setInputValue(0,false);
 
-	s1->transmit();
-	s2->transmit();
-	s3->transmit();
-
-	
-	s4->transmit();
-	s5->transmit();
-	s6->transmit();
-
-	
+	startSimulation(inputList);
 
 	// Aktivieren visueller Effekte von Windows XP, bevor Steuerelemente erstellt werden
 	Application::EnableVisualStyles();
@@ -87,3 +93,4 @@ int main(array<System::String ^> ^args)
 
 	return 0;
 }
+

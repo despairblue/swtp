@@ -16,7 +16,7 @@ Gatter::Gatter(int inputNumber, int time)
 void Gatter::setInputValue(int number, bool value)
 {
 	this->input[number] = value;
-	System::Console::WriteLine("Gatter: {0}", value);
+	System::Console::WriteLine("{0} {1}: {2}",this->GetType(), number, value);
 }
 
 void Gatter::addInput(int number)
@@ -24,7 +24,10 @@ void Gatter::addInput(int number)
 	this->input[number] = true;
 }
 
-void Gatter::finishCalculate(){}
+void Gatter::finishCalculate()
+{
+	
+}
 
 //void Gatter::setInput(int number, Signal^ signal)
 //{
@@ -49,9 +52,8 @@ void Gatter::calculate(int time){
 		{
 			this->setTime(-1);
 			this->setResult(result);
-			this->finishCalculate();
-			//Gatter::output[0]->setTime(-1);
-	//		Gatter::output[0]->setValue(result);
+			this->CalculationFinish();
+	
 		}
 }
 

@@ -1,9 +1,12 @@
 #pragma once
 //#include "Signal.h"
 
-ref class Gatter
+public ref class Gatter
 {
 public:
+	delegate void CalculationFinishEventHandler();
+	event CalculationFinishEventHandler^ CalculationFinish;
+
 	Gatter(void);
 	Gatter(int inputNumber, int time);
 

@@ -1,7 +1,7 @@
 #pragma once
 #include "gatter.h"
 
-ref class Nand :
+public ref class Nand :
 public Gatter
 {
 public:

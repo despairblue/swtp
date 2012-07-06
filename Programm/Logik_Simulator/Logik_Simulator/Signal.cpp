@@ -12,6 +12,7 @@ Signal::Signal()
 {
 	Signal::outputGates = gcnew ArrayList();
 	Signal::outputPosition = gcnew ArrayList();
+
 }
 
 bool Signal::getValue(){
@@ -38,6 +39,8 @@ void Signal::setInputGate(Gatter^ gate, int position)
 {
 	this->inputGate = gate;
 	this->inputPosition = position;
+	this->inputGate->CalculationFinish +=gcnew Gatter::CalculationFinishEventHandler(this, &Signal::transmit);
+	
 }
 
 void Signal::addOutputGate(Gatter^ gate, int position)
@@ -56,13 +59,14 @@ void Signal::transmit()
 {
 	bool input = this->inputGate->getResult(this->inputPosition);
 	int index = this->outputGates->Count;
+	
 	//System::Console::WriteLine("Index: {0}", index);
 
 	for(int i = 0;i< index; i++)
 	{	
 		int position = safe_cast<int>(this->outputPosition[i]);
 		
-		System::Console::WriteLine("gate: {0} {1}",outputGates[i]->GetType(), this->outputPosition[i]); 
+		//System::Console::WriteLine("gate: {0} {1}",outputGates[i]->GetType(), this->outputPosition[i]); 
 	
 		if(outputGates[i]->GetType() == Output::typeid)
 		{

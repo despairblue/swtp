@@ -4,7 +4,7 @@
 #using <mscorlib.dll>
 using namespace System::Collections;
 
-ref class Signal
+public ref class Signal
 {
 public:
 	Signal();
