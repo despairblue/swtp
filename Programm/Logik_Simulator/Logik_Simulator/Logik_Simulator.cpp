@@ -37,14 +37,10 @@ int main(array<System::String ^> ^args)
 	s3->setInputGate(and,0);
 	s3->addOutputGate(output,0);
 
-	input1->setInputValue(0,true);
-	input2->setInputValue(0,false);
-
-
 	s1->transmit();
 	s2->transmit();
 
-	and->calculate(1);
+	//and->calculate(1);
 
 	s3->transmit();
 
