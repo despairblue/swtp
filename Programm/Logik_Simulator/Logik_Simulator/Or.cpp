@@ -16,7 +16,7 @@ void Or::calculate(int time){
 	  if(Gatter::input[i] == true)
 		{
 			result = true;
-		}
+		}i++;
   }
   Gatter::setResult(result);
   Gatter::calculate(time);

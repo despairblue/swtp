@@ -11,7 +11,7 @@ Input::Input(void)
 void Input::setInputValue(int number, bool value)
 {
 	this->output[0] = value;
-	System::Console::WriteLine("Input: {0}", this->output[0]);
+	//System::Console::WriteLine("Input: {0}", this->output[0]);
 }
 
 bool Input::getInput(){

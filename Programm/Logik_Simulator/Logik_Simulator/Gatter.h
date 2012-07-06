@@ -20,6 +20,7 @@ public:
 	void setResult(bool result);
 	void setResult(int number, bool result);
 	void addInput(int number);
+	void finishCalculate();
 
 protected:
 

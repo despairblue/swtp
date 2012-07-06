@@ -1,5 +1,6 @@
 #include "StdAfx.h"
 #include "Gatter.h"
+#include "Signal.h"
 
 Gatter::Gatter(){}
 
@@ -22,6 +23,8 @@ void Gatter::addInput(int number)
 {
 	this->input[number] = true;
 }
+
+void Gatter::finishCalculate(){}
 
 //void Gatter::setInput(int number, Signal^ signal)
 //{
@@ -46,6 +49,7 @@ void Gatter::calculate(int time){
 		{
 			this->setTime(-1);
 			this->setResult(result);
+			this->finishCalculate();
 			//Gatter::output[0]->setTime(-1);
 	//		Gatter::output[0]->setValue(result);
 		}
