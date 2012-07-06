@@ -15,7 +15,7 @@ using namespace Logik_Simulator;
 int main(array<System::String ^> ^args)
 {
 	
-	Gatter^ and = gcnew And(1,1);
+	And^ and = gcnew And(2,1);
 	Input^ input1 = gcnew Input();
 	Input^ input2 = gcnew Input();
 
@@ -29,10 +29,41 @@ int main(array<System::String ^> ^args)
 	input2->setInputValue(0,false);
 	
 	s1->setInputGate(input1, 0);
-	s1->addOutputGate(output,0);
+	s1->addOutputGate(and,0);
+	
+	s2->setInputGate(input2, 0);
+	s2->addOutputGate(and, 1);
+
+	s3->setInputGate(and,0);
+	s3->addOutputGate(output,0);
+
+	input1->setInputValue(0,true);
+	input2->setInputValue(0,false);
 
 
 	s1->transmit();
+	s2->transmit();
+
+	and->calculate(1);
+
+	s3->transmit();
+
+	input1->setInputValue(0,true);
+	input2->setInputValue(0,true);
+
+
+	s1->transmit();
+	s2->transmit();
+
+	and->calculate(1);
+
+	s3->transmit();
+	//input1->setInputValue(0,false);
+	//input2->setInputValue(0,false);
+
+	
+	
+
 	//test->setInput(0,s1);
 	//test->setInput(1,s2);
 	//test->setOutput(0,s3);

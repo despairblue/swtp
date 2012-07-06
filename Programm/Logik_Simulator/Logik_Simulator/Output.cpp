@@ -3,6 +3,9 @@
 
 Output::Output(void)
 {
+		Gatter::input = gcnew array<bool>(1);
+	Gatter::output = gcnew array<bool>(1);
+
 }
 
 bool Output::getOutput()

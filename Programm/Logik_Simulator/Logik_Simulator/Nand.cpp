@@ -4,8 +4,7 @@
 
 Nand::Nand(void){}
 
-Nand::Nand(int number, int time){
-	Gatter(number, time);
+Nand::Nand(int number, int time):Gatter(number, time){
 	System::Console::WriteLine("Nand Gatter hinzugefügt");
 }
 

@@ -5,8 +5,7 @@ Not::Not(void)
 {
 }
 
-Not::Not(int number, int time){
-	Gatter(1, time);
+Not::Not(int number, int time):Gatter(1, time){
 	System::Console::WriteLine("Not Gatter hinzugefügt");
 }
 

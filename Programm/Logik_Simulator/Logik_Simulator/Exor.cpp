@@ -5,8 +5,7 @@ Exor::Exor(void)
 {
 }
 
-Exor::Exor(int number, int time){
-	Gatter(number, time);
+Exor::Exor(int number, int time):Gatter(number, time){
 	System::Console::WriteLine("Exor Gatter hinzugefügt");
 }
 

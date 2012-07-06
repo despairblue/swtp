@@ -4,8 +4,7 @@
 Or::Or(void)
 {
 }
-Or::Or(int number, int time){
-	Gatter(number, time);
+Or::Or(int number, int time):Gatter(number, time){
 	System::Console::WriteLine("Or Gatter hinzugefügt");
 }
 

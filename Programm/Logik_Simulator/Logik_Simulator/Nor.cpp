@@ -5,8 +5,7 @@ Nor::Nor(void)
 {
 }
 
-Nor::Nor(int number, int time){
-	Gatter(number, time);
+Nor::Nor(int number, int time):Gatter(number, time){
 	System::Console::WriteLine("Nor Gatter hinzugefügt");
 }
 

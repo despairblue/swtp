@@ -1,6 +1,6 @@
 #include "StdAfx.h"
 #include "Signal.h"
-
+#include "Output.h"
 
 Signal::Signal()
 {
@@ -51,11 +51,18 @@ void Signal::transmit()
 	bool input = this->inputGate->getResult(this->inputPosition);
 	int index = this->outputGates->Count;
 	System::Console::WriteLine("Index: {0}", index);
+
 	for(int i = 0;i< index; i++)
-	{	int position = safe_cast<int>(this->outputPosition[i]);
-		Gatter^ temp = safe_cast<Gatter^>(outputGates[i]);
-		//temp->setInputValue(position, input);
-	}
+	{	
+		int position = safe_cast<int>(this->outputPosition[i]);
+		if(outputGates[i]->GetType() == Output::typeid)
+		{
+		safe_cast<Output^>(outputGates[i])->setInputValue(position, input);
+		}else
+		{
+			safe_cast<Gatter^>(outputGates[i])->setInputValue(position, input);
+		}
+	}	
 
 
 }

@@ -3,9 +3,9 @@
 
 And::And(void){}
 
-And::And(int number, int time){
-	Gatter(number, time);
-	System::Console::WriteLine("And Gatter hinzugefügt");
+And::And(int number, int time):Gatter(number, time){
+
+		System::Console::WriteLine("And Gatter hinzugefügt");
 }
 
 void And::calculate(int time){
@@ -16,7 +16,7 @@ void And::calculate(int time){
 	  if(Gatter::input[i] == false)
 		{
 			result = false;
-		}
+		}i++;
   }
   Gatter::setResult(result);
   Gatter::calculate(time);
