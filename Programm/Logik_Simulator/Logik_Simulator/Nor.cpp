@@ -1,7 +1,7 @@
 #include "StdAfx.h"
 #include "Nor.h"
 
-Nor::Nor(void)
+Nor::Nor(void):Gatter()
 {
 }
 

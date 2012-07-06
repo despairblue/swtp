@@ -2,7 +2,7 @@
 #include "Nand.h"
 
 
-Nand::Nand(void){}
+Nand::Nand(void):Gatter(){}
 
 Nand::Nand(int number, int time):Gatter(number, time){
 	System::Console::WriteLine("Nand Gatter hinzugefügt");

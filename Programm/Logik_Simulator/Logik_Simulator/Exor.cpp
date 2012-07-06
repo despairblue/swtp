@@ -1,7 +1,7 @@
 #include "StdAfx.h"
 #include "Exor.h"
 
-Exor::Exor(void)
+Exor::Exor(void):Gatter()
 {
 }
 

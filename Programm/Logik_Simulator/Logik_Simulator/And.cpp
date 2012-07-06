@@ -1,7 +1,7 @@
 #include "StdAfx.h"
 #include "And.h"
 
-And::And(void){}
+And::And(void):Gatter(){}
 
 And::And(int number, int time):Gatter(number, time){
 

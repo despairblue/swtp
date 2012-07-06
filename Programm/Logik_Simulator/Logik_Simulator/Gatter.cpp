@@ -2,7 +2,14 @@
 #include "Gatter.h"
 #include "Signal.h"
 
-Gatter::Gatter(){}
+Gatter::Gatter()
+{
+	Gatter::number = 2;
+	Gatter::time = 1;
+
+	Gatter::input = gcnew array<bool>(number);
+	Gatter::output = gcnew array<bool>(2);
+}
 
 Gatter::Gatter(int inputNumber, int time)
 {

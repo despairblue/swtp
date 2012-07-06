@@ -1,7 +1,7 @@
 #include "StdAfx.h"
 #include "Or.h"
 
-Or::Or(void)
+Or::Or(void):Gatter()
 {
 }
 Or::Or(int number, int time):Gatter(number, time){

@@ -1,7 +1,7 @@
 #include "StdAfx.h"
 #include "Not.h"
 
-Not::Not(void)
+Not::Not(void):Gatter()
 {
 }
 
