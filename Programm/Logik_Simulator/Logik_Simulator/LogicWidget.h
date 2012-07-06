@@ -22,12 +22,12 @@ namespace LogicWidgets {
 
 			Point^ location;
 			Boolean selected;
+			Size^ size;
 
 		protected:
 
 			String^ type;
 			Graphics^ graphic_context;
-			Size^ size;
 
 
 		public:
