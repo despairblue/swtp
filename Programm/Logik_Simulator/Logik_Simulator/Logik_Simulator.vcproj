@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="9,00"
+	Version="9.00"
 	Name="Logik_Simulator"
 	ProjectGUID="{BF9BF427-C009-4ADD-882E-74408CEE8F9B}"
 	RootNamespace="Logik_Simulator"
@@ -63,7 +63,7 @@
 				LinkIncremental="2"
 				GenerateDebugInformation="true"
 				AssemblyDebug="1"
-				SubSystem="1"
+				SubSystem="2"
 				EntryPointSymbol="main"
 				TargetMachine="1"
 			/>
@@ -212,14 +212,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\Gui.h"
-				>
-			</File>
-			<File
-				RelativePath=".\Gui.resX"
-				>
-			</File>
-			<File
 				RelativePath=".\Input.cpp"
 				>
 			</File>
@@ -229,6 +221,10 @@
 			</File>
 			<File
 				RelativePath=".\Logik_Simulator.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\MainForm.cpp"
 				>
 			</File>
 			<File
@@ -294,16 +290,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\Form1.h"
-				FileType="3"
-				>
-				<File
-					RelativePath=".\Form1.resX"
-					SubType="Designer"
-					>
-				</File>
-			</File>
-			<File
 				RelativePath=".\Gatter.h"
 				>
 			</File>
@@ -314,6 +300,16 @@
 			<File
 				RelativePath=".\LogicWidget.h"
 				>
+			</File>
+			<File
+				RelativePath=".\MainForm.h"
+				FileType="3"
+				>
+				<File
+					RelativePath=".\MainForm.resx"
+					SubType="Designer"
+					>
+				</File>
 			</File>
 			<File
 				RelativePath=".\Nand.h"

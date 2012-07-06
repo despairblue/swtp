@@ -1,7 +1,7 @@
 // Logik_Simulator.cpp: Hauptprojektdatei.
 
 #include "stdafx.h"
-#include "Gui.h"
+#include "MainForm.h"
 #include "Gatter.h"
 #include "And.h"
 #include "Signal.h"
@@ -14,14 +14,13 @@ using namespace Logik_Simulator;
 [STAThreadAttribute]
 int main(array<System::String ^> ^args)
 {
-	/*
+	
 	// Aktivieren visueller Effekte von Windows XP, bevor Steuerelemente erstellt werden
 	Application::EnableVisualStyles();
 	Application::SetCompatibleTextRenderingDefault(false); 
 
 	// Hauptfenster erstellen und ausführen
-	 Application::Run(gcnew Form1());
-	*/
+	Application::Run(gcnew MainForm());
 
 	Gatter^ and = gcnew And(1,1);
 	Input^ input1 = gcnew Input();

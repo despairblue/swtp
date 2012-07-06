@@ -2,30 +2,30 @@
 
 #include "LogicWidget.h"
 
+using namespace System;
+using namespace System::ComponentModel;
+using namespace System::Collections;
+using namespace System::Windows::Forms;
+using namespace System::Data;
+using namespace System::Drawing;
+using namespace LogicWidgets;
+
 
 namespace Logik_Simulator {
 
-	using namespace System;
-	using namespace System::ComponentModel;
-	using namespace System::Collections;
-	using namespace System::Windows::Forms;
-	using namespace System::Data;
-	using namespace System::Drawing;
-	using namespace LogicWidgets;
-
 	/// <summary>
-	/// Zusammenfassung für Form1
+	/// Summary for MainForm
 	///
-	/// Warnung: Wenn Sie den Namen dieser Klasse ändern, müssen Sie auch
-	///          die Ressourcendateiname-Eigenschaft für das Tool zur Kompilierung verwalteter Ressourcen ändern,
-	///          das allen RESX-Dateien zugewiesen ist, von denen diese Klasse abhängt.
-	///          Anderenfalls können die Designer nicht korrekt mit den lokalisierten Ressourcen
-	///          arbeiten, die diesem Formular zugewiesen sind.
+	/// WARNING: If you change the name of this class, you will need to change the
+	///          'Resource File Name' property for the managed resource compiler tool
+	///          associated with all .resx files this class depends on.  Otherwise,
+	///          the designers will not be able to interact properly with localized
+	///          resources associated with this form.
 	/// </summary>
-	public ref class Form1 : public System::Windows::Forms::Form
+	public ref class MainForm : public System::Windows::Forms::Form
 	{
 	public:
-		Form1(void)
+		MainForm(void)
 		{
 			InitializeComponent();
 
@@ -36,9 +36,9 @@ namespace Logik_Simulator {
 
 	protected:
 		/// <summary>
-		/// Verwendete Ressourcen bereinigen.
+		/// Clean up any resources being used.
 		/// </summary>
-		~Form1()
+		~MainForm()
 		{
 			if (components)
 			{
@@ -74,12 +74,12 @@ namespace Logik_Simulator {
 
 #pragma region Windows Form Designer generated code
 		/// <summary>
-		/// Erforderliche Methode für die Designerunterstützung.
-		/// Der Inhalt der Methode darf nicht mit dem Code-Editor geändert werden.
+		/// Erforderliche Methode fÃ¼r die DesignerunterstÃ¼tzung.
+		/// Der Inhalt der Methode darf nicht mit dem Code-Editor geÃ¤ndert werden.
 		/// </summary>
 		void InitializeComponent(void)
 		{
-			System::ComponentModel::ComponentResourceManager^  resources = (gcnew System::ComponentModel::ComponentResourceManager(Form1::typeid));
+			System::ComponentModel::ComponentResourceManager^  resources = (gcnew System::ComponentModel::ComponentResourceManager(MainForm::typeid));
 			this->toolStrip1 = (gcnew System::Windows::Forms::ToolStrip());
 			this->toolStripButton1 = (gcnew System::Windows::Forms::ToolStripButton());
 			this->toolStripButton2 = (gcnew System::Windows::Forms::ToolStripButton());
@@ -89,94 +89,89 @@ namespace Logik_Simulator {
 			this->toolStripButton6 = (gcnew System::Windows::Forms::ToolStripButton());
 			this->toolStrip1->SuspendLayout();
 			this->SuspendLayout();
-			//
+			// 
 			// toolStrip1
-			//
-			this->toolStrip1->Items->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(6) {this->toolStripButton1,
+			// 
+			this->toolStrip1->Items->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(6) {this->toolStripButton1, 
 				this->toolStripButton2, this->toolStripButton3, this->toolStripButton4, this->toolStripButton5, this->toolStripButton6});
 			this->toolStrip1->Location = System::Drawing::Point(0, 0);
 			this->toolStrip1->Name = L"toolStrip1";
 			this->toolStrip1->Size = System::Drawing::Size(457, 25);
 			this->toolStrip1->TabIndex = 2;
 			this->toolStrip1->Text = L"toolStrip1";
-			//
+			// 
 			// toolStripButton1
-			//
+			// 
 			this->toolStripButton1->DisplayStyle = System::Windows::Forms::ToolStripItemDisplayStyle::Text;
-			this->toolStripButton1->Image = (cli::safe_cast<System::Drawing::Image^  >(resources->GetObject(L"toolStripButton1.Image")));
 			this->toolStripButton1->ImageTransparentColor = System::Drawing::Color::Magenta;
 			this->toolStripButton1->Name = L"toolStripButton1";
 			this->toolStripButton1->Size = System::Drawing::Size(36, 22);
 			this->toolStripButton1->Text = L"AND";
-			this->toolStripButton1->Click += gcnew System::EventHandler(this, &Form1::toolStripButtons_Click);
-			//
+			this->toolStripButton1->Click += gcnew System::EventHandler(this, &MainForm::toolStripButtons_Click);
+			// 
 			// toolStripButton2
-			//
+			// 
 			this->toolStripButton2->DisplayStyle = System::Windows::Forms::ToolStripItemDisplayStyle::Text;
-			this->toolStripButton2->Image = (cli::safe_cast<System::Drawing::Image^  >(resources->GetObject(L"toolStripButton2.Image")));
 			this->toolStripButton2->ImageTransparentColor = System::Drawing::Color::Magenta;
 			this->toolStripButton2->Name = L"toolStripButton2";
 			this->toolStripButton2->Size = System::Drawing::Size(27, 22);
 			this->toolStripButton2->Text = L"OR";
-			this->toolStripButton2->Click += gcnew System::EventHandler(this, &Form1::toolStripButtons_Click);
-			//
+			this->toolStripButton2->Click += gcnew System::EventHandler(this, &MainForm::toolStripButtons_Click);
+			// 
 			// toolStripButton3
-			//
+			// 
 			this->toolStripButton3->DisplayStyle = System::Windows::Forms::ToolStripItemDisplayStyle::Text;
-			this->toolStripButton3->Image = (cli::safe_cast<System::Drawing::Image^  >(resources->GetObject(L"toolStripButton3.Image")));
 			this->toolStripButton3->ImageTransparentColor = System::Drawing::Color::Magenta;
 			this->toolStripButton3->Name = L"toolStripButton3";
 			this->toolStripButton3->Size = System::Drawing::Size(36, 22);
 			this->toolStripButton3->Text = L"NOT";
-			this->toolStripButton3->Click += gcnew System::EventHandler(this, &Form1::toolStripButtons_Click);
-			//
+			this->toolStripButton3->Click += gcnew System::EventHandler(this, &MainForm::toolStripButtons_Click);
+			// 
 			// toolStripButton4
-			//
+			// 
 			this->toolStripButton4->DisplayStyle = System::Windows::Forms::ToolStripItemDisplayStyle::Text;
 			this->toolStripButton4->Image = (cli::safe_cast<System::Drawing::Image^  >(resources->GetObject(L"toolStripButton4.Image")));
 			this->toolStripButton4->ImageTransparentColor = System::Drawing::Color::Magenta;
 			this->toolStripButton4->Name = L"toolStripButton4";
 			this->toolStripButton4->Size = System::Drawing::Size(34, 22);
 			this->toolStripButton4->Text = L"XOR";
-			this->toolStripButton4->Click += gcnew System::EventHandler(this, &Form1::toolStripButtons_Click);
-			//
+			this->toolStripButton4->Click += gcnew System::EventHandler(this, &MainForm::toolStripButtons_Click);
+			// 
 			// toolStripButton5
-			//
+			// 
 			this->toolStripButton5->Checked = true;
 			this->toolStripButton5->CheckState = System::Windows::Forms::CheckState::Checked;
 			this->toolStripButton5->DisplayStyle = System::Windows::Forms::ToolStripItemDisplayStyle::Text;
-			this->toolStripButton5->Image = (cli::safe_cast<System::Drawing::Image^  >(resources->GetObject(L"toolStripButton5.Image")));
 			this->toolStripButton5->ImageTransparentColor = System::Drawing::Color::Magenta;
 			this->toolStripButton5->Name = L"toolStripButton5";
 			this->toolStripButton5->Size = System::Drawing::Size(36, 22);
 			this->toolStripButton5->Text = L"NOR";
-			this->toolStripButton5->Click += gcnew System::EventHandler(this, &Form1::toolStripButtons_Click);
-			//
+			this->toolStripButton5->Click += gcnew System::EventHandler(this, &MainForm::toolStripButtons_Click);
+			// 
 			// toolStripButton6
-			//
+			// 
 			this->toolStripButton6->DisplayStyle = System::Windows::Forms::ToolStripItemDisplayStyle::Text;
-			this->toolStripButton6->Image = (cli::safe_cast<System::Drawing::Image^  >(resources->GetObject(L"toolStripButton6.Image")));
 			this->toolStripButton6->ImageTransparentColor = System::Drawing::Color::Magenta;
 			this->toolStripButton6->Name = L"toolStripButton6";
 			this->toolStripButton6->Size = System::Drawing::Size(45, 22);
 			this->toolStripButton6->Text = L"NAND";
-			this->toolStripButton6->Click += gcnew System::EventHandler(this, &Form1::toolStripButtons_Click);
-			//
-			// Form1
-			//
+			this->toolStripButton6->Click += gcnew System::EventHandler(this, &MainForm::toolStripButtons_Click);
+			// 
+			// MainForm
+			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
 			this->ClientSize = System::Drawing::Size(457, 271);
 			this->Controls->Add(this->toolStrip1);
 			this->DoubleBuffered = true;
-			this->Name = L"Form1";
-			this->Text = L"Form1";
-			this->Load += gcnew System::EventHandler(this, &Form1::Form1_Load);
-			this->MouseUp += gcnew System::Windows::Forms::MouseEventHandler(this, &Form1::Form1_MouseUp);
-			this->Paint += gcnew System::Windows::Forms::PaintEventHandler(this, &Form1::Form1_Paint);
-			this->Click += gcnew System::EventHandler(this, &Form1::Form1_Click);
-			this->MouseDown += gcnew System::Windows::Forms::MouseEventHandler(this, &Form1::Form1_MouseDown);
-			this->MouseMove += gcnew System::Windows::Forms::MouseEventHandler(this, &Form1::Form1_MouseMove);
+			this->Name = L"MainForm";
+			this->Text = L"MainForm";
+			this->Load += gcnew System::EventHandler(this, &MainForm::MainForm_Load);
+			this->MouseUp += gcnew System::Windows::Forms::MouseEventHandler(this, &MainForm::MainForm_MouseUp);
+			this->Paint += gcnew System::Windows::Forms::PaintEventHandler(this, &MainForm::MainForm_Paint);
+			this->Click += gcnew System::EventHandler(this, &MainForm::MainForm_Click);
+			this->MouseDown += gcnew System::Windows::Forms::MouseEventHandler(this, &MainForm::MainForm_MouseDown);
+			this->MouseMove += gcnew System::Windows::Forms::MouseEventHandler(this, &MainForm::MainForm_MouseMove);
 			this->toolStrip1->ResumeLayout(false);
 			this->toolStrip1->PerformLayout();
 			this->ResumeLayout(false);
@@ -231,10 +226,10 @@ private: System::Void toolStripButtons_Click(System::Object^  sender, System::Ev
 				sen->Checked = new_state;
 		 }
 
-private: System::Void Form1_Click(System::Object^  sender, System::EventArgs^  e) {
+private: System::Void MainForm_Click(System::Object^  sender, System::EventArgs^  e) {
 		 }
 
-private: System::Void Form1_MouseUp(System::Object^  sender, System::Windows::Forms::MouseEventArgs^  e) {
+private: System::Void MainForm_MouseUp(System::Object^  sender, System::Windows::Forms::MouseEventArgs^  e) {
 
 			if (widget_grabbed) {
 				// MouseDown inside of a Widget, might be drag 'n drop or click
@@ -298,10 +293,10 @@ private: System::Void Form1_MouseUp(System::Object^  sender, System::Windows::Fo
 			}
 		}
 
-private: System::Void Form1_Load(System::Object^  sender, System::EventArgs^  e) {
+private: System::Void MainForm_Load(System::Object^  sender, System::EventArgs^  e) {
 		 }
 
-private: System::Void Form1_Paint(System::Object^  sender, System::Windows::Forms::PaintEventArgs^  e) {
+private: System::Void MainForm_Paint(System::Object^  sender, System::Windows::Forms::PaintEventArgs^  e) {
 			 e->Graphics->Clear(Color::Gray);
 
 			 for each (Object^ obj in this->logic_widgets) {
@@ -309,13 +304,13 @@ private: System::Void Form1_Paint(System::Object^  sender, System::Windows::Form
 			 }
 		 }
 
-private: System::Void Form1_MouseDown(System::Object^  sender, System::Windows::Forms::MouseEventArgs^  e) {
+private: System::Void MainForm_MouseDown(System::Object^  sender, System::Windows::Forms::MouseEventArgs^  e) {
 			check_widget_hit(e->Location);
 
 			this->mouse_down_location = e->Location;
 		 }
 
-private: System::Void Form1_MouseMove(System::Object^  sender, System::Windows::Forms::MouseEventArgs^  e) {
+private: System::Void MainForm_MouseMove(System::Object^  sender, System::Windows::Forms::MouseEventArgs^  e) {
 			if (widget_grabbed)
 			{
 
@@ -325,4 +320,3 @@ private: System::Void Form1_MouseMove(System::Object^  sender, System::Windows::
 		 }
 };
 }
-
