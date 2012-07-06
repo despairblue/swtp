@@ -7,7 +7,7 @@ public Gatter
 public:
 	Fork(void);
 
-	Fork(int number, int time);
+	Fork(int number);
 	
-	void calculate(int time);
+	void calculate();
 };

@@ -5,8 +5,8 @@ public ref class And :
 public Gatter
 {
 public:
-    And(int number, int time);
+    And(int number);
 	And(void);
 
-	void calculate(int time);
+	void calculate();
 };

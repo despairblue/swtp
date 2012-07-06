@@ -4,11 +4,11 @@
 Or::Or(void):Gatter()
 {
 }
-Or::Or(int number, int time):Gatter(number, time){
+Or::Or(int number):Gatter(number){
 	System::Console::WriteLine("Or Gatter hinzugefügt");
 }
 
-void Or::calculate(int time){
+void Or::calculate(){
   bool result = false;
   int i = 0;
 
@@ -19,6 +19,6 @@ void Or::calculate(int time){
 		}i++;
   }
   Gatter::setResult(result);
-  Gatter::calculate(time);
+  Gatter::calculate();
   this->CalculationFinish();
 }

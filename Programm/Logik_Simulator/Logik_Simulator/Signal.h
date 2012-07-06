@@ -10,20 +10,16 @@ public:
 	Signal();
 
 	bool getValue();
-	void setValue(bool value);
-	void setTime(int time);
-	
 	
 	void setInputGate(Gatter^ gate, int position);
 	void addOutputGate(Gatter^ gate, int position);
-void transmit();
+	void transmit();
 	
 
 private: 
 	
 	int type;
 	bool value;
-	int time;
 	ArrayList^ outputGates;
 	ArrayList^ outputPosition;
 	Gatter^ inputGate;

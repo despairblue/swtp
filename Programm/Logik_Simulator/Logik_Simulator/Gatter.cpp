@@ -5,18 +5,16 @@
 Gatter::Gatter()
 {
 	Gatter::number = 2;
-	Gatter::time = 1;
 
 	Gatter::input = gcnew array<bool>(number);
 	Gatter::output = gcnew array<bool>(2);
 }
 
-Gatter::Gatter(int inputNumber, int time)
+Gatter::Gatter(int number)
 {
-	Gatter::number = inputNumber;
-	Gatter::time = time;
+	Gatter::number = number;
 
-	Gatter::input = gcnew array<bool>(inputNumber);
+	Gatter::input = gcnew array<bool>(number);
 	Gatter::output = gcnew array<bool>(2);
 }
 
@@ -26,25 +24,15 @@ void Gatter::setInputValue(int number, bool value)
 	System::Console::WriteLine("{0} {1}: {2}",this->ToString(), number, value);
 }
 
+void Gatter::setInputValue(bool value)
+{
+	this->input[0] = value;
+	System::Console::WriteLine("{0} {1}: {2}",this->ToString(), number, value);
+}
 void Gatter::addInput(int number)
 {
 	this->input[number] = true;
 }
-
-void Gatter::finishCalculate()
-{
-	
-}
-
-//void Gatter::setInput(int number, Signal^ signal)
-//{
-//	Gatter::input[number] = signal;
-//	
-//}
-//
-//void Gatter::setOutput(int number, Signal^ signal){
-//
-//}
 
 void Gatter::setResult(bool result){ 
 	this->output[0] = result;
@@ -54,18 +42,13 @@ void Gatter::setResult(int number, bool result){
 	this->output[number] = result;
 }
 
-void Gatter::calculate(int time){
-	if((Gatter::result != Gatter::output[0]) && (time == -1))
+void Gatter::calculate(){
+	if(Gatter::result != Gatter::output[0])
 		{
-			this->setTime(-1);
 			this->setResult(result);
 			this->CalculationFinish();
 	
 		}
-}
-
-void Gatter::calculateFlipFlop(bool result, int time){
-
 }
 
 bool Gatter::getResult(int number)
@@ -76,16 +59,6 @@ bool Gatter::getResult(int number)
 bool Gatter::getResult()
 {
 	return this->output[0];
-}
-
-void Gatter::setTime(int time)
-{
-	this->time = time;
-}
-
-int Gatter::getTime()
-{
-	return this->time;
 }
 
 int Gatter::getLength()

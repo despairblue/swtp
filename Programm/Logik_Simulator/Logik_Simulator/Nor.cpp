@@ -5,11 +5,12 @@ Nor::Nor(void):Gatter()
 {
 }
 
-Nor::Nor(int number, int time):Gatter(number, time){
+Nor::Nor(int number):Gatter(number)
+{
 	System::Console::WriteLine("Nor Gatter hinzugefügt");
 }
 
-void Nor::calculate(int time){
+void Nor::calculate(){
   bool result = true;
   int i = 0;
 
@@ -20,6 +21,6 @@ void Nor::calculate(int time){
 		}
   }
   Gatter::setResult(result);
-  Gatter::calculate(time);
+  Gatter::calculate();
   this->CalculationFinish();
 }

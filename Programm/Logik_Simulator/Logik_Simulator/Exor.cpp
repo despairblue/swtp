@@ -5,11 +5,11 @@ Exor::Exor(void):Gatter()
 {
 }
 
-Exor::Exor(int number, int time):Gatter(number, time){
+Exor::Exor(int number):Gatter(number){
 	System::Console::WriteLine("Exor Gatter hinzugefügt");
 }
 
-void Exor::calculate(int time){
+void Exor::calculate(){
   bool result = false;
   int i = 0;
   int number = 0;
@@ -27,6 +27,6 @@ void Exor::calculate(int time){
 	  }
 
    Gatter::setResult(result);
-  Gatter::calculate(time);
+  Gatter::calculate();
   this->CalculationFinish();
 }

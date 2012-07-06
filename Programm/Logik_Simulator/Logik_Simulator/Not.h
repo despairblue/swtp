@@ -6,7 +6,7 @@ public Gatter
 {
 public:
 	Not(void);
-	Not(int number, int time);
+	Not(int number);
 
-	void calculate(int time);
+	void calculate();
 };

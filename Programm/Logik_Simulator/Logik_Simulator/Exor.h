@@ -6,7 +6,7 @@ public Gatter
 {
 public:
 	Exor(void);
-	Exor(int number, int time);
+	Exor(int number);
 
-	void calculate(int time);
+	void calculate();
 };

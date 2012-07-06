@@ -1,15 +1,15 @@
 #include "StdAfx.h"
 #include "Not.h"
 
-Not::Not(void):Gatter()
+Not::Not(void):Gatter(1)
 {
 }
 
-Not::Not(int number, int time):Gatter(1, time){
+Not::Not(int number):Gatter(1){
 	System::Console::WriteLine("Not Gatter hinzugefügt");
 }
 
-void Not::calculate(int time){
+void Not::calculate(){
   bool result = true;
 
  	  if(Gatter::input[0] == true)
@@ -20,6 +20,6 @@ void Not::calculate(int time){
 				result = true;
 			}
   Gatter::setResult(result);
-  Gatter::calculate(time);
+  Gatter::calculate();
   this->CalculationFinish();
 }

@@ -4,11 +4,11 @@
 
 Nand::Nand(void):Gatter(){}
 
-Nand::Nand(int number, int time):Gatter(number, time){
+Nand::Nand(int number):Gatter(number){
 	System::Console::WriteLine("Nand Gatter hinzugefügt");
 }
 
-void Nand::calculate(int time){
+void Nand::calculate(){
   bool result =false;
   int i = 0;
 
@@ -19,6 +19,6 @@ void Nand::calculate(int time){
 		}
   }
   Gatter::setResult(result);
-  Gatter::calculate(time);
+  Gatter::calculate();
   this->CalculationFinish();
 }

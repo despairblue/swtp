@@ -7,6 +7,6 @@ public Gatter
 public:
 	Input(void);
 	bool getInput();
-	void setInputValue(int number, bool value);
-	void calculate(int time);
+	void setInputValue(bool value);
+	void calculate();
 };

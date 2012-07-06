@@ -6,7 +6,7 @@ public Gatter
 {
 public:
 	Nor(void);
-	Nor(int number, int time);
+	Nor(int number);
 
-	void calculate(int time);
+	void calculate();
 };

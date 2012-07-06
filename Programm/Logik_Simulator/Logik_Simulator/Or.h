@@ -6,7 +6,7 @@ public Gatter
 {
 public:
 	Or(void);
-	Or(int number, int time);
+	Or(int number);
 
-	void calculate(int time);
+	void calculate();
 };

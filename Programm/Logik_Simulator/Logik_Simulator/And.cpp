@@ -3,12 +3,12 @@
 
 And::And(void):Gatter(){}
 
-And::And(int number, int time):Gatter(number, time){
+And::And(int number):Gatter(number){
 
 		System::Console::WriteLine("And Gatter hinzugefügt");
 }
 
-void And::calculate(int time){
+void And::calculate(){
   bool result = true;
   int i = 0;
 
@@ -19,6 +19,6 @@ void And::calculate(int time){
 		}i++;
   }
   Gatter::setResult(result);
-  Gatter::calculate(time);
+  Gatter::calculate();
   this->CalculationFinish();
 }

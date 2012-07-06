@@ -30,9 +30,9 @@ void startSimulation(ArrayList^ inputList)
 int main(array<System::String ^> ^args)
 {
 	
-	And^ and = gcnew And(2,1);
-	Or^ or = gcnew Or(2,1);
-	And^ and1 = gcnew And(2,1);
+	And^ and = gcnew And();
+	Or^ or = gcnew Or();
+	And^ and1 = gcnew And();
 
 	ArrayList^ inputList = gcnew ArrayList();
 
@@ -74,9 +74,9 @@ int main(array<System::String ^> ^args)
 	s6->setInputGate(and1,0);
 	s6->addOutputGate(output, 0);
 
-	input1->setInputValue(0,true);
-	input2->setInputValue(0,true);
-	input3->setInputValue(0,false);
+	input1->setInputValue(true);
+	input2->setInputValue(true);
+	input3->setInputValue(false);
 
 	startSimulation(inputList);
 

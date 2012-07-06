@@ -5,8 +5,8 @@ public ref class Nand :
 public Gatter
 {
 public:
-	Nand(int number, int time);
+	Nand(int number);
 	Nand(void);
 
-	void calculate(int time);
+	void calculate();
 };
