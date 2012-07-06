@@ -220,7 +220,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\LogicWidget.cpp"
+				RelativePath=".\LogicWidgets.cpp"
 				>
 			</File>
 			<File
@@ -256,10 +256,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\SignalWidget.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\stdafx.cpp"
 				>
 				<FileConfiguration
@@ -278,10 +274,6 @@
 						UsePrecompiledHeader="1"
 					/>
 				</FileConfiguration>
-			</File>
-			<File
-				RelativePath=".\test.cpp"
-				>
 			</File>
 		</Filter>
 		<Filter
@@ -307,10 +299,6 @@
 			</File>
 			<File
 				RelativePath=".\Input.h"
-				>
-			</File>
-			<File
-				RelativePath=".\LogicWidget.h"
 				>
 			</File>
 			<File
@@ -352,15 +340,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\SignalWidget.h"
-				>
-			</File>
-			<File
 				RelativePath=".\stdafx.h"
-				>
-			</File>
-			<File
-				RelativePath=".\test.h"
 				>
 			</File>
 		</Filter>

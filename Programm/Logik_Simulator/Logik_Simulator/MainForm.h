@@ -1,7 +1,6 @@
 #pragma once
 
-#include "LogicWidget.h"
-#include "SignalWidget.cpp"
+#include "LogicWidgets.cpp"
 
 #include "Gatter.h"
 #include "Signal.h"
@@ -286,8 +285,8 @@ private: System::Void MainForm_MouseUp(System::Object^  sender, System::Windows:
 						if ( other_widget && (other_widget != grabbed_widget) ) {
 
 							SignalWidget^ sw = gcnew SignalWidget();
-							sw->input = this->grabbed_widget;
-							sw->output = other_widget;
+							sw->setInput(this->grabbed_widget);
+							sw->setOutput(other_widget);
 
 							this->signal_widgets->Add(sw);
 
