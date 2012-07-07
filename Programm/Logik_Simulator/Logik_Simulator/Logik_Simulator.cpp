@@ -1,4 +1,5 @@
 // Logik_Simulator.cpp: Hauptprojektdatei.
+#pragma once
 
 #include "stdafx.h"
 #include "MainForm.h"
@@ -29,7 +30,7 @@ void startSimulation(ArrayList^ inputList)
 [STAThreadAttribute]
 int main(array<System::String ^> ^args)
 {
-	
+
 	And^ and = gcnew And();
 	Or^ or = gcnew Or();
 	And^ and1 = gcnew And();
@@ -39,7 +40,7 @@ int main(array<System::String ^> ^args)
 	Input^ input1 = gcnew Input();
 	Input^ input2 = gcnew Input();
 	Input^ input3 = gcnew Input();
-	
+
 	Output^ output = gcnew Output();
 
 	Signal^ s1 = gcnew Signal();
@@ -57,7 +58,7 @@ int main(array<System::String ^> ^args)
 
 	s1->setInputGate(input1, 0);
 	s1->addOutputGate(and,0);
-	
+
 	s2->setInputGate(input2, 0);
 	s2->addOutputGate(and, 1);
 	s2->addOutputGate(or, 0);
@@ -82,7 +83,7 @@ int main(array<System::String ^> ^args)
 
 	// Aktivieren visueller Effekte von Windows XP, bevor Steuerelemente erstellt werden
 	Application::EnableVisualStyles();
-	Application::SetCompatibleTextRenderingDefault(false); 
+	Application::SetCompatibleTextRenderingDefault(false);
 
 	// Hauptfenster erstellen und ausführen
 	Application::Run(gcnew MainForm());

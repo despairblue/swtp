@@ -222,6 +222,14 @@
 			<File
 				RelativePath=".\LogicWidgets.cpp"
 				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="2"
+					/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath=".\Logik_Simulator.cpp"
@@ -299,6 +307,10 @@
 			</File>
 			<File
 				RelativePath=".\Input.h"
+				>
+			</File>
+			<File
+				RelativePath=".\LogicWidgets.h"
 				>
 			</File>
 			<File

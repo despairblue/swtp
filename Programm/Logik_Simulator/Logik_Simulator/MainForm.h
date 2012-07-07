@@ -1,6 +1,6 @@
 #pragma once
 
-#include "LogicWidgets.cpp"
+#include "LogicWidgets.h"
 
 #include "Gatter.h"
 #include "Signal.h"
@@ -40,10 +40,9 @@ namespace Logik_Simulator {
 		{
 			InitializeComponent();
 
-			this->rnd = (gcnew System::Random());
-			//this->widget_grabbed = false;
 			this->logic_widgets = gcnew ArrayList();
 			this->signal_widgets = gcnew ArrayList();
+			this->toDelete = gcnew ArrayList();
 		}
 
 	protected:
@@ -58,12 +57,11 @@ namespace Logik_Simulator {
 			}
 		}
 
-	protected: System::Random^ rnd;
-			   // Boolean widget_grabbed;
-			   LogicWidget^ grabbed_widget;
-			   LogicWidget^ selected_widget;
-			   Point^ mouse_down_location;
-			   Point^ grabbed_widget_location;
+	protected:
+		LogicWidget^ grabbed_widget;
+		LogicWidget^ selected_widget;
+		Point^ mouse_down_location;
+		Point^ grabbed_widget_location;
 
 	private: System::Windows::Forms::ToolStrip^  toolStrip1;
 	private: System::Windows::Forms::ToolStripButton^  toolStripButton1;
@@ -84,6 +82,7 @@ namespace Logik_Simulator {
 		System::ComponentModel::Container ^components;
 		ArrayList^ logic_widgets;
 		ArrayList^ signal_widgets;
+		ArrayList^ toDelete;
 
 #pragma region Windows Form Designer generated code
 		/// <summary>
@@ -195,55 +194,55 @@ namespace Logik_Simulator {
 
 	private:
 
-		LogicWidget^ check_widget_hit(Point^ location) {
-		 	for each (Object^ obj in this->logic_widgets) {
-		 		LogicWidget^ lw =  safe_cast<LogicWidget^>(obj);
-		 		Point^ widget_location = lw->location;
+		LogicWidget^ checkWidgetHit(Point^ location) {
+			for each (Object^ obj in this->logic_widgets) {
+				LogicWidget^ lw =  safe_cast<LogicWidget^>(obj);
+				Point^ widget_location = lw->location;
 
-		 		if (lw->widget_hit(location))
-		 		{
-		 			// 	this->widget_grabbed = true;
-		 			// 	this->grabbed_widget = lw;
-						// this->grabbed_widget_location = lw->location;
+				if (lw->widgetHit(location))
+				{
+					// 	this->widget_grabbed = true;
+					// 	this->grabbed_widget = lw;
+					// this->grabbed_widget_location = lw->location;
 
-		 				return lw;
-		 		}
-		 	}
-
-		 // 	this->widget_grabbed = false;
-			// this->grabbed_widget = nullptr;
-		 	return nullptr;
-		 }
-
-		 Void move_widget(Point^ location){
-		 			int x_diff = location->X - this->mouse_down_location->X;
-					int y_diff = location->Y - this->mouse_down_location->Y;
-
-					Point new_loc = Point(grabbed_widget_location->X + x_diff, grabbed_widget_location->Y + y_diff);
-
-					grabbed_widget->location = new_loc;
-
-					this->Invalidate();
-					this->Update();
-		 }
-
-
-
-private: System::Void toolStripButtons_Click(System::Object^  sender, System::EventArgs^  e) {
-				ToolStripButton^ sen = safe_cast<ToolStripButton^>(sender);
-				Boolean new_state = !(sen->Checked);
-
-				for each (ToolStripButton^ btn in this->toolStrip1->Items) {
-					btn->Checked = false;
+					return lw;
 				}
+			}
 
-				sen->Checked = new_state;
-		 }
+			// 	this->widget_grabbed = false;
+			// this->grabbed_widget = nullptr;
+			return nullptr;
+		}
 
-private: System::Void MainForm_Click(System::Object^  sender, System::EventArgs^  e) {
-		 }
+		void move_widget(Point^ location){
+			int x_diff = location->X - this->mouse_down_location->X;
+			int y_diff = location->Y - this->mouse_down_location->Y;
 
-private: System::Void MainForm_MouseUp(System::Object^  sender, System::Windows::Forms::MouseEventArgs^  e) {
+			Point new_loc = Point(grabbed_widget_location->X + x_diff, grabbed_widget_location->Y + y_diff);
+
+			grabbed_widget->location = new_loc;
+
+			this->Invalidate();
+			this->Update();
+		}
+
+
+
+		void toolStripButtons_Click(System::Object^  sender, System::EventArgs^  e) {
+			ToolStripButton^ sen = safe_cast<ToolStripButton^>(sender);
+			Boolean new_state = !(sen->Checked);
+
+			for each (ToolStripButton^ btn in this->toolStrip1->Items) {
+				btn->Checked = false;
+			}
+
+			sen->Checked = new_state;
+		}
+
+		void MainForm_Click(System::Object^  sender, System::EventArgs^  e) {
+		}
+
+		void MainForm_MouseUp(System::Object^  sender, System::Windows::Forms::MouseEventArgs^  e) {
 
 			if (grabbed_widget) {
 				// MouseDown inside of a Widget, might be drag 'n drop or click
@@ -279,14 +278,16 @@ private: System::Void MainForm_MouseUp(System::Object^  sender, System::Windows:
 					if (grabbed_widget->selected) {
 						// grabbed_widget was selected -> connect to other widget
 
-						LogicWidget^ other_widget = check_widget_hit(e->Location);
+						LogicWidget^ other_widget = checkWidgetHit(e->Location);
 
 						// only connect if the mouse if over another widget
 						if ( other_widget && (other_widget != grabbed_widget) ) {
 
-							SignalWidget^ sw = gcnew SignalWidget();
-							sw->setInput(this->grabbed_widget);
-							sw->setOutput(other_widget);
+							Signal^ signal = gcnew Signal();
+
+							SignalWidget^ sw = gcnew SignalWidget(signal);
+							sw->setInputGate(this->grabbed_widget);
+							sw->setOutputGate(other_widget);
 
 							this->signal_widgets->Add(sw);
 
@@ -332,23 +333,41 @@ private: System::Void MainForm_MouseUp(System::Object^  sender, System::Windows:
 			}
 		}
 
-private: System::Void MainForm_Load(System::Object^  sender, System::EventArgs^  e) {
-		 }
+		void MainForm_Load(System::Object^  sender, System::EventArgs^  e) {
+		}
 
-private: System::Void MainForm_Paint(System::Object^  sender, System::Windows::Forms::PaintEventArgs^  e) {
-			 e->Graphics->Clear(Color::Gray);
+		void MainForm_Paint(System::Object^  sender, System::Windows::Forms::PaintEventArgs^  e) {
+			e->Graphics->Clear(Color::Gray);
 
-			 for each (Object^ obj in this->logic_widgets) {
-				 (safe_cast<LogicWidget^>(obj))->LogicWidget_Paint(e->Graphics);
-			 }
+			for each (Object^ obj in this->logic_widgets) {
+				LogicWidget^ lw = safe_cast<LogicWidget^>(obj);
 
-			 for each (Object^ obj in this->signal_widgets) {
-				 (safe_cast<SignalWidget^>(obj))->SignalWidget_Paint(e->Graphics);
-			 }
-		 }
+				if (lw->isDestructed()) {
+					this->toDelete->Add(obj);
+				} else {
+					(lw)->paint(e->Graphics);
+				}
+			}
 
-private: System::Void MainForm_MouseDown(System::Object^  sender, System::Windows::Forms::MouseEventArgs^  e) {
-			this->grabbed_widget = check_widget_hit(e->Location);
+			for each (Object^ obj in this->signal_widgets) {
+				SignalWidget^ sw = safe_cast<SignalWidget^>(obj);
+
+				if (sw->isDestructed()) {
+					this->toDelete->Add(obj);
+				} else {
+					(sw)->paint(e->Graphics);
+				}
+			}
+
+			for each (Object^ obj in this->toDelete) {
+				this->logic_widgets->Remove(obj);
+				this->signal_widgets->Remove(obj);
+			}
+
+		}
+
+		void MainForm_MouseDown(System::Object^  sender, System::Windows::Forms::MouseEventArgs^  e) {
+			this->grabbed_widget = checkWidgetHit(e->Location);
 
 			// if the mouse was over a widget, save it's old location
 			if (grabbed_widget) {
@@ -356,15 +375,15 @@ private: System::Void MainForm_MouseDown(System::Object^  sender, System::Window
 			}
 
 			this->mouse_down_location = e->Location;
-		 }
+		}
 
-private: System::Void MainForm_MouseMove(System::Object^  sender, System::Windows::Forms::MouseEventArgs^  e) {
+		void MainForm_MouseMove(System::Object^  sender, System::Windows::Forms::MouseEventArgs^  e) {
 			if (grabbed_widget && !(grabbed_widget->selected) )
 			{
 
 				move_widget( gcnew Point( e->X, e->Y ) );
 
 			}
-		 }
-};
+		}
+	};
 }
