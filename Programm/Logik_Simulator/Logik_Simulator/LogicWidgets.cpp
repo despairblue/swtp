@@ -189,7 +189,13 @@ void SignalWidget::paint( Graphics ^ canvas )
 {
     if ( !destructed )
     {
-        Pen ^ pen = gcnew Pen(Color::Black);
+		Pen ^ pen;
+		if (this->signal->getValue())
+    	{
+			pen = gcnew Pen(Color::Red);
+		} else {
+			pen = gcnew Pen(Color::Black);
+		}
 
         canvas->DrawLine(pen, inputGate->location->X + inputGate->getSize()->Width, inputGate->location->Y + (inputGate->getSize()->Height / 2),
                          outputGate->location->X, outputGate->location->Y + ( inputGate->getSize()->Height / 2 ) );
