@@ -205,20 +205,13 @@ private:
         for each (Object ^ obj in this->logic_widgets)
         {
             LogicWidget ^ lw =  safe_cast < LogicWidget ^ > (obj);
-            Point ^ widget_location = lw->location;
+            Point ^ widget_location = lw->getLocation();
 
             if (lw->widgetHit(location))
             {
-                //  this->widget_grabbed = true;
-                //  this->grabbed_widget = lw;
-                // this->grabbed_widget_location = lw->location;
-
                 return lw;
             }
         }
-
-        //  this->widget_grabbed = false;
-        // this->grabbed_widget = nullptr;
         return nullptr;
     }
 
@@ -229,7 +222,7 @@ private:
 
         Point new_loc = Point(grabbed_widget_location->X + x_diff, grabbed_widget_location->Y + y_diff);
 
-        grabbed_widget->location = new_loc;
+        grabbed_widget->setLocation(new_loc);
 
         this->Invalidate();
         this->Update();
@@ -414,7 +407,7 @@ private:
         // if the mouse was over a widget, save it's old location
         if (grabbed_widget)
         {
-            this->grabbed_widget_location = this->grabbed_widget->location;
+            this->grabbed_widget_location = this->grabbed_widget->getLocation();
         }
 
         this->mouse_down_location = e->Location;

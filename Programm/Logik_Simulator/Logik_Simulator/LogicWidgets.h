@@ -15,12 +15,15 @@ public ref class LogicWidget
 public:
     LogicWidget(String ^ , Point ^ , Gatter ^ );
     LogicWidget(void);
-    Point ^ location;
     Boolean selected;
+    Rectangle inputSignalOneLocation;
+    Rectangle inputSignalTwoLocation;
+    Rectangle outputSignalLocation;
 
 protected:
     Boolean destructed;
     Size ^ size;
+    Point ^ location;
     String ^ type;
     Gatter ^ gate;
     SignalWidget ^ inputSignalOne;
@@ -32,6 +35,8 @@ public:
     Boolean isDestructed();
     void paint(Graphics ^ );
     Size ^ getSize();
+    Point ^ getLocation();
+    void setLocation(Point ^ );
     Gatter ^ getGate();
     Boolean connectInputSignalOne(SignalWidget ^ );
     Boolean connectInputSignalTwo(SignalWidget ^ );
@@ -51,6 +56,7 @@ protected:
     Boolean destructed;
     LogicWidget ^ inputGate;
     LogicWidget ^ outputGate;
+    int connectedToInput;
     Signal ^ signal;
 
 public:

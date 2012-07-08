@@ -9,13 +9,13 @@ using namespace LogicWidgets;
 
 LogicWidget::LogicWidget( String ^ type, Point ^ location, Gatter ^ gate )
 {
-    this->type = type;
-    this->location = location;
-    this->gate = gate;
-
     this->size = gcnew Size(40, 40);
     this->selected = false;
     this->destructed = false;
+
+    this->type = type;
+    this->setLocation(location);
+    this->gate = gate;
 }
 
 LogicWidget::LogicWidget( )
@@ -65,6 +65,9 @@ void LogicWidget::paint(Graphics ^ canvas)
         SolidBrush ^ sb = gcnew SolidBrush(color);
 
         canvas->DrawRectangle(pen, location->X, location->Y, this->size->Width, this->size->Height);
+        canvas->DrawEllipse(pen, this->inputSignalOneLocation);
+        canvas->DrawEllipse(pen, this->inputSignalTwoLocation);
+        canvas->DrawEllipse(pen, this->outputSignalLocation);
         canvas->DrawString(type, font, sb , safe_cast<float>(location->X + 3), safe_cast<float>(location->Y) + 3);
 
     }
@@ -73,6 +76,31 @@ void LogicWidget::paint(Graphics ^ canvas)
 Size ^ LogicWidget::getSize()
 {
     return this->size;
+}
+
+Point ^ LogicWidget::getLocation()
+{
+    return this->location;
+}
+
+void LogicWidget::setLocation(Point ^ location)
+{
+    this->location = location;
+
+    this->inputSignalOneLocation.X = this->location->X - 5;
+    this->inputSignalOneLocation.Y = this->location->Y + (this->size->Height / 3) - 2;
+    this->inputSignalOneLocation.Width = 5;
+    this->inputSignalOneLocation.Height = 5;
+
+    this->inputSignalTwoLocation.X = this->location->X - 5;
+    this->inputSignalTwoLocation.Y = this->location->Y + (this->size->Height / 3) * 2 - 2;
+    this->inputSignalTwoLocation.Width = 5;
+    this->inputSignalTwoLocation.Height = 5;
+
+    this->outputSignalLocation.X = this->location->X + this->size->Width;
+    this->outputSignalLocation.Y = this->location->Y + (this->size->Height / 2) - 2;
+    this->outputSignalLocation.Width = 5;
+    this->outputSignalLocation.Height = 5;
 }
 
 Gatter ^ LogicWidget::getGate()
@@ -167,6 +195,7 @@ SignalWidget::SignalWidget(void)
 SignalWidget::SignalWidget(Signal ^ signal)
 {
     this->destructed = false;
+    this->connectedToInput = 0;
     this->signal = signal;
 }
 
@@ -189,16 +218,25 @@ void SignalWidget::paint( Graphics ^ canvas )
 {
     if ( !destructed )
     {
-		Pen ^ pen;
-		if (this->signal->getValue())
-    	{
-			pen = gcnew Pen(Color::Red);
-		} else {
-			pen = gcnew Pen(Color::Black);
-		}
+        Pen ^ pen;
+        if (this->signal->getValue())
+        {
+            pen = gcnew Pen(Color::Red);
+        }
+        else
+        {
+            pen = gcnew Pen(Color::Black);
+        }
 
-        canvas->DrawLine(pen, inputGate->location->X + inputGate->getSize()->Width, inputGate->location->Y + (inputGate->getSize()->Height / 2),
-                         outputGate->location->X, outputGate->location->Y + ( inputGate->getSize()->Height / 2 ) );
+        if (this->connectedToInput == 1)
+        {
+            canvas->DrawLine(pen, inputGate->outputSignalLocation.X, inputGate->outputSignalLocation.Y, outputGate->inputSignalOneLocation.X, outputGate->inputSignalOneLocation.Y);
+        }
+        else
+        {
+
+            canvas->DrawLine(pen, inputGate->outputSignalLocation.X, inputGate->outputSignalLocation.Y, outputGate->inputSignalTwoLocation.X, outputGate->inputSignalTwoLocation.Y);
+        }
     }
 }
 
@@ -230,7 +268,7 @@ void SignalWidget::setOutputGate(LogicWidget ^ lw)
     if ( connected )
     {
         this->signal->addOutputGate(lw->getGate(), 0);
-
+        this->connectedToInput = 1;
     }
     else
     {
@@ -239,6 +277,7 @@ void SignalWidget::setOutputGate(LogicWidget ^ lw)
         if ( connected )
         {
             this->signal->addOutputGate(lw->getGate(), 0);
+            this->connectedToInput = 2;
         }
         else
         {
