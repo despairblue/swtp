@@ -7,6 +7,8 @@
 using namespace System::Windows::Forms;
 using namespace LogicWidgets;
 
+// NOTE: LogicWidget
+
 LogicWidget::LogicWidget( String ^ type, Point ^ location, Gatter ^ gate )
 {
     this->size = gcnew Size(40, 40);
@@ -173,6 +175,33 @@ void LogicWidget::disconnectOutputSignal(SignalWidget ^ sw)
     }
 }
 
+void LogicWidget::click(ToolStripStatusLabel ^ statusBar)
+{
+    if (this->selected)
+    {
+        this->selected = false;
+        statusBar->Text = "Gate deselected. Click another Gate to select it or drag 'n drop to move Gates.";
+    }
+    else
+    {
+        this->selected = true;
+        statusBar->Text = "Gate selected. Drag to another Gate to connect them. Press Delete to remove.";
+    }
+}
+
+void LogicWidget::keyUp(KeyEventArgs ^ e, ToolStripStatusLabel ^ statusBar)
+{
+    if (e->KeyCode == Keys::Delete && selected)
+    {
+        destruct();
+        statusBar->Text = "Gate removed.";
+    }
+    else if (e->KeyCode == Keys::Delete)
+    {
+        statusBar->Text = "No Gate selected. Select the Gate you want to remove.";
+    }
+}
+
 Boolean LogicWidget::widgetHit(Point ^ click_location)
 {
     if ( ( click_location->X >= this->location->X ) && ( click_location->X  <= this->location->X + this->size->Width ) )
@@ -186,6 +215,7 @@ Boolean LogicWidget::widgetHit(Point ^ click_location)
     return false;
 }
 
+// NOTE: SignalWidget
 
 SignalWidget::SignalWidget(void)
 {
@@ -306,3 +336,50 @@ void SignalWidget::disconnectAll()
         this->inputGate = nullptr;
     }
 }
+
+// NOTE: InputWidget
+
+InputWidget::InputWidget(String ^ type, Point ^ location, Gatter ^ gate): LogicWidget(type, location, gate)
+{
+}
+
+InputWidget::InputWidget(void): LogicWidget()
+{
+}
+
+Boolean InputWidget::connectInputSignalOne(SignalWidget ^ sw)
+{
+    return false;
+}
+
+Boolean InputWidget::connectInputSignalTwo(SignalWidget ^ sw)
+{
+    return false;
+}
+
+void InputWidget::paint(Graphics ^ canvas)
+{
+    if ( !destructed )
+    {
+        Color color;
+
+        if (selected)
+        {
+            color = Color::Blue;
+        }
+        else
+        {
+            color = Color::Black;
+        }
+
+        Pen ^ pen = gcnew Pen(color);
+        Font ^ font = gcnew Font(FontFamily::GenericMonospace, 10);
+        SolidBrush ^ sb = gcnew SolidBrush(color);
+
+        canvas->DrawRectangle(pen, location->X, location->Y, this->size->Width, this->size->Height);
+        canvas->DrawEllipse(pen, this->outputSignalLocation);
+        canvas->DrawString(type, font, sb , safe_cast<float>(location->X + 3), safe_cast<float>(location->Y) + 3);
+
+    }
+}
+

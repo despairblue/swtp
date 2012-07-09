@@ -41,9 +41,18 @@ public:
     {
         InitializeComponent();
 
+        this->toolStripButtons = gcnew ArrayList();
         this->logic_widgets = gcnew ArrayList();
         this->signal_widgets = gcnew ArrayList();
         this->toDelete = gcnew ArrayList();
+
+        for each (Object ^ obj in this->toolStrip1->Items)
+        {
+            if (obj->GetType() == ToolStripButton::typeid)
+            {
+                this->toolStripButtons->Add( safe_cast < ToolStripButton ^ > ( obj ) );
+            }
+        }
     }
 
 protected:
@@ -63,6 +72,7 @@ protected:
     LogicWidget ^ selected_widget;
     Point ^ mouse_down_location;
     Point ^ grabbed_widget_location;
+    ArrayList ^ toolStripButtons;
     ArrayList ^ logic_widgets;
     ArrayList ^ signal_widgets;
     ArrayList ^ toDelete;
@@ -76,6 +86,9 @@ private: System::Windows::Forms::ToolStripButton ^  toolStripButton5;
 private: System::Windows::Forms::ToolStripButton ^  toolStripButton6;
 private: System::Windows::Forms::StatusStrip ^  statusStrip1;
 private: System::Windows::Forms::ToolStripStatusLabel ^  toolStripStatusLabel1;
+private: System::Windows::Forms::ToolStripSeparator ^  toolStripSeparator1;
+private: System::Windows::Forms::ToolStripButton ^  toolStripButton7;
+private: System::Windows::Forms::ToolStripButton ^  toolStripButton8;
 protected:
 
 protected:
@@ -102,6 +115,9 @@ private:
         this->toolStripButton4 = (gcnew System::Windows::Forms::ToolStripButton());
         this->toolStripButton5 = (gcnew System::Windows::Forms::ToolStripButton());
         this->toolStripButton6 = (gcnew System::Windows::Forms::ToolStripButton());
+        this->toolStripSeparator1 = (gcnew System::Windows::Forms::ToolStripSeparator());
+        this->toolStripButton7 = (gcnew System::Windows::Forms::ToolStripButton());
+        this->toolStripButton8 = (gcnew System::Windows::Forms::ToolStripButton());
         this->statusStrip1 = (gcnew System::Windows::Forms::StatusStrip());
         this->toolStripStatusLabel1 = (gcnew System::Windows::Forms::ToolStripStatusLabel());
         this->toolStrip1->SuspendLayout();
@@ -110,10 +126,11 @@ private:
         //
         // toolStrip1
         //
-        this->toolStrip1->Items->AddRange(gcnew cli::array < System::Windows::Forms::ToolStripItem ^  > (6)
+        this->toolStrip1->Items->AddRange(gcnew cli::array < System::Windows::Forms::ToolStripItem ^  > (9)
         {
             this->toolStripButton1,
-                 this->toolStripButton2, this->toolStripButton3, this->toolStripButton4, this->toolStripButton5, this->toolStripButton6
+                 this->toolStripButton2, this->toolStripButton3, this->toolStripButton4, this->toolStripButton5, this->toolStripButton6, this->toolStripSeparator1,
+                 this->toolStripButton7, this->toolStripButton8
         });
         this->toolStrip1->Location = System::Drawing::Point(0, 0);
         this->toolStrip1->Name = L"toolStrip1";
@@ -127,6 +144,7 @@ private:
         this->toolStripButton1->ImageTransparentColor = System::Drawing::Color::Magenta;
         this->toolStripButton1->Name = L"toolStripButton1";
         this->toolStripButton1->Size = System::Drawing::Size(36, 22);
+        this->toolStripButton1->Tag = L"1";
         this->toolStripButton1->Text = L"AND";
         this->toolStripButton1->Click += gcnew System::EventHandler(this, &MainForm::toolStripButtons_Click);
         //
@@ -136,6 +154,7 @@ private:
         this->toolStripButton2->ImageTransparentColor = System::Drawing::Color::Magenta;
         this->toolStripButton2->Name = L"toolStripButton2";
         this->toolStripButton2->Size = System::Drawing::Size(27, 22);
+        this->toolStripButton2->Tag = L"2";
         this->toolStripButton2->Text = L"OR";
         this->toolStripButton2->Click += gcnew System::EventHandler(this, &MainForm::toolStripButtons_Click);
         //
@@ -145,6 +164,7 @@ private:
         this->toolStripButton3->ImageTransparentColor = System::Drawing::Color::Magenta;
         this->toolStripButton3->Name = L"toolStripButton3";
         this->toolStripButton3->Size = System::Drawing::Size(36, 22);
+        this->toolStripButton3->Tag = L"3";
         this->toolStripButton3->Text = L"NOT";
         this->toolStripButton3->Click += gcnew System::EventHandler(this, &MainForm::toolStripButtons_Click);
         //
@@ -155,17 +175,17 @@ private:
         this->toolStripButton4->ImageTransparentColor = System::Drawing::Color::Magenta;
         this->toolStripButton4->Name = L"toolStripButton4";
         this->toolStripButton4->Size = System::Drawing::Size(34, 22);
+        this->toolStripButton4->Tag = L"4";
         this->toolStripButton4->Text = L"XOR";
         this->toolStripButton4->Click += gcnew System::EventHandler(this, &MainForm::toolStripButtons_Click);
         //
         // toolStripButton5
         //
-        this->toolStripButton5->Checked = true;
-        this->toolStripButton5->CheckState = System::Windows::Forms::CheckState::Checked;
         this->toolStripButton5->DisplayStyle = System::Windows::Forms::ToolStripItemDisplayStyle::Text;
         this->toolStripButton5->ImageTransparentColor = System::Drawing::Color::Magenta;
         this->toolStripButton5->Name = L"toolStripButton5";
         this->toolStripButton5->Size = System::Drawing::Size(36, 22);
+        this->toolStripButton5->Tag = L"5";
         this->toolStripButton5->Text = L"NOR";
         this->toolStripButton5->Click += gcnew System::EventHandler(this, &MainForm::toolStripButtons_Click);
         //
@@ -175,8 +195,34 @@ private:
         this->toolStripButton6->ImageTransparentColor = System::Drawing::Color::Magenta;
         this->toolStripButton6->Name = L"toolStripButton6";
         this->toolStripButton6->Size = System::Drawing::Size(45, 22);
+        this->toolStripButton6->Tag = L"6";
         this->toolStripButton6->Text = L"NAND";
         this->toolStripButton6->Click += gcnew System::EventHandler(this, &MainForm::toolStripButtons_Click);
+        //
+        // toolStripSeparator1
+        //
+        this->toolStripSeparator1->Name = L"toolStripSeparator1";
+        this->toolStripSeparator1->Size = System::Drawing::Size(6, 25);
+        //
+        // toolStripButton7
+        //
+        this->toolStripButton7->DisplayStyle = System::Windows::Forms::ToolStripItemDisplayStyle::Text;
+        this->toolStripButton7->ImageTransparentColor = System::Drawing::Color::Magenta;
+        this->toolStripButton7->Name = L"toolStripButton7";
+        this->toolStripButton7->Size = System::Drawing::Size(39, 22);
+        this->toolStripButton7->Tag = L"7";
+        this->toolStripButton7->Text = L"Input";
+        this->toolStripButton7->Click += gcnew System::EventHandler(this, &MainForm::toolStripButtons_Click);
+        //
+        // toolStripButton8
+        //
+        this->toolStripButton8->DisplayStyle = System::Windows::Forms::ToolStripItemDisplayStyle::Text;
+        this->toolStripButton8->ImageTransparentColor = System::Drawing::Color::Magenta;
+        this->toolStripButton8->Name = L"toolStripButton8";
+        this->toolStripButton8->Size = System::Drawing::Size(49, 22);
+        this->toolStripButton8->Tag = L"8";
+        this->toolStripButton8->Text = L"Output";
+        this->toolStripButton8->Click += gcnew System::EventHandler(this, &MainForm::toolStripButtons_Click);
         //
         // statusStrip1
         //
@@ -193,7 +239,7 @@ private:
         // toolStripStatusLabel1
         //
         this->toolStripStatusLabel1->Name = L"toolStripStatusLabel1";
-        this->toolStripStatusLabel1->Size = System::Drawing::Size(118, 17);
+        this->toolStripStatusLabel1->Size = System::Drawing::Size(170, 17);
         this->toolStripStatusLabel1->Text = L"Select a Gate from the tool bar.";
         //
         // MainForm
@@ -232,9 +278,8 @@ private:
 
     LogicWidget ^ checkWidgetHit(Point ^ location)
     {
-        for each (Object ^ obj in this->logic_widgets)
+        for each (LogicWidget ^ lw in this->logic_widgets)
         {
-            LogicWidget ^ lw =  safe_cast < LogicWidget ^ > (obj);
             Point ^ widget_location = lw->getLocation();
 
             if (lw->widgetHit(location))
@@ -265,7 +310,7 @@ private:
         ToolStripButton ^ sen = safe_cast < ToolStripButton ^ > (sender);
         Boolean new_state = !(sen->Checked);
 
-        for each (ToolStripButton ^ btn in this->toolStrip1->Items)
+        for each (ToolStripButton ^ btn in this->toolStripButtons)
         {
             btn->Checked = false;
         }
@@ -274,9 +319,11 @@ private:
 
         if (sen->Checked)
         {
-        	changeStatusBar("Click anywhere on the canvas to place the Gate.");
-        } else {
-        	changeStatusBar("Select a Gate from the tool bar.");
+            changeStatusBar("Click anywhere on the canvas to place the Gate.");
+        }
+        else
+        {
+            changeStatusBar("Select a Gate from the tool bar.");
         }
     }
 
@@ -296,35 +343,33 @@ private:
                 // MouseDown location equals MouseUp location -> click
                 // change selection and repaint form
 
-                if (grabbed_widget == selected_widget)
+                grabbed_widget->click(this->toolStripStatusLabel1);
+
+                if ( grabbed_widget == selected_widget )
                 {
-                    // grabbed widget equals selected widget -> deselect widget
-
-                    grabbed_widget->selected = false;
-                    selected_widget = nullptr;
-
-                    changeStatusBar("Gate deselected. Click another Gate to select it or drag 'n drop to move Gates.");
+                    // grabbed widget is previous selected widget
+                    if ( !(selected_widget->selected) )
+                    {
+                        // selected widget is not selected anymore
+                        selected_widget = nullptr;
+                    }
                 }
                 else
                 {
-                    // grabbed widget different from selected widget -> select another widget and deselect currently selected
-
-                    grabbed_widget->selected = true;
-
-                    if (selected_widget)
+                    // grabbed widget differs from previous selected widget
+                    if ( grabbed_widget->selected )
                     {
-                        selected_widget->selected = false;
+                        // grabbed widget is selected
+                        if (selected_widget)
+                        {
+                            // deselect previous selected widget
+                            selected_widget->selected = false;
+                        }
+
+                        // grabbed widget is new selected widget
+                        selected_widget = grabbed_widget;
                     }
-
-                    selected_widget = grabbed_widget;
-
-                    changeStatusBar("Gate selected. Drag to another Gate to connect them. Press Delete to remove.");
                 }
-
-                // repaint
-                this->Invalidate();
-                this->Update();
-
             }
             else
             {
@@ -348,16 +393,13 @@ private:
 
                         if (sw->isDestructed())
                         {
-                        	changeStatusBar("Couldn't connect. Gate might noch have any free input slots left.");
+                            changeStatusBar("Couldn't connect. Gate might noch have any free input slots left.");
                         }
                         this->signal_widgets->Add(sw);
-
-                        // repaint
-                        this->Invalidate();
-                        this->Update();
-
-                    } else {
-                    	changeStatusBar("No connection made. There was no Gate beneath your cursor.");
+                    }
+                    else
+                    {
+                        changeStatusBar("No connection made. There was no Gate beneath your cursor.");
                     }
 
 
@@ -380,7 +422,7 @@ private:
 
             ToolStripButton ^ btn;
 
-            for each (ToolStripButton ^ ts_btn in this->toolStrip1->Items)
+            for each (ToolStripButton ^ ts_btn in this->toolStripButtons)
             {
                 if ( ts_btn->Checked )
                 {
@@ -393,14 +435,49 @@ private:
                 Gatter ^ gate = gcnew And();
                 LogicWidget ^ lw = gcnew LogicWidget(btn->Text, gcnew Point(e->X, e->Y), gate);
 
+                switch (Int32::Parse(btn->Tag->ToString()))
+                {
+                case 1:
+                    gate = gcnew And();
+                    lw = gcnew LogicWidget(btn->Text, gcnew Point(e->X, e->Y), gate);
+                    break;
+                case 2:
+                    gate = gcnew Or();
+                    lw = gcnew LogicWidget(btn->Text, gcnew Point(e->X, e->Y), gate);
+                    break;
+                case 3:
+                    gate = gcnew Not();
+                    lw = gcnew LogicWidget(btn->Text, gcnew Point(e->X, e->Y), gate);
+                    break;
+                case 4:
+                    gate = gcnew Exor();
+                    lw = gcnew LogicWidget(btn->Text, gcnew Point(e->X, e->Y), gate);
+                    break;
+                case 5:
+                    gate = gcnew Nor();
+                    lw = gcnew LogicWidget(btn->Text, gcnew Point(e->X, e->Y), gate);
+                    break;
+                case 6:
+                    gate = gcnew Nand();
+                    lw = gcnew LogicWidget(btn->Text, gcnew Point(e->X, e->Y), gate);
+                    break;
+                case 7:
+                    gate = gcnew Input();
+                    lw = gcnew InputWidget(btn->Text, gcnew Point(e->X, e->Y), gate);
+                    break;
+                case 8:
+                    gate = gcnew Output();
+                    lw = gcnew LogicWidget(btn->Text, gcnew Point(e->X, e->Y), gate);
+                    break;
+                }
+
                 this->logic_widgets->Add(lw);
-
-                // repaint
-                this->Invalidate();
-                this->Update();
-
             }
         }
+
+        // repaint
+        this->Invalidate();
+        this->Update();
     }
 
     void MainForm_Load(System::Object ^  sender, System::EventArgs ^  e)
@@ -411,13 +488,11 @@ private:
     {
         e->Graphics->Clear(Color::Gray);
 
-        for each (Object ^ obj in this->logic_widgets)
+        for each (LogicWidget ^ lw in this->logic_widgets)
         {
-            LogicWidget ^ lw = safe_cast < LogicWidget ^ > (obj);
-
             if (lw->isDestructed())
             {
-                this->toDelete->Add(obj);
+                this->toDelete->Add(lw);
             }
             else
             {
@@ -425,13 +500,11 @@ private:
             }
         }
 
-        for each (Object ^ obj in this->signal_widgets)
+        for each (SignalWidget ^ sw in this->signal_widgets)
         {
-            SignalWidget ^ sw = safe_cast < SignalWidget ^ > (obj);
-
             if (sw->isDestructed())
             {
-                this->toDelete->Add(obj);
+                this->toDelete->Add(sw);
             }
             else
             {
@@ -474,21 +547,36 @@ private: System::Void MainForm_KeyPress(System::Object ^  sender, System::Window
     }
 private: System::Void MainForm_KeyUp(System::Object ^  sender, System::Windows::Forms::KeyEventArgs ^  e)
     {
-        if (e->KeyCode == Keys::Delete && this->selected_widget)
-        {
-            this->selected_widget->destruct();
-            this->logic_widgets->Remove(this->selected_widget);
-            this->selected_widget = nullptr;
+        // if (e->KeyCode == Keys::Delete && this->selected_widget)
+        // {
+        //     this->selected_widget->destruct();
+        //     this->logic_widgets->Remove(this->selected_widget);
+        //     this->selected_widget = nullptr;
 
-            changeStatusBar("Gate removed.");
+        //     changeStatusBar("Gate removed.");
 
-            // repaint
-            this->Invalidate();
-            this->Update();
-        } else if (e->KeyCode == Keys::Delete)
+        //     // repaint
+        //     this->Invalidate();
+        //     this->Update();
+        // }
+        // else if (e->KeyCode == Keys::Delete)
+        // {
+        //     changeStatusBar("No Gate selected. Select the Gate you want to remove.");
+        // }
+
+        if (selected_widget)
         {
-        	changeStatusBar("No Gate selected. Select the Gate you want to remove.");
+            selected_widget->keyUp(e, toolStripStatusLabel1);
         }
+
+        if (selected_widget->isDestructed())
+        {
+            logic_widgets->Remove(selected_widget);
+            selected_widget = nullptr;
+        }
+
+        this->Invalidate();
+        this->Update();
     }
 };
 }
