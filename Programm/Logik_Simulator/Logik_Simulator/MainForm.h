@@ -74,6 +74,8 @@ private: System::Windows::Forms::ToolStripButton ^  toolStripButton3;
 private: System::Windows::Forms::ToolStripButton ^  toolStripButton4;
 private: System::Windows::Forms::ToolStripButton ^  toolStripButton5;
 private: System::Windows::Forms::ToolStripButton ^  toolStripButton6;
+private: System::Windows::Forms::StatusStrip ^  statusStrip1;
+private: System::Windows::Forms::ToolStripStatusLabel ^  toolStripStatusLabel1;
 protected:
 
 protected:
@@ -100,7 +102,10 @@ private:
         this->toolStripButton4 = (gcnew System::Windows::Forms::ToolStripButton());
         this->toolStripButton5 = (gcnew System::Windows::Forms::ToolStripButton());
         this->toolStripButton6 = (gcnew System::Windows::Forms::ToolStripButton());
+        this->statusStrip1 = (gcnew System::Windows::Forms::StatusStrip());
+        this->toolStripStatusLabel1 = (gcnew System::Windows::Forms::ToolStripStatusLabel());
         this->toolStrip1->SuspendLayout();
+        this->statusStrip1->SuspendLayout();
         this->SuspendLayout();
         //
         // toolStrip1
@@ -173,11 +178,30 @@ private:
         this->toolStripButton6->Text = L"NAND";
         this->toolStripButton6->Click += gcnew System::EventHandler(this, &MainForm::toolStripButtons_Click);
         //
+        // statusStrip1
+        //
+        this->statusStrip1->Items->AddRange(gcnew cli::array < System::Windows::Forms::ToolStripItem ^  > (1)
+        {
+            this->toolStripStatusLabel1
+        });
+        this->statusStrip1->Location = System::Drawing::Point(0, 249);
+        this->statusStrip1->Name = L"statusStrip1";
+        this->statusStrip1->Size = System::Drawing::Size(457, 22);
+        this->statusStrip1->TabIndex = 3;
+        this->statusStrip1->Text = L"statusStrip1";
+        //
+        // toolStripStatusLabel1
+        //
+        this->toolStripStatusLabel1->Name = L"toolStripStatusLabel1";
+        this->toolStripStatusLabel1->Size = System::Drawing::Size(118, 17);
+        this->toolStripStatusLabel1->Text = L"Select a Gate from the tool bar.";
+        //
         // MainForm
         //
         this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
         this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
         this->ClientSize = System::Drawing::Size(457, 271);
+        this->Controls->Add(this->statusStrip1);
         this->Controls->Add(this->toolStrip1);
         this->DoubleBuffered = true;
         this->Name = L"MainForm";
@@ -192,6 +216,8 @@ private:
         this->MouseMove += gcnew System::Windows::Forms::MouseEventHandler(this, &MainForm::MainForm_MouseMove);
         this->toolStrip1->ResumeLayout(false);
         this->toolStrip1->PerformLayout();
+        this->statusStrip1->ResumeLayout(false);
+        this->statusStrip1->PerformLayout();
         this->ResumeLayout(false);
         this->PerformLayout();
 
@@ -199,6 +225,10 @@ private:
     #pragma endregion
 
 private:
+    void changeStatusBar(String ^ text)
+    {
+        this->toolStripStatusLabel1->Text = text;
+    }
 
     LogicWidget ^ checkWidgetHit(Point ^ location)
     {
@@ -241,6 +271,13 @@ private:
         }
 
         sen->Checked = new_state;
+
+        if (sen->Checked)
+        {
+        	changeStatusBar("Click anywhere on the canvas to place the Gate.");
+        } else {
+        	changeStatusBar("Select a Gate from the tool bar.");
+        }
     }
 
     void MainForm_Click(System::Object ^  sender, System::EventArgs ^  e)
@@ -265,6 +302,8 @@ private:
 
                     grabbed_widget->selected = false;
                     selected_widget = nullptr;
+
+                    changeStatusBar("Gate deselected. Click another Gate to select it or drag 'n drop to move Gates.");
                 }
                 else
                 {
@@ -278,6 +317,8 @@ private:
                     }
 
                     selected_widget = grabbed_widget;
+
+                    changeStatusBar("Gate selected. Drag to another Gate to connect them. Press Delete to remove.");
                 }
 
                 // repaint
@@ -305,12 +346,18 @@ private:
                         sw->setInputGate(this->grabbed_widget);
                         sw->setOutputGate(other_widget);
 
+                        if (sw->isDestructed())
+                        {
+                        	changeStatusBar("Couldn't connect. Gate might noch have any free input slots left.");
+                        }
                         this->signal_widgets->Add(sw);
 
                         // repaint
                         this->Invalidate();
                         this->Update();
 
+                    } else {
+                    	changeStatusBar("No connection made. There was no Gate beneath your cursor.");
                     }
 
 
@@ -427,15 +474,20 @@ private: System::Void MainForm_KeyPress(System::Object ^  sender, System::Window
     }
 private: System::Void MainForm_KeyUp(System::Object ^  sender, System::Windows::Forms::KeyEventArgs ^  e)
     {
-        if (e->KeyCode == Keys::Delete)
+        if (e->KeyCode == Keys::Delete && this->selected_widget)
         {
             this->selected_widget->destruct();
             this->logic_widgets->Remove(this->selected_widget);
             this->selected_widget = nullptr;
 
+            changeStatusBar("Gate removed.");
+
             // repaint
             this->Invalidate();
             this->Update();
+        } else if (e->KeyCode == Keys::Delete)
+        {
+        	changeStatusBar("No Gate selected. Select the Gate you want to remove.");
         }
     }
 };
