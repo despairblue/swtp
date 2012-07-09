@@ -221,22 +221,29 @@ void SignalWidget::paint( Graphics ^ canvas )
         Pen ^ pen;
         if (this->signal->getValue())
         {
-            pen = gcnew Pen(Color::Red);
+            pen = gcnew Pen(Color::Red, 2.0);
         }
         else
         {
-            pen = gcnew Pen(Color::Black);
+            pen = gcnew Pen(Color::Black, 2.0);
         }
+
+        Point start = Point(inputGate->outputSignalLocation.X + inputGate->outputSignalLocation.Width / 2,
+                            inputGate->outputSignalLocation.Y + inputGate->outputSignalLocation.Height / 2);
+        Point stop;
 
         if (this->connectedToInput == 1)
         {
-            canvas->DrawLine(pen, inputGate->outputSignalLocation.X, inputGate->outputSignalLocation.Y, outputGate->inputSignalOneLocation.X, outputGate->inputSignalOneLocation.Y);
+            stop = Point(outputGate->inputSignalOneLocation.X + outputGate->inputSignalOneLocation.Width / 2,
+                         outputGate->inputSignalOneLocation.Y + outputGate->inputSignalOneLocation.Height / 2);
         }
         else
         {
-
-            canvas->DrawLine(pen, inputGate->outputSignalLocation.X, inputGate->outputSignalLocation.Y, outputGate->inputSignalTwoLocation.X, outputGate->inputSignalTwoLocation.Y);
+            stop = Point(outputGate->inputSignalTwoLocation.X + outputGate->inputSignalTwoLocation.Width / 2,
+                         outputGate->inputSignalTwoLocation.Y + outputGate->inputSignalTwoLocation.Height / 2);
         }
+
+        canvas->DrawLine(pen, start, stop);
     }
 }
 
