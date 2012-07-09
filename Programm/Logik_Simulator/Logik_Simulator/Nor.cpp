@@ -19,6 +19,7 @@ void Nor::calculate(){
 		{
 			result = false;
 		}
+	  i++;
   }
   Gatter::setResult(result);
   Gatter::calculate();

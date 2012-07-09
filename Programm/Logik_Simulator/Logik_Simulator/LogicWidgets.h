@@ -70,6 +70,7 @@ public:
     void setInputGate(LogicWidget ^ );
     void setOutputGate(LogicWidget ^ );
     void disconnectAll();
+    void transmit();
 };
 
 ref class InputWidget :
@@ -81,5 +82,6 @@ public:
     virtual Boolean connectInputSignalOne(SignalWidget ^ ) override;
     virtual Boolean connectInputSignalTwo(SignalWidget ^ ) override;
     virtual void paint(Graphics ^ ) override;
+    virtual void keyUp(KeyEventArgs ^ , ToolStripStatusLabel ^ ) override;
 };
 }

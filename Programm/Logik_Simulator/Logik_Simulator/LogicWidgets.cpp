@@ -294,6 +294,8 @@ void SignalWidget::setInputGate(LogicWidget ^ lw)
     else
     {
         this->signal->setInputGate(lw->getGate(), 0);
+		signal->transmit();
+
     }
 }
 
@@ -313,7 +315,7 @@ void SignalWidget::setOutputGate(LogicWidget ^ lw)
 
         if ( connected )
         {
-            this->signal->addOutputGate(lw->getGate(), 0);
+            this->signal->addOutputGate(lw->getGate(), 1);
             this->connectedToInput = 2;
         }
         else
@@ -335,6 +337,13 @@ void SignalWidget::disconnectAll()
         this->outputGate->disconnectInputSignal(this);
         this->inputGate = nullptr;
     }
+}
+
+void SignalWidget::transmit() {
+	if (inputGate->GetType() == InputWidget::typeid)
+	{
+		signal->transmit();
+	}
 }
 
 // NOTE: InputWidget
@@ -379,7 +388,10 @@ void InputWidget::paint(Graphics ^ canvas)
         canvas->DrawRectangle(pen, location->X, location->Y, this->size->Width, this->size->Height);
         canvas->DrawEllipse(pen, this->outputSignalLocation);
         canvas->DrawString(type, font, sb , safe_cast<float>(location->X + 3), safe_cast<float>(location->Y) + 3);
-
     }
+}
+
+void InputWidget::keyUp(KeyEventArgs ^ e, ToolStripStatusLabel ^ statusBar) {
+	// TODO: implement 1 and 0
 }
 

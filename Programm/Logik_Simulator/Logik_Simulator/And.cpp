@@ -12,13 +12,13 @@ void And::calculate(){
   bool result = true;
   int i = 0;
 
-  while((result == true) && (i < Gatter::input->GetLength(0))){
-	  if(Gatter::input[i] == false)
+  while((result == true) && (i < this->input->GetLength(0))){
+	  if(this->input[i] == false)
 		{
 			result = false;
 		}i++;
   }
-  Gatter::setResult(result);
-  Gatter::calculate();
+  this->setResult(result);
+  __super::calculate();
   this->CalculationFinish();
 }
