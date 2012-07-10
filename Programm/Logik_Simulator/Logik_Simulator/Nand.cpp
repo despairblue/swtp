@@ -17,6 +17,7 @@ void Nand::calculate(){
 		{
 			result = true;
 		}
+	  i++;
   }
   Gatter::setResult(result);
   Gatter::calculate();
