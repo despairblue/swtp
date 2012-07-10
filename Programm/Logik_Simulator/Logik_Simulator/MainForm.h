@@ -362,7 +362,7 @@ private:
 		//
 		// splitContainer1.Panel2
 		//
-		this->splitContainer1->Panel2->Controls->Add(this->dataGridView1);
+		this->splitContainer1->Panel2->Controls->Add(this->splitContainer2);
 		this->splitContainer1->Size = System::Drawing::Size(503, 235);
 		this->splitContainer1->SplitterDistance = 351;
 		this->splitContainer1->TabIndex = 4;
