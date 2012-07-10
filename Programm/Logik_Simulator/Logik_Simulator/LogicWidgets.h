@@ -78,7 +78,7 @@ ref class InputWidget :
     public LogicWidget
 {
 public:
-    InputWidget(String ^ , Point ^ , Input ^ );
+    InputWidget(String ^ type, Point ^ location, Input ^ gate, Int32 id);
     InputWidget(void);
 protected:
     Int32 id;

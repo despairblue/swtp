@@ -352,9 +352,10 @@ void SignalWidget::transmit()
 
 // NOTE: InputWidget
 
-InputWidget::InputWidget(String ^ type, Point ^ location, Input ^ gate):
+InputWidget::InputWidget(String ^ type, Point ^ location, Input ^ gate, Int32 id):
     LogicWidget(type, location, gate)
 {
+    this->id = id;
 }
 
 InputWidget::InputWidget(void): LogicWidget()
@@ -391,9 +392,11 @@ void InputWidget::paint(Graphics ^ canvas)
         {
             color = Color::Blue;
         }
-        else
+        else if (gate->getResult())
         {
-            color = Color::Black;
+            color = Color::Green;
+        } else {
+            color = Color::Red;
         }
 
         Pen ^ pen = gcnew Pen(color);
@@ -403,7 +406,10 @@ void InputWidget::paint(Graphics ^ canvas)
 
         canvas->DrawRectangle(pen, location->X, location->Y, this->size->Width, this->size->Height);
         canvas->DrawEllipse(pen, this->outputSignalLocation);
-        canvas->DrawString(gate->getResult().ToString(), font, sb , safe_cast<float>(location->X + 3), safe_cast<float>(location->Y) + 3);
+        // canvas->DrawString(gate->getResult().ToString(), font, sb,
+        //                    safe_cast<float>(location->X + 3), safe_cast<float>(location->Y) + 3);
+        canvas->DrawString(id.ToString(), font, sb,
+                           safe_cast<float>(location->X + 3), safe_cast<float>(location->Y) + 3);
     }
 }
 
