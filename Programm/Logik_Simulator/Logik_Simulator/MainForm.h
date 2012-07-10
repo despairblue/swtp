@@ -401,14 +401,26 @@ private:
     	pictureBox1->Update();
     }
 
-	void refreshTable() {
-		for each (LogicWidget ^ lw in this->logic_widgets) {
-			if(lw->GetType() == Input::typeid) {
-			//	this->dataGridView1->Columns->Add("Input" + safe_cast<Input^>(lw)->
+    Int32 createID() {
+    	Int32 result = 0;
 
-			}
-		}
-	}
+    	for each (LogicWidget ^ lw in logic_widgets)
+    	{
+    		if (lw->GetType() == InputWidget::typeid)
+    		{
+    			InputWidget ^ iw = safe_cast<InputWidget^> (lw);
+
+    			if (iw->getID() > result)
+    			{
+    				result = iw->getID();
+    			}
+    		}
+    	}
+
+    	result++;
+
+    	return result;
+    }
 
     void toolStripButtons_Click(System::Object ^  sender, System::EventArgs ^  e)
     {
@@ -494,7 +506,7 @@ private:
 
                         if (sw->isDestructed())
                         {
-                            changeStatusBar("Couldn't connect. Gate might noch have any free input slots left.");
+                            changeStatusBar("Couldn't connect. Gate might not have any free input slots left.");
                         }
                         this->signal_widgets->Add(sw);
                     }
@@ -564,7 +576,7 @@ private:
                     break;
                 case 7:
                     gate = gcnew Input();
-                    lw = gcnew InputWidget(btn->Text, gcnew Point(e->X, e->Y), safe_cast<Input ^>( gate));
+                    lw = gcnew InputWidget(btn->Text, gcnew Point(e->X, e->Y), safe_cast<Input ^>( gate), createID());
 					break;
                 case 8:
                     gate = gcnew Output();
