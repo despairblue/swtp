@@ -19,9 +19,9 @@ public:
     LogicWidget( String ^ type, Point ^ location, Gatter ^ gate );
     LogicWidget( void );
     Boolean selected;
-    Rectangle inputSignalOneLocation;
-    Rectangle inputSignalTwoLocation;
-    Rectangle outputSignalLocation;
+    PointF inputSignalOneLocation;
+    PointF inputSignalTwoLocation;
+    PointF outputSignalLocation;
 
 protected:
     Boolean destructed;
@@ -106,5 +106,16 @@ public:
     virtual Boolean connectInputSignalTwo(SignalWidget ^ sw) override;
     virtual Boolean connectOutputSignal(SignalWidget ^ sw) override;
     virtual void paint(Graphics ^ canvas) override;
+};
+
+ref class NotWidget:
+    public LogicWidget
+{
+public:
+    NotWidget(String ^ type, Point ^ location, Gatter ^ gate);
+    NotWidget(void);
+public:
+    virtual Boolean connectInputSignalTwo(SignalWidget ^ sw) override;
+    virtual void paint (Graphics ^ canvas) override;
 };
 }

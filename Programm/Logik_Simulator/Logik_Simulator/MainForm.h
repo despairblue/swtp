@@ -599,7 +599,7 @@ private:
                     break;
                 case 3:
                     gate = gcnew Not();
-                    lw = gcnew LogicWidget(btn->Text, gcnew Point(e->X, e->Y), gate);
+                    lw = gcnew NotWidget(btn->Text, gcnew Point(e->X, e->Y), gate);
                     break;
                 case 4:
                     gate = gcnew Exor();

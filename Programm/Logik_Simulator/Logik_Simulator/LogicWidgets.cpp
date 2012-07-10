@@ -58,6 +58,10 @@ void LogicWidget::paint(Graphics ^ canvas)
         {
             color = Color::Blue;
         }
+        else if (gate->getResult())
+        {
+            color = Color::Red;
+        }
         else
         {
             color = Color::Black;
@@ -68,9 +72,6 @@ void LogicWidget::paint(Graphics ^ canvas)
         SolidBrush ^ sb = gcnew SolidBrush(color);
 
         canvas->DrawRectangle(pen, location->X, location->Y, this->size->Width, this->size->Height);
-        canvas->DrawEllipse(pen, this->inputSignalOneLocation);
-        canvas->DrawEllipse(pen, this->inputSignalTwoLocation);
-        canvas->DrawEllipse(pen, this->outputSignalLocation);
         canvas->DrawString(type, font, sb , safe_cast<float>(location->X + 3), safe_cast<float>(location->Y) + 3);
 
     }
@@ -90,20 +91,14 @@ void LogicWidget::setLocation(Point ^ location)
 {
     this->location = location;
 
-    this->inputSignalOneLocation.X = this->location->X - 5;
-    this->inputSignalOneLocation.Y = this->location->Y + (this->size->Height / 3) - 2;
-    this->inputSignalOneLocation.Width = 5;
-    this->inputSignalOneLocation.Height = 5;
+    this->inputSignalOneLocation.X = (float) this->location->X ;
+    this->inputSignalOneLocation.Y = (float) (this->location->Y + (this->size->Height / 3));
 
-    this->inputSignalTwoLocation.X = this->location->X - 5;
-    this->inputSignalTwoLocation.Y = this->location->Y + (this->size->Height / 3) * 2 - 2;
-    this->inputSignalTwoLocation.Width = 5;
-    this->inputSignalTwoLocation.Height = 5;
+    this->inputSignalTwoLocation.X = (float) this->location->X ;
+    this->inputSignalTwoLocation.Y = (float) (this->location->Y + (this->size->Height / 3) * 2);
 
-    this->outputSignalLocation.X = this->location->X + this->size->Width;
-    this->outputSignalLocation.Y = this->location->Y + (this->size->Height / 2) - 2;
-    this->outputSignalLocation.Width = 5;
-    this->outputSignalLocation.Height = 5;
+    this->outputSignalLocation.X = (float) (this->location->X + this->size->Width);
+    this->outputSignalLocation.Y = (float) (this->location->Y + (this->size->Height / 2));
 }
 
 Gatter ^ LogicWidget::getGate()
@@ -264,21 +259,17 @@ void SignalWidget::paint( Graphics ^ canvas )
             pen = gcnew Pen(Color::Black, 2.0);
         }
 
-        Point start = Point(inputGate->outputSignalLocation.X + inputGate->outputSignalLocation.Width / 2,
-                            inputGate->outputSignalLocation.Y + inputGate->outputSignalLocation.Height / 2);
-        Point stop;
+        PointF stop;
         if (this->connectedToInput == 1)
         {
-            stop = Point(outputGate->inputSignalOneLocation.X + outputGate->inputSignalOneLocation.Width / 2,
-                         outputGate->inputSignalOneLocation.Y + outputGate->inputSignalOneLocation.Height / 2);
+            stop = outputGate->inputSignalOneLocation;
         }
         else
         {
-            stop = Point(outputGate->inputSignalTwoLocation.X + outputGate->inputSignalTwoLocation.Width / 2,
-                         outputGate->inputSignalTwoLocation.Y + outputGate->inputSignalTwoLocation.Height / 2);
+            stop = outputGate->inputSignalTwoLocation;
         }
 
-        canvas->DrawLine(pen, start, stop);
+        canvas->DrawLine(pen, inputGate->outputSignalLocation, stop);
     }
 }
 
@@ -407,9 +398,8 @@ void InputWidget::paint(Graphics ^ canvas)
 
 
         canvas->DrawRectangle(pen, location->X, location->Y, this->size->Width, this->size->Height);
-        canvas->DrawEllipse(pen, this->outputSignalLocation);
-        canvas->DrawString(id.ToString(), font, sb,
-                           safe_cast<float>(location->X + 3), safe_cast<float>(location->Y) + 3);
+        canvas->DrawString("In:\n" + id.ToString(), font, sb,
+                           (float)(location->X + 3), (float)(location->Y) + 3);
     }
 }
 
@@ -437,6 +427,8 @@ Boolean InputWidget::keyUp(KeyEventArgs ^ e, ToolStripStatusLabel ^ statusBar)
 
     return false;
 }
+
+// NOTE: OutputWidget
 
 OutputWidget::OutputWidget(String ^ type, Point ^ location, Output ^ gate, Int32 id):
     LogicWidget(type, location, gate)
@@ -491,9 +483,64 @@ void OutputWidget::paint(Graphics ^ canvas)
         Font ^ font = gcnew Font(FontFamily::GenericMonospace, 10);
         SolidBrush ^ sb = gcnew SolidBrush(color);
 
-        canvas->DrawRectangle(pen, location->X, location->Y, this->size->Width, this->size->Height);
-        canvas->DrawEllipse(pen, this->inputSignalOneLocation);
-        canvas->DrawString(id.ToString(), font, sb , safe_cast<float>(location->X + 3), safe_cast<float>(location->Y) + 3);
+        canvas->DrawRectangle(pen, location->X, location->Y,
+                              this->size->Width, this->size->Height);
+
+        canvas->DrawString("Out\n:" + id.ToString(), font, sb,
+                           (float)(location->X + 3),
+                           (float)(location->Y) + 3);
+
+    }
+}
+
+// NOTE: NotWidget
+
+NotWidget::NotWidget(String ^ type, Point ^ location, Gatter ^ gate):
+    LogicWidget(type, location, gate)
+{
+}
+
+NotWidget::NotWidget()
+{
+}
+
+Boolean NotWidget::connectInputSignalTwo(SignalWidget ^ sw)
+{
+    return false;
+}
+
+void NotWidget::paint(Graphics ^ canvas)
+{
+    if ( !destructed )
+    {
+        Color color;
+
+        if (selected)
+        {
+            color = Color::Blue;
+        }
+        else if (gate->getResult())
+        {
+            color = Color::Red;
+        }
+        else
+        {
+            color = Color::Black;
+        }
+
+        Pen ^ pen = gcnew Pen(color, 2.0);
+        Font ^ font = gcnew Font(FontFamily::GenericMonospace, 10);
+        SolidBrush ^ sb = gcnew SolidBrush(color);
+
+        canvas->DrawRectangle(pen,
+                              location->X, location->Y,
+                              this->size->Width, this->size->Height);
+
+        canvas->DrawEllipse(pen, this->outputSignalLocation.X, this->outputSignalLocation.Y - 3, 6.0, 6.0);
+
+        canvas->DrawString("1" , font, sb,
+                           (float)(location->X + 3),
+                           (float)(location->Y + 3));
 
     }
 }
