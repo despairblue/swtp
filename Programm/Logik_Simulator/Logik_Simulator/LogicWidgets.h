@@ -81,8 +81,10 @@ public:
     InputWidget(String ^ , Point ^ , Input ^ );
     InputWidget(void);
 protected:
-    // Input ^ gate;
+    Int32 id;
 public:
+    virtual Int32 getID();
+    virtual void setID(Int32 id);
     virtual Boolean connectInputSignalOne(SignalWidget ^ sw) override;
     virtual Boolean connectInputSignalTwo(SignalWidget ^ sw) override;
     virtual void paint(Graphics ^ canvas) override;
