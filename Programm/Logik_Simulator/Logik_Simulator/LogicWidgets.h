@@ -15,8 +15,8 @@ ref class SignalWidget;
 public ref class LogicWidget
 {
 public:
-    LogicWidget(String ^ , Point ^ , Gatter ^ );
-    LogicWidget(void);
+    LogicWidget( String ^ type, Point ^ location, Gatter ^ gate );
+    LogicWidget( void );
     Boolean selected;
     Rectangle inputSignalOneLocation;
     Rectangle inputSignalTwoLocation;
@@ -35,19 +35,19 @@ protected:
 public:
     virtual void destruct();
     virtual Boolean isDestructed();
-    virtual void paint(Graphics ^ );
+    virtual void paint(Graphics ^ canvas);
     virtual Size ^ getSize();
     virtual Point ^ getLocation();
-    virtual void setLocation(Point ^ );
+    virtual void setLocation(Point ^ location);
     virtual Gatter ^ getGate();
-    virtual Boolean connectInputSignalOne(SignalWidget ^ );
-    virtual Boolean connectInputSignalTwo(SignalWidget ^ );
-    virtual Boolean connectOutputSignal(SignalWidget ^ );
-    virtual void disconnectInputSignal(SignalWidget ^ );
-    virtual void disconnectOutputSignal(SignalWidget ^ );
-    virtual void click(ToolStripStatusLabel ^ );
-    virtual void keyUp(KeyEventArgs ^ , ToolStripStatusLabel ^ );
-    virtual Boolean widgetHit(Point ^ );
+    virtual Boolean connectInputSignalOne(SignalWidget ^ sw);
+    virtual Boolean connectInputSignalTwo(SignalWidget ^ sw);
+    virtual Boolean connectOutputSignal(SignalWidget ^ sw);
+    virtual void disconnectInputSignal(SignalWidget ^ sw);
+    virtual void disconnectOutputSignal(SignalWidget ^ sw);
+    virtual void click(ToolStripStatusLabel ^ statusBar);
+    virtual void keyUp(KeyEventArgs ^ e, ToolStripStatusLabel ^ statusBar);
+    virtual Boolean widgetHit(Point ^ click_location);
 };
 
 public ref class SignalWidget
@@ -66,10 +66,10 @@ protected:
 public:
     void destruct();
     Boolean isDestructed();
-    void paint(Graphics ^ );
+    void paint(Graphics ^ canvas);
     Signal ^ getSignal();
-    void setInputGate(LogicWidget ^ );
-    void setOutputGate(LogicWidget ^ );
+    void setInputGate(LogicWidget ^ lw);
+    void setOutputGate(LogicWidget ^ lw);
     void disconnectAll();
     void transmit();
 };
@@ -81,11 +81,19 @@ public:
     InputWidget(String ^ , Point ^ , Input ^ );
     InputWidget(void);
 protected:
-    // Input ^ gate;
+    Int32 id;
 public:
-    virtual Boolean connectInputSignalOne(SignalWidget ^ ) override;
-    virtual Boolean connectInputSignalTwo(SignalWidget ^ ) override;
-    virtual void paint(Graphics ^ ) override;
-    virtual void keyUp(KeyEventArgs ^ , ToolStripStatusLabel ^ ) override;
+    virtual Int32 getID();
+    virtual void setID(Int32 id);
+    virtual Boolean connectInputSignalOne(SignalWidget ^ sw) override;
+    virtual Boolean connectInputSignalTwo(SignalWidget ^ sw) override;
+    virtual void paint(Graphics ^ canvas) override;
+    virtual void keyUp(KeyEventArgs ^ e, ToolStripStatusLabel ^ statusBar) override;
+};
+
+ref class OutputWidget :
+    public LogicWidget
+{
+public:
 };
 }
