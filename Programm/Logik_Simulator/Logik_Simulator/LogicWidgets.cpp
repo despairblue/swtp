@@ -49,7 +49,7 @@ Boolean LogicWidget::isDestructed()
 
 void LogicWidget::paint(Graphics ^ canvas)
 {
-    // TODO: override paint for all particular gates
+    // TODO: override paint for nor, nand and fork gates
     if ( !destructed )
     {
         Color color;

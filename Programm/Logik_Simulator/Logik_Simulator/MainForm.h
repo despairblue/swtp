@@ -591,11 +591,11 @@ private:
                 {
                 case 1:
                     gate = gcnew And();
-                    lw = gcnew LogicWidget(btn->Text, gcnew Point(e->X, e->Y), gate);
+                    lw = gcnew LogicWidget("&", gcnew Point(e->X, e->Y), gate);
                     break;
                 case 2:
                     gate = gcnew Or();
-                    lw = gcnew LogicWidget(btn->Text, gcnew Point(e->X, e->Y), gate);
+                    lw = gcnew LogicWidget(">=1", gcnew Point(e->X, e->Y), gate);
                     break;
                 case 3:
                     gate = gcnew Not();
@@ -603,7 +603,7 @@ private:
                     break;
                 case 4:
                     gate = gcnew Exor();
-                    lw = gcnew LogicWidget(btn->Text, gcnew Point(e->X, e->Y), gate);
+                    lw = gcnew LogicWidget("=1", gcnew Point(e->X, e->Y), gate);
                     break;
                 case 5:
                     gate = gcnew Nor();
