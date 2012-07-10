@@ -63,7 +63,7 @@ void LogicWidget::paint(Graphics ^ canvas)
             color = Color::Black;
         }
 
-        Pen ^ pen = gcnew Pen(color);
+        Pen ^ pen = gcnew Pen(color, 2.0);
         Font ^ font = gcnew Font(FontFamily::GenericMonospace, 10);
         SolidBrush ^ sb = gcnew SolidBrush(color);
 
@@ -394,12 +394,12 @@ void InputWidget::paint(Graphics ^ canvas)
         }
         else if (gate->getResult())
         {
-            color = Color::Green;
-        } else {
             color = Color::Red;
+        } else {
+            color = Color::Black;
         }
 
-        Pen ^ pen = gcnew Pen(color);
+        Pen ^ pen = gcnew Pen(color, 2.0);
         Font ^ font = gcnew Font(FontFamily::GenericMonospace, 10);
         SolidBrush ^ sb = gcnew SolidBrush(color);
 
