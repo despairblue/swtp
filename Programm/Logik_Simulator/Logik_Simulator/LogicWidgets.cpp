@@ -9,7 +9,7 @@ using namespace LogicWidgets;
 
 // NOTE: LogicWidget
 
-LogicWidget::LogicWidget( String ^ type, Point ^ location, Gatter ^ _gate )
+LogicWidget::LogicWidget( String ^ type, Point ^ location, Gatter ^ gate, Int32 id )
 {
     this->size = gcnew Size(40, 40);
     this->selected = false;
@@ -17,11 +17,18 @@ LogicWidget::LogicWidget( String ^ type, Point ^ location, Gatter ^ _gate )
 
     this->type = type;
     this->setLocation(location);
-    this->gate = _gate;
+    this->gate = gate;
+    this->id = id;
 }
 
-LogicWidget::LogicWidget( )
+void LogicWidget::setID(Int32 id)
 {
+    this->id = id;
+}
+
+Int32 LogicWidget::getID()
+{
+    return id;
 }
 
 void LogicWidget::destruct()
@@ -217,11 +224,6 @@ Boolean LogicWidget::widgetHit(Point ^ clickLocation)
 
 // NOTE: SignalWidget
 
-SignalWidget::SignalWidget(void)
-{
-    this->destructed = false;
-}
-
 SignalWidget::SignalWidget(Signal ^ signal)
 {
     this->destructed = false;
@@ -343,23 +345,8 @@ void SignalWidget::transmit()
 // NOTE: InputWidget
 
 InputWidget::InputWidget(String ^ type, Point ^ location, Input ^ gate, Int32 id):
-    LogicWidget(type, location, gate)
+    LogicWidget(type, location, gate, id)
 {
-    this->id = id;
-}
-
-InputWidget::InputWidget(void): LogicWidget()
-{
-}
-
-void InputWidget::setID(Int32 id)
-{
-    this->id = id;
-}
-
-Int32 InputWidget::getID()
-{
-    return id;
 }
 
 Boolean InputWidget::connectInputSignalOne(SignalWidget ^ sw)
@@ -437,23 +424,8 @@ void InputWidget::click(ToolStripStatusLabel ^ statusBar)
 // NOTE: OutputWidget
 
 OutputWidget::OutputWidget(String ^ type, Point ^ location, Output ^ gate, Int32 id):
-    LogicWidget(type, location, gate)
+    LogicWidget(type, location, gate, id)
 {
-    this->id = id;
-}
-
-OutputWidget::OutputWidget()
-{
-}
-
-Int32 OutputWidget::getID()
-{
-    return id;
-}
-
-void OutputWidget::setID(Int32 id)
-{
-    this->id = id;
 }
 
 Boolean OutputWidget::connectInputSignalTwo(SignalWidget ^ sw)
@@ -501,12 +473,8 @@ void OutputWidget::paint(Graphics ^ canvas)
 
 // NOTE: NotWidget
 
-NotWidget::NotWidget(String ^ type, Point ^ location, Gatter ^ gate):
-    LogicWidget(type, location, gate)
-{
-}
-
-NotWidget::NotWidget()
+NotWidget::NotWidget(String ^ type, Point ^ location, Gatter ^ gate, Int32 id):
+    LogicWidget(type, location, gate, id)
 {
 }
 
@@ -553,12 +521,8 @@ void NotWidget::paint(Graphics ^ canvas)
 
 // NOTE: NandWidget
 
-NandWidget::NandWidget(String ^ type, Point ^ location, Gatter ^ gate):
-    LogicWidget(type, location, gate)
-{
-}
-
-NandWidget::NandWidget()
+NandWidget::NandWidget(String ^ type, Point ^ location, Gatter ^ gate, Int32 id):
+    LogicWidget(type, location, gate, id)
 {
 }
 
@@ -595,12 +559,8 @@ void NandWidget::paint(Graphics ^ canvas)
 
 // NOTE: NorWidget
 
-NorWidget::NorWidget(String ^ type, Point ^ location, Gatter ^ gate):
-    LogicWidget(type, location, gate)
-{
-}
-
-NorWidget::NorWidget()
+NorWidget::NorWidget(String ^ type, Point ^ location, Gatter ^ gate, Int32 id):
+    LogicWidget(type, location, gate, id)
 {
 }
 
@@ -635,14 +595,10 @@ void NorWidget::paint(Graphics ^ canvas)
     }
 }
 
-ForkWidget::ForkWidget(String ^ type, Point ^ location, Gatter ^ gate):
-    LogicWidget(type, location, gate)
+ForkWidget::ForkWidget(String ^ type, Point ^ location, Gatter ^ gate, Int32 id):
+    LogicWidget(type, location, gate, id)
 {
     this->outputSignals = gcnew array < SignalWidget ^ > (2);
-}
-
-ForkWidget::ForkWidget()
-{
 }
 
 Boolean ForkWidget::connectInputSignalTwo(SignalWidget ^ sw)
