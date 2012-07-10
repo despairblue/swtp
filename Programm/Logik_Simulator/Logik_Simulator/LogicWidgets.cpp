@@ -190,17 +190,22 @@ void LogicWidget::click(ToolStripStatusLabel ^ statusBar)
     }
 }
 
-void LogicWidget::keyUp(KeyEventArgs ^ e, ToolStripStatusLabel ^ statusBar)
+Boolean LogicWidget::keyUp(KeyEventArgs ^ e, ToolStripStatusLabel ^ statusBar)
 {
     if (e->KeyCode == Keys::Delete && selected)
     {
         destruct();
         statusBar->Text = "Gate removed.";
+
+        return true;
     }
     else if (e->KeyCode == Keys::Delete)
     {
         statusBar->Text = "No Gate selected. Select the Gate you want to remove.";
+        return false;
     }
+
+    return false;
 }
 
 Boolean LogicWidget::widgetHit(Point ^ click_location)
@@ -402,16 +407,28 @@ void InputWidget::paint(Graphics ^ canvas)
     }
 }
 
-void InputWidget::keyUp(KeyEventArgs ^ e, ToolStripStatusLabel ^ statusBar)
+Boolean InputWidget::keyUp(KeyEventArgs ^ e, ToolStripStatusLabel ^ statusBar)
 {
-    // TODO: implement 1 and 0
-    if (e->KeyCode == Keys::NumPad0)
+    Boolean handled = LogicWidget::keyUp(e, statusBar);
+
+    if ( !handled )
     {
-        gate->setInputValue(false);
+        if (e->KeyCode == Keys::NumPad0)
+        {
+            gate->setInputValue(false);
+            statusBar->Text = "Input set to false";
+
+            return true;
+        }
+        else if (e->KeyCode == Keys::NumPad1)
+        {
+            gate->setInputValue(true);
+            statusBar->Text = "Input set to true";
+
+            return true;
+        }
     }
-    else if (e->KeyCode == Keys::NumPad1)
-    {
-        gate->setInputValue(true);
-    }
+
+    return false;
 }
 
