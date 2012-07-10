@@ -478,12 +478,14 @@ void OutputWidget::paint(Graphics ^ canvas)
         {
             color = Color::Blue;
         }
-		else if (gate->getResult())
+        else if (gate->getResult())
         {
             color = Color::Red;
-		} else {
-			color = Color::Black;
-		}
+        }
+        else
+        {
+            color = Color::Black;
+        }
 
         Pen ^ pen = gcnew Pen(color, 2.0);
         Font ^ font = gcnew Font(FontFamily::GenericMonospace, 10);
