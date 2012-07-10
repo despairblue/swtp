@@ -46,7 +46,7 @@ public:
     virtual void disconnectInputSignal(SignalWidget ^ sw);
     virtual void disconnectOutputSignal(SignalWidget ^ sw);
     virtual void click(ToolStripStatusLabel ^ statusBar);
-    virtual void keyUp(KeyEventArgs ^ e, ToolStripStatusLabel ^ statusBar);
+    virtual Boolean keyUp(KeyEventArgs ^ e, ToolStripStatusLabel ^ statusBar);
     virtual Boolean widgetHit(Point ^ click_location);
 };
 
@@ -88,7 +88,7 @@ public:
     virtual Boolean connectInputSignalOne(SignalWidget ^ sw) override;
     virtual Boolean connectInputSignalTwo(SignalWidget ^ sw) override;
     virtual void paint(Graphics ^ canvas) override;
-    virtual void keyUp(KeyEventArgs ^ e, ToolStripStatusLabel ^ statusBar) override;
+    virtual Boolean keyUp(KeyEventArgs ^ e, ToolStripStatusLabel ^ statusBar) override;
 };
 
 ref class OutputWidget :
