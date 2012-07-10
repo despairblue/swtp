@@ -445,6 +445,32 @@ private:
         return result;
     }
 
+    Boolean checkButton(ToolStripButton ^ checkBtn)
+    {
+
+        for each (ToolStripButton ^ btn in toolStripButtons)
+        {
+            btn->Checked = false;
+        }
+
+        if (checkBtn == nullptr)
+        {
+            return true;
+        }
+        else
+        {
+            for each (ToolStripButton ^ btn in toolStripButtons)
+            {
+                if (btn == checkBtn)
+                {
+                    btn->Checked = true;
+                    return true;
+                }
+            }
+            return false;
+        }
+    }
+
     void refreshTable()
     {
         for each (LogicWidget ^ lw in logic_widgets)
@@ -466,20 +492,15 @@ private:
         ToolStripButton ^ sen = safe_cast < ToolStripButton ^ > (sender);
         Boolean new_state = !(sen->Checked);
 
-        for each (ToolStripButton ^ btn in this->toolStripButtons)
-        {
-            btn->Checked = false;
-        }
-
-        sen->Checked = new_state;
-
         if (sen->Checked)
         {
-            changeStatusBar("Click anywhere on the canvas to place the Gate.");
+            checkButton(nullptr);
+            changeStatusBar("Select a Gate from the tool bar.");
         }
         else
         {
-            changeStatusBar("Select a Gate from the tool bar.");
+            checkButton(sen);
+            changeStatusBar("Click anywhere on the canvas to place the Gate.");
         }
     }
 
@@ -708,6 +729,10 @@ private: System::Void MainForm_KeyUp(System::Object ^  sender, System::Windows::
     }
 private: System::Void toolStripButton9_Click(System::Object ^  sender, System::EventArgs ^  e)
     {
+        checkButton(nullptr);
+        selected_widget->selected = false;
+        selected_widget = nullptr;
+
         for each (SignalWidget ^ sw in signal_widgets)
         {
             sw->transmit();
