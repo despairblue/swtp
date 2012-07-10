@@ -2,11 +2,11 @@
 #include "gatter.h"
 
 public ref class Nor :
-public Gatter
+    public Gatter
 {
 public:
-	Nor(void);
-	Nor(int number);
+    Nor(void);
+    Nor(int number);
 
-	void calculate();
+    virtual void calculate() override;
 };

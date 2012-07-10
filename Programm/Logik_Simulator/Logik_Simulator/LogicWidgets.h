@@ -137,4 +137,19 @@ public:
 public:
     virtual void paint(Graphics ^ canvas) override;
 };
+
+ref class ForkWidget:
+LogicWidget
+{
+public:
+    ForkWidget(String ^ type, Point ^ location, Gatter ^ gate);
+    ForkWidget();
+protected:
+    array<SignalWidget^>^ outputSignals;
+public:
+    virtual Boolean connectInputSignalTwo(SignalWidget ^ sw) override;
+    virtual Boolean connectOutputSignal(SignalWidget ^ sw) override;
+    virtual void disconnectOutputSignal(SignalWidget ^ sw) override;
+    // virtual void paint(Graphics ^ canvas) override;
+};
 }

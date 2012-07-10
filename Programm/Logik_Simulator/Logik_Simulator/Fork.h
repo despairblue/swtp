@@ -10,7 +10,7 @@ ref class Fork :
 public:
     Fork(void);
     Fork(int number);
+    virtual void calculate() override;
 protected:
     ArrayList ^ output;
-    void calculate();
 };

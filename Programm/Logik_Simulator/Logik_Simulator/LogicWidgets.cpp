@@ -627,3 +627,74 @@ void NorWidget::paint(Graphics ^ canvas)
         canvas->DrawString(type, font, sb , safe_cast<float>(location->X + 3), safe_cast<float>(location->Y) + 3);
     }
 }
+
+ForkWidget::ForkWidget(String ^ type, Point ^ location, Gatter ^ gate):
+    LogicWidget(type, location, gate)
+{
+    this->outputSignals = gcnew array < SignalWidget ^ > (2);
+}
+
+ForkWidget::ForkWidget()
+{
+}
+
+Boolean ForkWidget::connectInputSignalTwo(SignalWidget ^ sw)
+{
+    return false;
+}
+
+Boolean ForkWidget::connectOutputSignal(SignalWidget ^ sw)
+{
+    if ( !(outputSignals[0]) || outputSignals[0]->isDestructed() )
+    {
+        outputSignals[0] = sw;
+        return true;
+    }
+    if ( !(outputSignals[1]) || outputSignals[0]->isDestructed() )
+    {
+        outputSignals[1] = sw;
+        return true;
+    }
+
+    return false;
+}
+
+void ForkWidget::disconnectOutputSignal(SignalWidget ^ sw)
+{
+    if (outputSignals[0] == sw)
+    {
+        outputSignals[0] = nullptr;
+    }
+    else if (outputSignals[1] == sw)
+    {
+        outputSignals[1] = nullptr;
+    }
+}
+
+// void ForkWidget::paint(Graphics ^ canvas)
+// {
+//     if ( !destructed )
+//     {
+//         Color color;
+
+//         if (selected)
+//         {
+//             color = Color::Blue;
+//         }
+//         else if (gate->getResult())
+//         {
+//             color = Color::Red;
+//         }
+//         else
+//         {
+//             color = Color::Black;
+//         }
+
+//         Pen ^ pen = gcnew Pen(color, 2.0);
+//         Font ^ font = gcnew Font(FontFamily::GenericMonospace, 10);
+//         SolidBrush ^ sb = gcnew SolidBrush(color);
+
+//         canvas->DrawRectangle(pen, location->X, location->Y, this->size->Width, this->size->Height);
+//         canvas->DrawString(type, font, sb , safe_cast<float>(location->X + 3), safe_cast<float>(location->Y) + 3);
+//     }
+// }

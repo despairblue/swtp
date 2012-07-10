@@ -9,5 +9,5 @@ public:
 public:
 	bool getInput();
 	virtual void setInputValue(bool value) override;
-	void calculate();
+	virtual void calculate() override;
 };

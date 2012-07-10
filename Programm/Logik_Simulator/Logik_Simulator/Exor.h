@@ -2,11 +2,11 @@
 #include "Gatter.h"
 
 public ref class Exor :
-public Gatter
+    public Gatter
 {
 public:
-	Exor(void);
-	Exor(int number);
+    Exor(void);
+    Exor(int number);
 
-	void calculate();
+    virtual void calculate() override;
 };

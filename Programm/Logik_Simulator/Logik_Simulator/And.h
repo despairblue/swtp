@@ -2,11 +2,11 @@
 #include "Gatter.h"
 
 public ref class And :
-public Gatter
+    public Gatter
 {
 public:
     And(int number);
-	And(void);
+    And(void);
 
-	void calculate();
+    virtual void calculate() override;
 };

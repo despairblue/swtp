@@ -2,11 +2,11 @@
 #include "Gatter.h"
 
 public ref class Or :
-public Gatter
+    public Gatter
 {
 public:
-	Or(void);
-	Or(int number);
+    Or(void);
+    Or(int number);
 
-	void calculate();
+    virtual void calculate() override;
 };

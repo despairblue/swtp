@@ -2,11 +2,11 @@
 #include "Gatter.h"
 
 ref class Not :
-public Gatter
+    public Gatter
 {
 public:
-	Not(void);
-	Not(int number);
+    Not(void);
+    Not(int number);
 
-	void calculate();
+    virtual void calculate() override;
 };

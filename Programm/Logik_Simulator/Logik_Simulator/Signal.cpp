@@ -7,6 +7,7 @@
 #include "Nand.h"
 #include "Nor.h"
 #include "Exor.h"
+#include "Fork.h"
 
 Signal::Signal()
 {
@@ -90,6 +91,12 @@ void Signal::transmit()
 		{
 			safe_cast<Exor^>(outputGates[i])->setInputValue(position, input);
 			safe_cast<Exor^>(outputGates[i])->calculate();
+		}
+
+		if(outputGates[i]->GetType() == Fork::typeid)
+		{
+			safe_cast<Fork^>(outputGates[i])->setInputValue(position, input);
+			safe_cast<Fork^>(outputGates[i])->calculate();
 		}
 		System::Console::WriteLine("{0} {1}",this->ToString(), this->getValue());
 	}	
