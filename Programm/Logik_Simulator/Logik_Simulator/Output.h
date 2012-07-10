@@ -7,7 +7,7 @@ public Gatter
 public:
 	Output(void);
 	bool getOutput();
-	void setInputValue(bool value);
+	virtual void setInputValue(bool value) override;
 private:
 	bool value;
 };

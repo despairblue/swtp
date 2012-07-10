@@ -4,18 +4,18 @@
 
 Gatter::Gatter()
 {
-	Gatter::number = 2;
+	this->number = 2;
 
-	Gatter::input = gcnew array<bool>(number);
-	Gatter::output = gcnew array<bool>(2);
+	this->input = gcnew array<bool>(number);
+	this->output = true;
 }
 
 Gatter::Gatter(int number)
 {
-	Gatter::number = number;
+	this->number = number;
 
-	Gatter::input = gcnew array<bool>(number);
-	Gatter::output = gcnew array<bool>(2);
+	this->input = gcnew array<bool>(number);
+	this->output = true;
 }
 
 void Gatter::setInputValue(int number, bool value)
@@ -34,31 +34,31 @@ void Gatter::addInput(int number)
 	this->input[number] = true;
 }
 
-void Gatter::setResult(bool result){ 
-	this->output[0] = result;
+void Gatter::setResult(bool result){
+	this->output = result;
 }
 
-void Gatter::setResult(int number, bool result){ 
-	this->output[number] = result;
+void Gatter::setResult(int number, bool result){
+	this->output= result;
 }
 
 void Gatter::calculate(){
-	if(this->result != this->output[0])
+/*	if(this->result != this->output)
 		{
-			this->setResult(this->output[0]);
+			this->setResult(this->output);
 			this->CalculationFinish();
-	
-		}
+
+		}*/
 }
 
 bool Gatter::getResult(int number)
 {
-	return this->output[number];
+	return this->output;
 }
 
 bool Gatter::getResult()
 {
-	return this->output[0];
+	return this->output;
 }
 
 int Gatter::getLength()

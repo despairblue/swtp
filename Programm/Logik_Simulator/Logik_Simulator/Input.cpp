@@ -3,21 +3,21 @@
 
 Input::Input(void)
 {
-	Gatter::input = gcnew array<bool>(1);
-	Gatter::output = gcnew array<bool>(1);
-	this->setInputValue(true);
+	this->input = gcnew array<bool>(1);
+	this->output = true;
+	//this->setInputValue(true);
 }
 
 void Input::setInputValue(bool value)
 {
-	this->output[0] = value;
+	this->output = value;
 }
 
 bool Input::getInput(){
-	return this->output[0];
-	}
+	return this->output;
+}
 
 void Input::calculate(){
-	Gatter::setResult(this->output[0]);
-	Gatter::calculate();
+	__super::setResult(this->output);
+	__super::calculate();
 }

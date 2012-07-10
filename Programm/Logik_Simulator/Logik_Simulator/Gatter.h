@@ -1,4 +1,7 @@
 #pragma once
+
+#include "StdAfx.h"
+
 //#include "Signal.h"
 
 public ref class Gatter
@@ -11,14 +14,14 @@ public:
 	Gatter(int inputNumber);
 
 	void calculate();
-	
-	void setInputValue(bool value);
+
+	virtual void setInputValue(bool value);
 	void setInputValue(int number,bool value);
-	
+
 	int getLength();
 	bool getResult(int number);
 	bool getResult();
-	array<bool>^ output;
+	bool output;
 
 	void setResult(bool result);
 	void setResult(int number, bool result);
@@ -27,11 +30,10 @@ public:
 protected:
 
 	array<bool>^ input;
-	
+
 private:
-	bool result, last_result;
 	int length;
 	int number;
 	System::String^ name;
-	
+
 };

@@ -2,6 +2,7 @@
 
 #include "Gatter.h"
 #include "Signal.h"
+#include "Input.h"
 
 using namespace System;
 using namespace System::Windows::Forms;
@@ -77,8 +78,11 @@ ref class InputWidget :
     public LogicWidget
 {
 public:
-    InputWidget(String ^ , Point ^ , Gatter ^ );
+    InputWidget(String ^ , Point ^ , Input ^ );
     InputWidget(void);
+protected:
+    // Input ^ gate;
+public:
     virtual Boolean connectInputSignalOne(SignalWidget ^ ) override;
     virtual Boolean connectInputSignalTwo(SignalWidget ^ ) override;
     virtual void paint(Graphics ^ ) override;
