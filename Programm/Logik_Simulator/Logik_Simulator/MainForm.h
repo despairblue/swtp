@@ -48,6 +48,7 @@ public:
         this->signal_widgets = gcnew ArrayList();
         this->toDelete = gcnew ArrayList();
 		this->inputMap = gcnew Dictionary<String^ , ArrayList^>();
+		this->outputMap = gcnew Dictionary<String^ , ArrayList^>();
 
         for each (Object ^ obj in this->toolStrip1->Items)
         {
@@ -80,6 +81,7 @@ protected:
     ArrayList ^ signal_widgets;
     ArrayList ^ toDelete;
 	Dictionary<String ^, ArrayList ^> ^ inputMap;
+	Dictionary<String ^, ArrayList ^> ^ outputMap;
 
 private: System::Windows::Forms::ToolStrip ^  toolStrip1;
 private: System::Windows::Forms::ToolStripButton ^  toolStripButton1;
@@ -400,19 +402,19 @@ private:
 		// 
 		// inputGridView
 		// 
-		this->inputGridView->AllowUserToOrderColumns = true;
+		this->inputGridView->AutoSizeColumnsMode = System::Windows::Forms::DataGridViewAutoSizeColumnsMode::AllCells;
 		this->inputGridView->BackgroundColor = System::Drawing::SystemColors::Window;
 		this->inputGridView->ColumnHeadersHeightSizeMode = System::Windows::Forms::DataGridViewColumnHeadersHeightSizeMode::AutoSize;
 		this->inputGridView->Dock = System::Windows::Forms::DockStyle::Fill;
 		this->inputGridView->Location = System::Drawing::Point(0, 0);
 		this->inputGridView->Name = L"inputGridView";
 		this->inputGridView->RightToLeft = System::Windows::Forms::RightToLeft::No;
+		this->inputGridView->RowHeadersWidth = 35;
 		this->inputGridView->Size = System::Drawing::Size(144, 132);
 		this->inputGridView->TabIndex = 0;
 		// 
 		// outputGridView
 		// 
-		this->outputGridView->AllowUserToOrderColumns = true;
 		this->outputGridView->BackgroundColor = System::Drawing::SystemColors::Window;
 		this->outputGridView->ColumnHeadersHeightSizeMode = System::Windows::Forms::DataGridViewColumnHeadersHeightSizeMode::AutoSize;
 		this->outputGridView->Dock = System::Windows::Forms::DockStyle::Fill;
@@ -594,12 +596,12 @@ void refreshTable()
 		{
 			for each (LogicWidget ^ lw in logic_widgets)
 			{	
-				this->inputGridView->Columns->Clear();
-				this->inputGridView->DataSource = nullptr;
+			
 
 				if (lw->GetType() == InputWidget::typeid)
 				{	String^ key = "Input" + safe_cast < InputWidget ^ > (lw)->getID();
-
+					this->inputGridView->Columns->Clear();
+					this->inputGridView->DataSource = nullptr;
 					if((this->inputGridView->Columns != nullptr)&&(this->inputGridView->Columns->Contains(key)))
 					{
 						this->inputGridView->Columns->Remove(key);
@@ -611,15 +613,47 @@ void refreshTable()
 						tempList->Add(tempBool);
 						this->inputMap->Add(key, tempList);
 					}
-				}
+				
 				this->inputGridView->Columns->Clear();
 				for each(KeyValuePair<String^,ArrayList^>^ pair1 in this->inputMap)
 				{
-					
 					this->inputGridView->Columns->Add(pair1->Key, pair1->Key);
+					int rowPposition = this->inputGridView->Columns->Count -1;
+					int maxArrayPosition = this->inputMap->Count;
+				//	array<bool> tempArray = this->inputMap->
+
+
+				//	this->inputGridView->Rows[0]->Cells[rowPosition]->SetValue(0,"0");
+
+					//ArrayList^ tempList = inputMap->
+
+					}
+				}
+				if (lw->GetType() == OutputWidget::typeid)
+				{	String^ key = "Output" + safe_cast < OutputWidget ^ > (lw)->getID();
+					this->outputGridView->Columns->Clear();
+					this->outputGridView->DataSource = nullptr;
+					if((this->outputGridView->Columns != nullptr)&&(this->outputGridView->Columns->Contains(key)))
+					{
+						this->outputGridView->Columns->Remove(key);
+					}
+					if(this->outputMap->ContainsKey(key) == false)
+					{
+						ArrayList^ tempList = gcnew ArrayList();
+						bool tempBool = lw->getGate()->getResult();
+						tempList->Add(tempBool);
+						this->outputMap->Add(key, tempList);
+					}
+				
+				this->outputGridView->Columns->Clear();
+				for each(KeyValuePair<String^,ArrayList^>^ pair1 in this->outputMap)
+				{
+					this->outputGridView->Columns->Add(pair1->Key, pair1->Key);
+					
 					//int position = this->inputGridView->Columns->IndexOf(pair1->Key);
 					//ArrayList^ tempList = inputMap->
 
+					}
 				}
 				/*if(lw->GetType() == OutputWidget::typeid)
 				{
