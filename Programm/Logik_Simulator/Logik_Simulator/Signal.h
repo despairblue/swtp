@@ -14,7 +14,7 @@ public:
 	void setInputGate(Gatter^ gate, int position);
 	void addOutputGate(Gatter^ gate, int position);
 	void transmit();
-	
+	void destruct();
 
 private: 
 	

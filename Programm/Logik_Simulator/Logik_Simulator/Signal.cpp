@@ -19,6 +19,12 @@ bool Signal::getValue(){
 	return this->inputGate->getResult(0);
 }
 
+void Signal::destruct()
+{
+	this->inputGate = nullptr;
+	//this->outputGates = 
+}
+
 void Signal::setInputGate(Gatter^ gate, int position)
 {
 	this->inputGate = gate;

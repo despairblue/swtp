@@ -45,7 +45,7 @@ void Gatter::setResult(int number, bool result){
 void Gatter::calculate(){
 	if(this->result != this->output[0])
 		{
-			this->setResult(result);
+			this->setResult(this->output[0]);
 			this->CalculationFinish();
 	
 		}

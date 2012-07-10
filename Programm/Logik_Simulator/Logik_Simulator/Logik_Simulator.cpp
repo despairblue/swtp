@@ -32,14 +32,14 @@ int main(array<System::String ^> ^args)
 {
 
 	And^ and = gcnew And();
-	Or^ or = gcnew Or();
-	And^ and1 = gcnew And();
+	//Or^ or = gcnew Or();
+	//And^ and1 = gcnew And();
 
 	ArrayList^ inputList = gcnew ArrayList();
 
 	Input^ input1 = gcnew Input();
 	Input^ input2 = gcnew Input();
-	Input^ input3 = gcnew Input();
+	//Input^ input3 = gcnew Input();
 
 	Output^ output = gcnew Output();
 
@@ -49,35 +49,34 @@ int main(array<System::String ^> ^args)
 
 	inputList->Add(s1);
 	inputList->Add(s2);
-	inputList->Add(s3);
+	//inputList->Add(s3);
 
-	Signal^ s4 = gcnew Signal();
-	Signal^ s5 = gcnew Signal();
+	//Signal^ s4 = gcnew Signal();
+	//Signal^ s5 = gcnew Signal();
 
-	Signal^ s6 = gcnew Signal();
+	//Signal^ s6 = gcnew Signal();
 
 	s1->setInputGate(input1, 0);
 	s1->addOutputGate(and,0);
 
 	s2->setInputGate(input2, 0);
 	s2->addOutputGate(and, 1);
-	s2->addOutputGate(or, 0);
+//	s2->addOutputGate(or, 0);
 
-	s3->setInputGate(input3,0);
-	s3->addOutputGate(or,1);
+	s3->setInputGate(and,0);
+	s3->addOutputGate(output,0);
 
-	s4->setInputGate(and,0);
+/*	s4->setInputGate(and,0);
 	s4->addOutputGate(and1,0);
 
 	s5->setInputGate(or, 0);
 	s5->addOutputGate(and1,1);
 
 	s6->setInputGate(and1,0);
-	s6->addOutputGate(output, 0);
-
+	s6->addOutputGate(output, 0);`*/
 	input1->setInputValue(true);
 	input2->setInputValue(true);
-	input3->setInputValue(false);
+	//input3->setInputValue(false);
 
 	startSimulation(inputList);
 
