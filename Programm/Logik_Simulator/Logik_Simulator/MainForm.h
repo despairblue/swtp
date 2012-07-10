@@ -481,6 +481,26 @@ private:
         }
     }
 
+    void startSimulation(Boolean deselectWidgets)
+    {
+    	if (deselectWidgets)
+    	{
+    		checkButton(nullptr);
+
+			if (selected_widget) {
+				selected_widget->selected = false;
+				selected_widget = nullptr;
+			}
+    	}
+
+        for each (SignalWidget ^ sw in signal_widgets)
+        {
+            sw->transmit();
+        }
+
+        repaint();
+    }
+
     void refreshTable()
     {
         for each (LogicWidget ^ lw in logic_widgets)
@@ -727,33 +747,33 @@ private:
 
 private: System::Void MainForm_KeyUp(System::Object ^  sender, System::Windows::Forms::KeyEventArgs ^  e)
     {
+    	Boolean handled = false;
+
         if (selected_widget)
         {
-            selected_widget->keyUp(e, toolStripStatusLabel1);
+            handled = selected_widget->keyUp(e, toolStripStatusLabel1);
 
-            if (selected_widget->isDestructed())
-            {
-                logic_widgets->Remove(selected_widget);
+
+			if (selected_widget->isDestructed())
+			{
+            	logic_widgets->Remove(selected_widget);
                 selected_widget = nullptr;
             }
+        }
+
+        if ( !handled )
+        {
+			if (e->KeyCode == Keys::Enter)
+        	{
+        		startSimulation(true);
+        	}
         }
 
         repaint();
     }
 private: System::Void toolStripButton9_Click(System::Object ^  sender, System::EventArgs ^  e)
     {
-        checkButton(nullptr);
-		if (selected_widget) {
-			selected_widget->selected = false;
-			selected_widget = nullptr;
-		}
-
-        for each (SignalWidget ^ sw in signal_widgets)
-        {
-            sw->transmit();
-        }
-
-        repaint();
+    	startSimulation(true);
     }
 };
 }
