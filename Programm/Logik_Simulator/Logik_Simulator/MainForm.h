@@ -17,6 +17,7 @@
 using namespace System;
 using namespace System::ComponentModel;
 using namespace System::Collections;
+using namespace System::Collections::Generic;
 using namespace System::Windows::Forms;
 using namespace System::Data;
 using namespace System::Drawing;
@@ -48,6 +49,7 @@ public:
         this->logic_widgets = gcnew ArrayList();
         this->signal_widgets = gcnew ArrayList();
         this->toDelete = gcnew ArrayList();
+		this->inputMap = gcnew Dictionary<String^ , ArrayList^>();
 
         for each (Object ^ obj in this->toolStrip1->Items)
         {
@@ -79,7 +81,7 @@ protected:
     ArrayList ^ logic_widgets;
     ArrayList ^ signal_widgets;
     ArrayList ^ toDelete;
-
+	Dictionary<String ^, ArrayList ^> ^ inputMap;
 
 private: System::Windows::Forms::ToolStrip ^  toolStrip1;
 private: System::Windows::Forms::ToolStripButton ^  toolStripButton1;
@@ -96,7 +98,8 @@ private: System::Windows::Forms::ToolStripButton ^  toolStripButton8;
 private: System::Windows::Forms::ToolStripSeparator ^  toolStripSeparator2;
 private: System::Windows::Forms::ToolStripButton ^  toolStripButton9;
 private: System::Windows::Forms::SplitContainer ^  splitContainer1;
-private: System::Windows::Forms::DataGridView ^  dataGridView1;
+private: System::Windows::Forms::DataGridView^  inputGridView;
+
 private: System::Windows::Forms::PictureBox ^  pictureBox1;
 private: System::Windows::Forms::BindingSource ^  mainFormBindingSource;
 
@@ -108,6 +111,8 @@ private: System::Windows::Forms::ToolStripButton^  toolStripButton11;
 private: System::Windows::Forms::ToolStripButton^  toolStripButton12;
 private: System::Windows::Forms::OpenFileDialog^  openFileDialog1;
 private: System::Windows::Forms::SaveFileDialog^  saveFileDialog1;
+private: System::Windows::Forms::SplitContainer^  splitContainer2;
+private: System::Windows::Forms::DataGridView^  outputGridView;
 
 
 
@@ -153,7 +158,9 @@ private:
 		this->toolStripStatusLabel1 = (gcnew System::Windows::Forms::ToolStripStatusLabel());
 		this->splitContainer1 = (gcnew System::Windows::Forms::SplitContainer());
 		this->pictureBox1 = (gcnew System::Windows::Forms::PictureBox());
-		this->dataGridView1 = (gcnew System::Windows::Forms::DataGridView());
+		this->splitContainer2 = (gcnew System::Windows::Forms::SplitContainer());
+		this->inputGridView = (gcnew System::Windows::Forms::DataGridView());
+		this->outputGridView = (gcnew System::Windows::Forms::DataGridView());
 		this->Header = (gcnew System::Windows::Forms::DataGridViewCheckBoxColumn());
 		this->openFileDialog1 = (gcnew System::Windows::Forms::OpenFileDialog());
 		this->saveFileDialog1 = (gcnew System::Windows::Forms::SaveFileDialog());
@@ -165,7 +172,11 @@ private:
 		this->splitContainer1->Panel2->SuspendLayout();
 		this->splitContainer1->SuspendLayout();
 		(cli::safe_cast<System::ComponentModel::ISupportInitialize^  >(this->pictureBox1))->BeginInit();
-		(cli::safe_cast<System::ComponentModel::ISupportInitialize^  >(this->dataGridView1))->BeginInit();
+		this->splitContainer2->Panel1->SuspendLayout();
+		this->splitContainer2->Panel2->SuspendLayout();
+		this->splitContainer2->SuspendLayout();
+		(cli::safe_cast<System::ComponentModel::ISupportInitialize^  >(this->inputGridView))->BeginInit();
+		(cli::safe_cast<System::ComponentModel::ISupportInitialize^  >(this->outputGridView))->BeginInit();
 		(cli::safe_cast<System::ComponentModel::ISupportInitialize^  >(this->logicWidgetBindingSource))->BeginInit();
 		(cli::safe_cast<System::ComponentModel::ISupportInitialize^  >(this->mainFormBindingSource))->BeginInit();
 		this->SuspendLayout();
@@ -371,30 +382,55 @@ private:
 		this->pictureBox1->Paint += gcnew System::Windows::Forms::PaintEventHandler(this, &MainForm::MainForm_Paint);
 		this->pictureBox1->MouseUp += gcnew System::Windows::Forms::MouseEventHandler(this, &MainForm::MainForm_MouseUp);
 		//
-		// dataGridView1
-		//
-		this->dataGridView1->AllowUserToOrderColumns = true;
-		this->dataGridView1->ColumnHeadersHeightSizeMode = System::Windows::Forms::DataGridViewColumnHeadersHeightSizeMode::AutoSize;
-		this->dataGridView1->Dock = System::Windows::Forms::DockStyle::Fill;
-		this->dataGridView1->Location = System::Drawing::Point(0, 0);
-		this->dataGridView1->Name = L"dataGridView1";
-		this->dataGridView1->RightToLeft = System::Windows::Forms::RightToLeft::Yes;
-		this->dataGridView1->Size = System::Drawing::Size(144, 231);
-		this->dataGridView1->TabIndex = 0;
-		//
+		// splitContainer2
+		// 
+		this->splitContainer2->BorderStyle = System::Windows::Forms::BorderStyle::Fixed3D;
+		this->splitContainer2->Dock = System::Windows::Forms::DockStyle::Fill;
+		this->splitContainer2->Location = System::Drawing::Point(0, 0);
+		this->splitContainer2->Name = L"splitContainer2";
+		this->splitContainer2->Orientation = System::Windows::Forms::Orientation::Horizontal;
+		// 
+		// splitContainer2.Panel1
+		// 
+		this->splitContainer2->Panel1->Controls->Add(this->inputGridView);
+		// 
+		// splitContainer2.Panel2
+		// 
+		this->splitContainer2->Panel2->Controls->Add(this->outputGridView);
+		this->splitContainer2->Size = System::Drawing::Size(148, 235);
+		this->splitContainer2->SplitterDistance = 136;
+		this->splitContainer2->TabIndex = 0;
+		// 
+		// inputGridView
+		// 
+		this->inputGridView->AllowUserToOrderColumns = true;
+		this->inputGridView->BackgroundColor = System::Drawing::SystemColors::Window;
+		this->inputGridView->ColumnHeadersHeightSizeMode = System::Windows::Forms::DataGridViewColumnHeadersHeightSizeMode::AutoSize;
+		this->inputGridView->Dock = System::Windows::Forms::DockStyle::Fill;
+		this->inputGridView->Location = System::Drawing::Point(0, 0);
+		this->inputGridView->Name = L"inputGridView";
+		this->inputGridView->RightToLeft = System::Windows::Forms::RightToLeft::No;
+		this->inputGridView->Size = System::Drawing::Size(144, 132);
+		this->inputGridView->TabIndex = 0;
+		// 
+		// outputGridView
+		// 
+		this->outputGridView->AllowUserToOrderColumns = true;
+		this->outputGridView->BackgroundColor = System::Drawing::SystemColors::Window;
+		this->outputGridView->ColumnHeadersHeightSizeMode = System::Windows::Forms::DataGridViewColumnHeadersHeightSizeMode::AutoSize;
+		this->outputGridView->Dock = System::Windows::Forms::DockStyle::Fill;
+		this->outputGridView->Location = System::Drawing::Point(0, 0);
+		this->outputGridView->Name = L"outputGridView";
+		this->outputGridView->Size = System::Drawing::Size(144, 91);
+		this->outputGridView->TabIndex = 0;
+		// 
 		// Header
-		//
+		// 
 		this->Header->Name = L"Header";
-		//
+		// 
 		// openFileDialog1
-		//
+		// 
 		this->openFileDialog1->FileName = L"openFileDialog1";
-		//
-		// saveFileDialog1
-		//
-		this->saveFileDialog1->DefaultExt = L"knorkator";
-		this->saveFileDialog1->Filter = L"Logik Simulator files|*.knorkator";
-		this->saveFileDialog1->Title = L"Where you want save\?";
 		//
 		// logicWidgetBindingSource
 		//
@@ -423,7 +459,11 @@ private:
 		this->splitContainer1->Panel2->ResumeLayout(false);
 		this->splitContainer1->ResumeLayout(false);
 		(cli::safe_cast<System::ComponentModel::ISupportInitialize^  >(this->pictureBox1))->EndInit();
-		(cli::safe_cast<System::ComponentModel::ISupportInitialize^  >(this->dataGridView1))->EndInit();
+		this->splitContainer2->Panel1->ResumeLayout(false);
+		this->splitContainer2->Panel2->ResumeLayout(false);
+		this->splitContainer2->ResumeLayout(false);
+		(cli::safe_cast<System::ComponentModel::ISupportInitialize^  >(this->inputGridView))->EndInit();
+		(cli::safe_cast<System::ComponentModel::ISupportInitialize^  >(this->outputGridView))->EndInit();
 		(cli::safe_cast<System::ComponentModel::ISupportInitialize^  >(this->logicWidgetBindingSource))->EndInit();
 		(cli::safe_cast<System::ComponentModel::ISupportInitialize^  >(this->mainFormBindingSource))->EndInit();
 		this->ResumeLayout(false);
@@ -533,21 +573,42 @@ private:
         repaint();
     }
 
-    void refreshTable()
-    {
-        for each (LogicWidget ^ lw in logic_widgets)
-        {
-            if (lw->GetType() == InputWidget::typeid)
-            {
-                this->dataGridView1->Columns->Add("Input" + safe_cast < InputWidget ^ > (lw)->getID(), "Input" + safe_cast < InputWidget ^ > (lw)->getID());
-            }
+void refreshTable()
+		{
+			for each (LogicWidget ^ lw in logic_widgets)
+			{	
+				this->inputGridView->Columns->Clear();
+				this->inputGridView->DataSource = nullptr;
 
-            /*if(lw->GetType() == OutputWidget::typeid)
-            {
-                this->dataGridView1->Columns->Add("Input"+ safe_cast<OutputWidget^>(lw)->getID(), "Input"+ safe_cast<OutputWidget^>(lw)->getID());
-            }*/
-        }
-    }
+				if (lw->GetType() == InputWidget::typeid)
+				{	String^ key = "Input" + safe_cast < InputWidget ^ > (lw)->getID();
+
+					if((this->inputGridView->Columns != nullptr)&&(this->inputGridView->Columns->Contains(key)))
+					{
+						this->inputGridView->Columns->Remove(key);
+					}
+					if(this->inputMap->ContainsKey(key) == false)
+					{
+						ArrayList^ tempList = gcnew ArrayList();
+						bool tempBool = lw->getGate()->getResult();
+						tempList->Add(tempBool);
+						this->inputMap->Add(key, tempList);
+					}
+				}
+				this->inputGridView->Columns->Clear();
+				for each(KeyValuePair<String^,ArrayList^>^ pair1 in this->inputMap)
+				{
+					
+					this->inputGridView->Columns->Add(pair1->Key, pair1->Key);
+					//int position = this->inputGridView->Columns->IndexOf(pair1->Key);
+					//ArrayList^ tempList = inputMap->
+
+				}
+				/*if(lw->GetType() == OutputWidget::typeid)
+				{
+				this->inputGridView->Columns->Add("Input"+ safe_cast<OutputWidget^>(lw)->getID(), "Input"+ safe_cast<OutputWidget^>(lw)->getID());*/
+			}
+		}
 
     void toolStripButtons_Click(System::Object ^  sender, System::EventArgs ^  e)
     {
@@ -788,6 +849,15 @@ private: System::Void MainForm_KeyUp(System::Object ^  sender, System::Windows::
 
 			if (selected_widget->isDestructed())
 			{
+				 if(selected_widget->GetType() == InputWidget::typeid)
+				 {
+					 String^ key = "Input" + safe_cast<InputWidget^>(selected_widget)->getID();
+					 if(this->inputMap->ContainsKey(key))
+					 {
+						this->inputMap->Remove(key);
+						refreshTable();
+					}
+				}
             	logic_widgets->Remove(selected_widget);
                 selected_widget = nullptr;
             }
