@@ -370,6 +370,18 @@
 				>
 			</File>
 		</Filter>
+		<Filter
+			Name="DataSources"
+			>
+			<File
+				RelativePath=".\LogicWidgets.LogicWidget.datasource"
+				>
+			</File>
+			<File
+				RelativePath=".\MainForm.datasource"
+				>
+			</File>
+		</Filter>
 		<File
 			RelativePath=".\ReadMe.txt"
 			>
