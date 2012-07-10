@@ -128,15 +128,15 @@ private:
 		this->statusStrip1 = (gcnew System::Windows::Forms::StatusStrip());
 		this->toolStripStatusLabel1 = (gcnew System::Windows::Forms::ToolStripStatusLabel());
 		this->splitContainer1 = (gcnew System::Windows::Forms::SplitContainer());
-		this->dataGridView1 = (gcnew System::Windows::Forms::DataGridView());
 		this->pictureBox1 = (gcnew System::Windows::Forms::PictureBox());
+		this->dataGridView1 = (gcnew System::Windows::Forms::DataGridView());
 		this->toolStrip1->SuspendLayout();
 		this->statusStrip1->SuspendLayout();
 		this->splitContainer1->Panel1->SuspendLayout();
 		this->splitContainer1->Panel2->SuspendLayout();
 		this->splitContainer1->SuspendLayout();
-		(cli::safe_cast<System::ComponentModel::ISupportInitialize^  >(this->dataGridView1))->BeginInit();
 		(cli::safe_cast<System::ComponentModel::ISupportInitialize^  >(this->pictureBox1))->BeginInit();
+		(cli::safe_cast<System::ComponentModel::ISupportInitialize^  >(this->dataGridView1))->BeginInit();
 		this->SuspendLayout();
 		//
 		// toolStrip1
@@ -268,39 +268,28 @@ private:
 		this->toolStripStatusLabel1->Text = L"Select a Gate from the tool bar.";
 		//
 		// splitContainer1
-		// 
+		//
 		this->splitContainer1->BorderStyle = System::Windows::Forms::BorderStyle::Fixed3D;
 		this->splitContainer1->Dock = System::Windows::Forms::DockStyle::Fill;
 		this->splitContainer1->Location = System::Drawing::Point(0, 25);
 		this->splitContainer1->Name = L"splitContainer1";
-		// 
+		//
 		// splitContainer1.Panel1
-		// 
+		//
 		this->splitContainer1->Panel1->Controls->Add(this->pictureBox1);
-		// 
+		//
 		// splitContainer1.Panel2
-		// 
+		//
 		this->splitContainer1->Panel2->Controls->Add(this->dataGridView1);
 		this->splitContainer1->Size = System::Drawing::Size(457, 224);
 		this->splitContainer1->SplitterDistance = 319;
 		this->splitContainer1->TabIndex = 4;
-		// 
-		// dataGridView1
-		// 
-		this->dataGridView1->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Bottom) 
-			| System::Windows::Forms::AnchorStyles::Left) 
-			| System::Windows::Forms::AnchorStyles::Right));
-		this->dataGridView1->ColumnHeadersHeightSizeMode = System::Windows::Forms::DataGridViewColumnHeadersHeightSizeMode::AutoSize;
-		this->dataGridView1->Location = System::Drawing::Point(3, 3);
-		this->dataGridView1->Name = L"dataGridView1";
-		this->dataGridView1->RightToLeft = System::Windows::Forms::RightToLeft::Yes;
-		this->dataGridView1->Size = System::Drawing::Size(124, 221);
-		this->dataGridView1->TabIndex = 0;
-		// 
+		this->splitContainer1->KeyUp += gcnew System::Windows::Forms::KeyEventHandler(this, &MainForm::MainForm_KeyUp);
+		//
 		// pictureBox1
-		// 
-		this->pictureBox1->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Bottom) 
-			| System::Windows::Forms::AnchorStyles::Left) 
+		//
+		this->pictureBox1->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Bottom)
+			| System::Windows::Forms::AnchorStyles::Left)
 			| System::Windows::Forms::AnchorStyles::Right));
 		this->pictureBox1->BackColor = System::Drawing::SystemColors::Window;
 		this->pictureBox1->Location = System::Drawing::Point(3, 3);
@@ -308,7 +297,23 @@ private:
 		this->pictureBox1->Size = System::Drawing::Size(309, 214);
 		this->pictureBox1->TabIndex = 0;
 		this->pictureBox1->TabStop = false;
-		// 
+		this->pictureBox1->MouseMove += gcnew System::Windows::Forms::MouseEventHandler(this, &MainForm::MainForm_MouseMove);
+		this->pictureBox1->MouseDown += gcnew System::Windows::Forms::MouseEventHandler(this, &MainForm::MainForm_MouseDown);
+		this->pictureBox1->Paint += gcnew System::Windows::Forms::PaintEventHandler(this, &MainForm::MainForm_Paint);
+		this->pictureBox1->MouseUp += gcnew System::Windows::Forms::MouseEventHandler(this, &MainForm::MainForm_MouseUp);
+		//
+		// dataGridView1
+		//
+		this->dataGridView1->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Bottom)
+			| System::Windows::Forms::AnchorStyles::Left)
+			| System::Windows::Forms::AnchorStyles::Right));
+		this->dataGridView1->ColumnHeadersHeightSizeMode = System::Windows::Forms::DataGridViewColumnHeadersHeightSizeMode::AutoSize;
+		this->dataGridView1->Location = System::Drawing::Point(3, 3);
+		this->dataGridView1->Name = L"dataGridView1";
+		this->dataGridView1->RightToLeft = System::Windows::Forms::RightToLeft::Yes;
+		this->dataGridView1->Size = System::Drawing::Size(124, 221);
+		this->dataGridView1->TabIndex = 0;
+		//
 		// MainForm
 		//
 		this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
@@ -320,14 +325,6 @@ private:
 		this->DoubleBuffered = true;
 		this->Name = L"MainForm";
 		this->Text = L"MainForm";
-		this->Load += gcnew System::EventHandler(this, &MainForm::MainForm_Load);
-		this->MouseUp += gcnew System::Windows::Forms::MouseEventHandler(this, &MainForm::MainForm_MouseUp);
-		this->Paint += gcnew System::Windows::Forms::PaintEventHandler(this, &MainForm::MainForm_Paint);
-		this->Click += gcnew System::EventHandler(this, &MainForm::MainForm_Click);
-		this->MouseDown += gcnew System::Windows::Forms::MouseEventHandler(this, &MainForm::MainForm_MouseDown);
-		this->KeyPress += gcnew System::Windows::Forms::KeyPressEventHandler(this, &MainForm::MainForm_KeyPress);
-		this->KeyUp += gcnew System::Windows::Forms::KeyEventHandler(this, &MainForm::MainForm_KeyUp);
-		this->MouseMove += gcnew System::Windows::Forms::MouseEventHandler(this, &MainForm::MainForm_MouseMove);
 		this->toolStrip1->ResumeLayout(false);
 		this->toolStrip1->PerformLayout();
 		this->statusStrip1->ResumeLayout(false);
@@ -335,8 +332,8 @@ private:
 		this->splitContainer1->Panel1->ResumeLayout(false);
 		this->splitContainer1->Panel2->ResumeLayout(false);
 		this->splitContainer1->ResumeLayout(false);
-		(cli::safe_cast<System::ComponentModel::ISupportInitialize^  >(this->dataGridView1))->EndInit();
 		(cli::safe_cast<System::ComponentModel::ISupportInitialize^  >(this->pictureBox1))->EndInit();
+		(cli::safe_cast<System::ComponentModel::ISupportInitialize^  >(this->dataGridView1))->EndInit();
 		this->ResumeLayout(false);
 		this->PerformLayout();
 
@@ -372,11 +369,13 @@ private:
 
         grabbed_widget->setLocation(new_loc);
 
-        this->Invalidate();
-        this->Update();
+        repaint();
     }
 
-
+    void repaint() {
+    	pictureBox1->Invalidate();
+    	pictureBox1->Update();
+    }
 
     void toolStripButtons_Click(System::Object ^  sender, System::EventArgs ^  e)
     {
@@ -398,10 +397,6 @@ private:
         {
             changeStatusBar("Select a Gate from the tool bar.");
         }
-    }
-
-    void MainForm_Click(System::Object ^  sender, System::EventArgs ^  e)
-    {
     }
 
     void MainForm_MouseUp(System::Object ^  sender, System::Windows::Forms::MouseEventArgs ^  e)
@@ -547,18 +542,12 @@ private:
             }
         }
 
-        // repaint
-        this->Invalidate();
-        this->Update();
+        repaint();
     }
-
-    void MainForm_Load(System::Object ^  sender, System::EventArgs ^  e)
-    {
-	}
 
     void MainForm_Paint(System::Object ^  sender, System::Windows::Forms::PaintEventArgs ^  e)
     {
-        e->Graphics->Clear(Color::Gray);
+		e->Graphics->Clear(Color::LightGray);
 
         for each (LogicWidget ^ lw in this->logic_widgets)
         {
@@ -616,28 +605,9 @@ private:
 
         }
     }
-private: System::Void MainForm_KeyPress(System::Object ^  sender, System::Windows::Forms::KeyPressEventArgs ^  e)
-    {
-    }
+
 private: System::Void MainForm_KeyUp(System::Object ^  sender, System::Windows::Forms::KeyEventArgs ^  e)
     {
-        // if (e->KeyCode == Keys::Delete && this->selected_widget)
-        // {
-        //     this->selected_widget->destruct();
-        //     this->logic_widgets->Remove(this->selected_widget);
-        //     this->selected_widget = nullptr;
-
-        //     changeStatusBar("Gate removed.");
-
-        //     // repaint
-        //     this->Invalidate();
-        //     this->Update();
-        // }
-        // else if (e->KeyCode == Keys::Delete)
-        // {
-        //     changeStatusBar("No Gate selected. Select the Gate you want to remove.");
-        // }
-
         if (selected_widget)
         {
             selected_widget->keyUp(e, toolStripStatusLabel1);
@@ -649,18 +619,14 @@ private: System::Void MainForm_KeyUp(System::Object ^  sender, System::Windows::
             }
         }
 
-
-        this->Invalidate();
-        this->Update();
+        repaint();
     }
 private: System::Void toolStripButton9_Click(System::Object^  sender, System::EventArgs^  e) {
 			 for each (SignalWidget ^ sw in signal_widgets) {
 				 sw->transmit();
 			 }
 
-			 // repaint
-			 this->Invalidate();
-			 this->Update();
+			 repaint();
 		 }
 };
 }
