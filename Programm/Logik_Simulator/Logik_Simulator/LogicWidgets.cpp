@@ -49,6 +49,7 @@ Boolean LogicWidget::isDestructed()
 
 void LogicWidget::paint(Graphics ^ canvas)
 {
+    // TODO: override paint for all particular gates
     if ( !destructed )
     {
         Color color;
@@ -234,7 +235,7 @@ void SignalWidget::destruct()
     this->destructed = true;
     this->disconnectAll();
 
-    // TODO: Won't work, need a method to destruct the signal @roesti77
+    // FIX: Won't work, need a method to destruct the signal @roesti77
     // this->signal->setInputGate(nullptr, 0);
     // this->signal->addOutputGate(nullptr, 0);
 }
@@ -346,16 +347,9 @@ void SignalWidget::transmit()
 
 // NOTE: InputWidget
 
-InputWidget::InputWidget(String ^ type, Point ^ location, Input ^ gate)
+InputWidget::InputWidget(String ^ type, Point ^ location, Input ^ gate):
+LogicWidget(type, location, gate)
 {
-    // LogicWidget::LogicWidget(type, location, gate);
-    this->size = gcnew Size(40, 40);
-    this->selected = false;
-    this->destructed = false;
-
-    this->type = type;
-    this->setLocation(location);
-    this->gate = gate;
 }
 
 InputWidget::InputWidget(void): LogicWidget()
