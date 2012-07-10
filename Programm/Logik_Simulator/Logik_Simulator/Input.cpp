@@ -15,7 +15,7 @@ void Input::setInputValue(bool value)
 
 bool Input::getInput(){
 	return this->output[0];
-}
+	}
 
 void Input::calculate(){
 	Gatter::setResult(this->output[0]);
