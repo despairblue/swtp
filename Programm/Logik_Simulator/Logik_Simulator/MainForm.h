@@ -165,7 +165,7 @@ private:
 			this->toolStripSeparator1, this->toolStripButton7, this->toolStripButton8, this->toolStripSeparator2, this->toolStripButton9});
 		this->toolStrip1->Location = System::Drawing::Point(0, 0);
 		this->toolStrip1->Name = L"toolStrip1";
-		this->toolStrip1->Size = System::Drawing::Size(457, 25);
+		this->toolStrip1->Size = System::Drawing::Size(503, 25);
 		this->toolStrip1->TabIndex = 2;
 		this->toolStrip1->Text = L"toolStrip1";
 		// 
@@ -284,17 +284,21 @@ private:
 		// statusStrip1
 		// 
 		this->statusStrip1->Items->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(1) {this->toolStripStatusLabel1});
-		this->statusStrip1->Location = System::Drawing::Point(0, 249);
+		this->statusStrip1->Location = System::Drawing::Point(0, 266);
 		this->statusStrip1->Name = L"statusStrip1";
-		this->statusStrip1->Size = System::Drawing::Size(457, 22);
+		this->statusStrip1->Size = System::Drawing::Size(503, 22);
 		this->statusStrip1->TabIndex = 3;
 		this->statusStrip1->Text = L"statusStrip1";
 		// 
 		// toolStripStatusLabel1
 		// 
+		this->toolStripStatusLabel1->AutoToolTip = true;
+		this->toolStripStatusLabel1->DisplayStyle = System::Windows::Forms::ToolStripItemDisplayStyle::Text;
 		this->toolStripStatusLabel1->Name = L"toolStripStatusLabel1";
-		this->toolStripStatusLabel1->Size = System::Drawing::Size(170, 17);
+		this->toolStripStatusLabel1->Size = System::Drawing::Size(488, 17);
+		this->toolStripStatusLabel1->Spring = true;
 		this->toolStripStatusLabel1->Text = L"Select a Gate from the tool bar.";
+		this->toolStripStatusLabel1->TextAlign = System::Drawing::ContentAlignment::MiddleLeft;
 		// 
 		// splitContainer1
 		// 
@@ -310,8 +314,8 @@ private:
 		// splitContainer1.Panel2
 		// 
 		this->splitContainer1->Panel2->Controls->Add(this->dataGridView1);
-		this->splitContainer1->Size = System::Drawing::Size(457, 224);
-		this->splitContainer1->SplitterDistance = 319;
+		this->splitContainer1->Size = System::Drawing::Size(503, 241);
+		this->splitContainer1->SplitterDistance = 351;
 		this->splitContainer1->TabIndex = 4;
 		this->splitContainer1->KeyUp += gcnew System::Windows::Forms::KeyEventHandler(this, &MainForm::MainForm_KeyUp);
 		// 
@@ -321,7 +325,7 @@ private:
 		this->pictureBox1->Dock = System::Windows::Forms::DockStyle::Fill;
 		this->pictureBox1->Location = System::Drawing::Point(0, 0);
 		this->pictureBox1->Name = L"pictureBox1";
-		this->pictureBox1->Size = System::Drawing::Size(315, 220);
+		this->pictureBox1->Size = System::Drawing::Size(347, 237);
 		this->pictureBox1->TabIndex = 0;
 		this->pictureBox1->TabStop = false;
 		this->pictureBox1->MouseMove += gcnew System::Windows::Forms::MouseEventHandler(this, &MainForm::MainForm_MouseMove);
@@ -337,7 +341,7 @@ private:
 		this->dataGridView1->Location = System::Drawing::Point(0, 0);
 		this->dataGridView1->Name = L"dataGridView1";
 		this->dataGridView1->RightToLeft = System::Windows::Forms::RightToLeft::Yes;
-		this->dataGridView1->Size = System::Drawing::Size(130, 220);
+		this->dataGridView1->Size = System::Drawing::Size(144, 237);
 		this->dataGridView1->TabIndex = 0;
 		// 
 		// Header
@@ -356,7 +360,7 @@ private:
 		// 
 		this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 		this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
-		this->ClientSize = System::Drawing::Size(457, 271);
+		this->ClientSize = System::Drawing::Size(503, 288);
 		this->Controls->Add(this->splitContainer1);
 		this->Controls->Add(this->statusStrip1);
 		this->Controls->Add(this->toolStrip1);

@@ -48,7 +48,7 @@ public:
     virtual void disconnectOutputSignal(SignalWidget ^ sw);
     virtual void click(ToolStripStatusLabel ^ statusBar);
     virtual Boolean keyUp(KeyEventArgs ^ e, ToolStripStatusLabel ^ statusBar);
-    virtual Boolean widgetHit(Point ^ click_location);
+    virtual Boolean widgetHit(Point ^ clickLocation);
 };
 
 public ref class SignalWidget
@@ -90,6 +90,7 @@ public:
     virtual Boolean connectInputSignalTwo(SignalWidget ^ sw) override;
     virtual void paint(Graphics ^ canvas) override;
     virtual Boolean keyUp(KeyEventArgs ^ e, ToolStripStatusLabel ^ statusBar) override;
+    virtual void click(ToolStripStatusLabel ^ statusBar) override;
 };
 
 ref class OutputWidget :
@@ -129,7 +130,7 @@ public:
     virtual void paint(Graphics ^ canvas) override;
 };
 
-ref class NorWidget:public LogicWidget
+ref class NorWidget: public LogicWidget
 {
 public:
     NorWidget(String ^ type, Point ^ location, Gatter ^ gate);
@@ -139,17 +140,16 @@ public:
 };
 
 ref class ForkWidget:
-LogicWidget
+    LogicWidget
 {
 public:
     ForkWidget(String ^ type, Point ^ location, Gatter ^ gate);
     ForkWidget();
 protected:
-    array<SignalWidget^>^ outputSignals;
+    array < SignalWidget ^ > ^ outputSignals;
 public:
     virtual Boolean connectInputSignalTwo(SignalWidget ^ sw) override;
     virtual Boolean connectOutputSignal(SignalWidget ^ sw) override;
     virtual void disconnectOutputSignal(SignalWidget ^ sw) override;
-    // virtual void paint(Graphics ^ canvas) override;
 };
 }

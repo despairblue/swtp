@@ -202,11 +202,11 @@ Boolean LogicWidget::keyUp(KeyEventArgs ^ e, ToolStripStatusLabel ^ statusBar)
     return false;
 }
 
-Boolean LogicWidget::widgetHit(Point ^ click_location)
+Boolean LogicWidget::widgetHit(Point ^ clickLocation)
 {
-    if ( ( click_location->X >= this->location->X ) && ( click_location->X  <= this->location->X + this->size->Width ) )
+    if ( ( clickLocation->X >= this->location->X ) && ( clickLocation->X  <= this->location->X + this->size->Width ) )
     {
-        if ( ( click_location->Y >= this->location->Y ) && ( click_location->Y <= this->location->Y  + this->size->Height ) )
+        if ( ( clickLocation->Y >= this->location->Y ) && ( clickLocation->Y <= this->location->Y  + this->size->Height ) )
         {
             return true;
         }
@@ -425,6 +425,13 @@ Boolean InputWidget::keyUp(KeyEventArgs ^ e, ToolStripStatusLabel ^ statusBar)
     }
 
     return false;
+}
+
+void InputWidget::click(ToolStripStatusLabel ^ statusBar)
+{
+    LogicWidget::click(statusBar);
+
+    statusBar->Text = "Press 1 or 0 to toggle state. Press Delete to remove. Drag to another Widget to connect.";
 }
 
 // NOTE: OutputWidget
