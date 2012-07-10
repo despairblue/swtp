@@ -3,6 +3,7 @@
 #include "Gatter.h"
 #include "Signal.h"
 #include "Input.h"
+#include "Output.h"
 
 using namespace System;
 using namespace System::Windows::Forms;
@@ -95,5 +96,15 @@ ref class OutputWidget :
     public LogicWidget
 {
 public:
+    OutputWidget( String ^ type, Point ^ location, Output ^ gate, Int32 id) ;
+    OutputWidget( void );
+protected:
+    Int32 id;
+public:
+    virtual Int32 getID();
+    virtual void setID(Int32 id);
+    virtual Boolean connectInputSignalTwo(SignalWidget ^ sw) override;
+    virtual Boolean connectOutputSignal(SignalWidget ^ sw) override;
+    virtual void paint(Graphics ^ canvas) override;
 };
 }

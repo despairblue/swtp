@@ -395,7 +395,9 @@ void InputWidget::paint(Graphics ^ canvas)
         else if (gate->getResult())
         {
             color = Color::Red;
-        } else {
+        }
+        else
+        {
             color = Color::Black;
         }
 
@@ -406,8 +408,6 @@ void InputWidget::paint(Graphics ^ canvas)
 
         canvas->DrawRectangle(pen, location->X, location->Y, this->size->Width, this->size->Height);
         canvas->DrawEllipse(pen, this->outputSignalLocation);
-        // canvas->DrawString(gate->getResult().ToString(), font, sb,
-        //                    safe_cast<float>(location->X + 3), safe_cast<float>(location->Y) + 3);
         canvas->DrawString(id.ToString(), font, sb,
                            safe_cast<float>(location->X + 3), safe_cast<float>(location->Y) + 3);
     }
@@ -438,3 +438,60 @@ Boolean InputWidget::keyUp(KeyEventArgs ^ e, ToolStripStatusLabel ^ statusBar)
     return false;
 }
 
+OutputWidget::OutputWidget(String ^ type, Point ^ location, Output ^ gate, Int32 id):
+    LogicWidget(type, location, gate)
+{
+    this->id = id;
+}
+
+OutputWidget::OutputWidget()
+{
+}
+
+Int32 OutputWidget::getID()
+{
+    return id;
+}
+
+void OutputWidget::setID(Int32 id)
+{
+    this->id = id;
+}
+
+Boolean OutputWidget::connectInputSignalTwo(SignalWidget ^ sw)
+{
+    return false;
+}
+
+Boolean OutputWidget::connectOutputSignal(SignalWidget ^ sw)
+{
+    return false;
+}
+
+void OutputWidget::paint(Graphics ^ canvas)
+{
+    if ( !destructed )
+    {
+        Color color;
+
+        if (selected)
+        {
+            color = Color::Blue;
+        }
+		else if (gate->getResult())
+        {
+            color = Color::Red;
+		} else {
+			color = Color::Black;
+		}
+
+        Pen ^ pen = gcnew Pen(color, 2.0);
+        Font ^ font = gcnew Font(FontFamily::GenericMonospace, 10);
+        SolidBrush ^ sb = gcnew SolidBrush(color);
+
+        canvas->DrawRectangle(pen, location->X, location->Y, this->size->Width, this->size->Height);
+        canvas->DrawEllipse(pen, this->inputSignalOneLocation);
+        canvas->DrawString(id.ToString(), font, sb , safe_cast<float>(location->X + 3), safe_cast<float>(location->Y) + 3);
+
+    }
+}
