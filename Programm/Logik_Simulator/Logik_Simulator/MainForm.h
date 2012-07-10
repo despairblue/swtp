@@ -422,6 +422,21 @@ private:
     	return result;
     }
 
+	void refreshTable() {
+		for each (LogicWidget ^ lw in logic_widgets)
+    	{
+			if(lw->GetType() == InputWidget::typeid)
+			{
+				this->dataGridView1->Columns->Add("Input"+ safe_cast<InputWidget^>(lw)->getID(), "Input"+ safe_cast<InputWidget^>(lw)->getID());
+			}
+			
+			/*if(lw->GetType() == OutputWidget::typeid)
+			{
+				this->dataGridView1->Columns->Add("Input"+ safe_cast<OutputWidget^>(lw)->getID(), "Input"+ safe_cast<OutputWidget^>(lw)->getID());
+			}*/
+		}
+	}
+
     void toolStripButtons_Click(System::Object ^  sender, System::EventArgs ^  e)
     {
         ToolStripButton ^ sen = safe_cast < ToolStripButton ^ > (sender);
