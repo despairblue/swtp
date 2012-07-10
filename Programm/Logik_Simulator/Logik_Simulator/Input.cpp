@@ -4,8 +4,7 @@
 Input::Input(void)
 {
 	this->input = gcnew array<bool>(1);
-	this->output = true;
-	//this->setInputValue(true);
+	this->output = false;
 }
 
 void Input::setInputValue(bool value)

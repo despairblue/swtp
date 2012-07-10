@@ -7,7 +7,7 @@ Gatter::Gatter()
 	this->number = 2;
 
 	this->input = gcnew array<bool>(number);
-	this->output = true;
+	this->output = false;
 }
 
 Gatter::Gatter(int number)
@@ -15,7 +15,7 @@ Gatter::Gatter(int number)
 	this->number = number;
 
 	this->input = gcnew array<bool>(number);
-	this->output = true;
+	this->output = false;
 }
 
 void Gatter::setInputValue(int number, bool value)

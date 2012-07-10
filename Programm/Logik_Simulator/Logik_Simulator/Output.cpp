@@ -4,7 +4,7 @@
 Output::Output(void)
 {
 	this->input = gcnew array<bool>(1);
-	this->output = true;
+	this->output = false;
 
 }
 
