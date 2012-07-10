@@ -16,8 +16,7 @@ ref class SignalWidget;
 public ref class LogicWidget
 {
 public:
-    LogicWidget( String ^ type, Point ^ location, Gatter ^ gate );
-    LogicWidget( void );
+    LogicWidget( String ^ type, Point ^ location, Gatter ^ gate, Int32 id );
     Boolean selected;
     PointF inputSignalOneLocation;
     PointF inputSignalTwoLocation;
@@ -32,8 +31,10 @@ protected:
     SignalWidget ^ inputSignalOne;
     SignalWidget ^ inputSignalTwo;
     SignalWidget ^ outputSignal;
-
+    Int32 id;
 public:
+    virtual Int32 getID();
+    virtual void setID(Int32 id);
     virtual void destruct();
     virtual Boolean isDestructed();
     virtual void paint(Graphics ^ canvas);
@@ -55,7 +56,6 @@ public ref class SignalWidget
 {
 public:
     SignalWidget(Signal ^ );
-    SignalWidget(void);
 
 protected:
     Boolean destructed;
@@ -80,12 +80,7 @@ ref class InputWidget :
 {
 public:
     InputWidget(String ^ type, Point ^ location, Input ^ gate, Int32 id);
-    InputWidget(void);
-protected:
-    Int32 id;
 public:
-    virtual Int32 getID();
-    virtual void setID(Int32 id);
     virtual Boolean connectInputSignalOne(SignalWidget ^ sw) override;
     virtual Boolean connectInputSignalTwo(SignalWidget ^ sw) override;
     virtual void paint(Graphics ^ canvas) override;
@@ -98,12 +93,7 @@ ref class OutputWidget :
 {
 public:
     OutputWidget( String ^ type, Point ^ location, Output ^ gate, Int32 id) ;
-    OutputWidget( void );
-protected:
-    Int32 id;
 public:
-    virtual Int32 getID();
-    virtual void setID(Int32 id);
     virtual Boolean connectInputSignalTwo(SignalWidget ^ sw) override;
     virtual Boolean connectOutputSignal(SignalWidget ^ sw) override;
     virtual void paint(Graphics ^ canvas) override;
@@ -113,8 +103,7 @@ ref class NotWidget:
     public LogicWidget
 {
 public:
-    NotWidget(String ^ type, Point ^ location, Gatter ^ gate);
-    NotWidget(void);
+    NotWidget(String ^ type, Point ^ location, Gatter ^ gate, Int32 id);
 public:
     virtual Boolean connectInputSignalTwo(SignalWidget ^ sw) override;
     virtual void paint(Graphics ^ canvas) override;
@@ -124,8 +113,7 @@ ref class NandWidget:
     public LogicWidget
 {
 public:
-    NandWidget(String ^ type, Point ^ location, Gatter ^ gate);
-    NandWidget();
+    NandWidget(String ^ type, Point ^ location, Gatter ^ gate, Int32 id);
 public:
     virtual void paint(Graphics ^ canvas) override;
 };
@@ -133,8 +121,7 @@ public:
 ref class NorWidget: public LogicWidget
 {
 public:
-    NorWidget(String ^ type, Point ^ location, Gatter ^ gate);
-    NorWidget();
+    NorWidget(String ^ type, Point ^ location, Gatter ^ gate, Int32 id);
 public:
     virtual void paint(Graphics ^ canvas) override;
 };
@@ -143,8 +130,7 @@ ref class ForkWidget:
     LogicWidget
 {
 public:
-    ForkWidget(String ^ type, Point ^ location, Gatter ^ gate);
-    ForkWidget();
+    ForkWidget(String ^ type, Point ^ location, Gatter ^ gate, Int32 id);
 protected:
     array < SignalWidget ^ > ^ outputSignals;
 public:
