@@ -86,7 +86,7 @@ int main(array<System::String ^> ^args)
 
 	// Hauptfenster erstellen und ausführen
 	Application::Run(gcnew MainForm());
-
+	
 	//TODO remove line below in Final Application
 	System::Console::ReadLine();
 	//TODO remove line above in Final Application

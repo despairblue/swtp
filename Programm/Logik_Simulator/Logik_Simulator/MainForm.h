@@ -91,6 +91,9 @@ private: System::Windows::Forms::ToolStripButton ^  toolStripButton7;
 private: System::Windows::Forms::ToolStripButton ^  toolStripButton8;
 private: System::Windows::Forms::ToolStripSeparator^  toolStripSeparator2;
 private: System::Windows::Forms::ToolStripButton^  toolStripButton9;
+private: System::Windows::Forms::SplitContainer^  splitContainer1;
+private: System::Windows::Forms::DataGridView^  dataGridView1;
+private: System::Windows::Forms::PictureBox^  pictureBox1;
 protected:
 
 protected:
@@ -124,8 +127,16 @@ private:
 		this->toolStripButton9 = (gcnew System::Windows::Forms::ToolStripButton());
 		this->statusStrip1 = (gcnew System::Windows::Forms::StatusStrip());
 		this->toolStripStatusLabel1 = (gcnew System::Windows::Forms::ToolStripStatusLabel());
+		this->splitContainer1 = (gcnew System::Windows::Forms::SplitContainer());
+		this->dataGridView1 = (gcnew System::Windows::Forms::DataGridView());
+		this->pictureBox1 = (gcnew System::Windows::Forms::PictureBox());
 		this->toolStrip1->SuspendLayout();
 		this->statusStrip1->SuspendLayout();
+		this->splitContainer1->Panel1->SuspendLayout();
+		this->splitContainer1->Panel2->SuspendLayout();
+		this->splitContainer1->SuspendLayout();
+		(cli::safe_cast<System::ComponentModel::ISupportInitialize^  >(this->dataGridView1))->BeginInit();
+		(cli::safe_cast<System::ComponentModel::ISupportInitialize^  >(this->pictureBox1))->BeginInit();
 		this->SuspendLayout();
 		// 
 		// toolStrip1
@@ -256,11 +267,54 @@ private:
 		this->toolStripStatusLabel1->Size = System::Drawing::Size(170, 17);
 		this->toolStripStatusLabel1->Text = L"Select a Gate from the tool bar.";
 		// 
+		// splitContainer1
+		// 
+		this->splitContainer1->BorderStyle = System::Windows::Forms::BorderStyle::Fixed3D;
+		this->splitContainer1->Dock = System::Windows::Forms::DockStyle::Fill;
+		this->splitContainer1->Location = System::Drawing::Point(0, 25);
+		this->splitContainer1->Name = L"splitContainer1";
+		// 
+		// splitContainer1.Panel1
+		// 
+		this->splitContainer1->Panel1->Controls->Add(this->pictureBox1);
+		// 
+		// splitContainer1.Panel2
+		// 
+		this->splitContainer1->Panel2->Controls->Add(this->dataGridView1);
+		this->splitContainer1->Size = System::Drawing::Size(457, 224);
+		this->splitContainer1->SplitterDistance = 319;
+		this->splitContainer1->TabIndex = 4;
+		// 
+		// dataGridView1
+		// 
+		this->dataGridView1->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Bottom) 
+			| System::Windows::Forms::AnchorStyles::Left) 
+			| System::Windows::Forms::AnchorStyles::Right));
+		this->dataGridView1->ColumnHeadersHeightSizeMode = System::Windows::Forms::DataGridViewColumnHeadersHeightSizeMode::AutoSize;
+		this->dataGridView1->Location = System::Drawing::Point(3, 3);
+		this->dataGridView1->Name = L"dataGridView1";
+		this->dataGridView1->RightToLeft = System::Windows::Forms::RightToLeft::Yes;
+		this->dataGridView1->Size = System::Drawing::Size(124, 221);
+		this->dataGridView1->TabIndex = 0;
+		// 
+		// pictureBox1
+		// 
+		this->pictureBox1->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Bottom) 
+			| System::Windows::Forms::AnchorStyles::Left) 
+			| System::Windows::Forms::AnchorStyles::Right));
+		this->pictureBox1->BackColor = System::Drawing::SystemColors::Window;
+		this->pictureBox1->Location = System::Drawing::Point(3, 3);
+		this->pictureBox1->Name = L"pictureBox1";
+		this->pictureBox1->Size = System::Drawing::Size(309, 214);
+		this->pictureBox1->TabIndex = 0;
+		this->pictureBox1->TabStop = false;
+		// 
 		// MainForm
 		// 
 		this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 		this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
 		this->ClientSize = System::Drawing::Size(457, 271);
+		this->Controls->Add(this->splitContainer1);
 		this->Controls->Add(this->statusStrip1);
 		this->Controls->Add(this->toolStrip1);
 		this->DoubleBuffered = true;
@@ -278,6 +332,11 @@ private:
 		this->toolStrip1->PerformLayout();
 		this->statusStrip1->ResumeLayout(false);
 		this->statusStrip1->PerformLayout();
+		this->splitContainer1->Panel1->ResumeLayout(false);
+		this->splitContainer1->Panel2->ResumeLayout(false);
+		this->splitContainer1->ResumeLayout(false);
+		(cli::safe_cast<System::ComponentModel::ISupportInitialize^  >(this->dataGridView1))->EndInit();
+		(cli::safe_cast<System::ComponentModel::ISupportInitialize^  >(this->pictureBox1))->EndInit();
 		this->ResumeLayout(false);
 		this->PerformLayout();
 
@@ -497,7 +556,7 @@ private:
 
     void MainForm_Load(System::Object ^  sender, System::EventArgs ^  e)
     {
-    }
+	}
 
     void MainForm_Paint(System::Object ^  sender, System::Windows::Forms::PaintEventArgs ^  e)
     {

@@ -355,20 +355,6 @@
 				RelativePath=".\stdafx.h"
 				>
 			</File>
-			<File
-				RelativePath=".\ValueForm1.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\ValueForm1.h"
-				FileType="3"
-				>
-				<File
-					RelativePath=".\ValueForm1.resx"
-					SubType="Designer"
-					>
-				</File>
-			</File>
 		</Filter>
 		<Filter
 			Name="Ressourcendateien"

@@ -249,7 +249,7 @@ void SignalWidget::paint( Graphics ^ canvas )
     if ( !destructed )
     {
         Pen ^ pen;
-        if (this->signal->getValue())
+		if (this->signal->getValue())
         {
             pen = gcnew Pen(Color::Red, 2.0);
         }
@@ -261,8 +261,7 @@ void SignalWidget::paint( Graphics ^ canvas )
         Point start = Point(inputGate->outputSignalLocation.X + inputGate->outputSignalLocation.Width / 2,
                             inputGate->outputSignalLocation.Y + inputGate->outputSignalLocation.Height / 2);
         Point stop;
-
-        if (this->connectedToInput == 1)
+		if (this->connectedToInput == 1)
         {
             stop = Point(outputGate->inputSignalOneLocation.X + outputGate->inputSignalOneLocation.Width / 2,
                          outputGate->inputSignalOneLocation.Y + outputGate->inputSignalOneLocation.Height / 2);
@@ -272,7 +271,7 @@ void SignalWidget::paint( Graphics ^ canvas )
             stop = Point(outputGate->inputSignalTwoLocation.X + outputGate->inputSignalTwoLocation.Width / 2,
                          outputGate->inputSignalTwoLocation.Y + outputGate->inputSignalTwoLocation.Height / 2);
         }
-
+		
         canvas->DrawLine(pen, start, stop);
     }
 }
@@ -385,7 +384,8 @@ void InputWidget::paint(Graphics ^ canvas)
         Font ^ font = gcnew Font(FontFamily::GenericMonospace, 10);
         SolidBrush ^ sb = gcnew SolidBrush(color);
 
-        canvas->DrawRectangle(pen, location->X, location->Y, this->size->Width, this->size->Height);
+		
+		canvas->DrawRectangle(pen, location->X, location->Y, this->size->Width, this->size->Height);
         canvas->DrawEllipse(pen, this->outputSignalLocation);
         canvas->DrawString(type, font, sb , safe_cast<float>(location->X + 3), safe_cast<float>(location->Y) + 3);
     }
