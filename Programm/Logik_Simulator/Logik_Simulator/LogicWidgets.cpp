@@ -9,7 +9,7 @@ using namespace LogicWidgets;
 
 // NOTE: LogicWidget
 
-LogicWidget::LogicWidget( String ^ type, Point ^ location, Gatter ^ gate )
+LogicWidget::LogicWidget( String ^ type, Point ^ location, Gatter ^ _gate )
 {
     this->size = gcnew Size(40, 40);
     this->selected = false;
@@ -17,7 +17,7 @@ LogicWidget::LogicWidget( String ^ type, Point ^ location, Gatter ^ gate )
 
     this->type = type;
     this->setLocation(location);
-    this->gate = gate;
+    this->gate = _gate;
 }
 
 LogicWidget::LogicWidget( )
@@ -293,8 +293,6 @@ void SignalWidget::setInputGate(LogicWidget ^ lw)
     else
     {
         this->signal->setInputGate(lw->getGate(), 0);
-		signal->transmit();
-
     }
 }
 
@@ -338,17 +336,26 @@ void SignalWidget::disconnectAll()
     }
 }
 
-void SignalWidget::transmit() {
-	if (inputGate->GetType() == InputWidget::typeid)
-	{
-		signal->transmit();
-	}
+void SignalWidget::transmit()
+{
+    if (inputGate->GetType() == InputWidget::typeid)
+    {
+        signal->transmit();
+    }
 }
 
 // NOTE: InputWidget
 
-InputWidget::InputWidget(String ^ type, Point ^ location, Gatter ^ gate): LogicWidget(type, location, gate)
+InputWidget::InputWidget(String ^ type, Point ^ location, Input ^ gate)
 {
+    // LogicWidget::LogicWidget(type, location, gate);
+    this->size = gcnew Size(40, 40);
+    this->selected = false;
+    this->destructed = false;
+
+    this->type = type;
+    this->setLocation(location);
+    this->gate = gate;
 }
 
 InputWidget::InputWidget(void): LogicWidget()
@@ -387,11 +394,20 @@ void InputWidget::paint(Graphics ^ canvas)
 		
 		canvas->DrawRectangle(pen, location->X, location->Y, this->size->Width, this->size->Height);
         canvas->DrawEllipse(pen, this->outputSignalLocation);
-        canvas->DrawString(type, font, sb , safe_cast<float>(location->X + 3), safe_cast<float>(location->Y) + 3);
+        canvas->DrawString(gate->getResult().ToString(), font, sb , safe_cast<float>(location->X + 3), safe_cast<float>(location->Y) + 3);
     }
 }
 
-void InputWidget::keyUp(KeyEventArgs ^ e, ToolStripStatusLabel ^ statusBar) {
-	// TODO: implement 1 and 0
+void InputWidget::keyUp(KeyEventArgs ^ e, ToolStripStatusLabel ^ statusBar)
+{
+    // TODO: implement 1 and 0
+    if (e->KeyCode == Keys::NumPad0)
+    {
+        gate->setInputValue(false);
+    }
+    else if (e->KeyCode == Keys::NumPad1)
+    {
+        gate->setInputValue(true);
+    }
 }
 

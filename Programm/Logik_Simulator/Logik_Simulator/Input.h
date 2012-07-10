@@ -6,7 +6,8 @@ public Gatter
 {
 public:
 	Input(void);
+public:
 	bool getInput();
-	void setInputValue(bool value);
+	virtual void setInputValue(bool value) override;
 	void calculate();
 };
