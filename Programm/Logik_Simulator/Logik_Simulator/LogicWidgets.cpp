@@ -73,7 +73,6 @@ void LogicWidget::paint(Graphics ^ canvas)
 
         canvas->DrawRectangle(pen, location->X, location->Y, this->size->Width, this->size->Height);
         canvas->DrawString(type, font, sb , safe_cast<float>(location->X + 3), safe_cast<float>(location->Y) + 3);
-
     }
 }
 
@@ -542,5 +541,89 @@ void NotWidget::paint(Graphics ^ canvas)
                            (float)(location->X + 3),
                            (float)(location->Y + 3));
 
+    }
+}
+
+// NOTE: NandWidget
+
+NandWidget::NandWidget(String ^ type, Point ^ location, Gatter ^ gate):
+    LogicWidget(type, location, gate)
+{
+}
+
+NandWidget::NandWidget()
+{
+}
+
+void NandWidget::paint(Graphics ^ canvas)
+{
+    if ( !destructed )
+    {
+        Color color;
+
+        if (selected)
+        {
+            color = Color::Blue;
+        }
+        else if (gate->getResult())
+        {
+            color = Color::Red;
+        }
+        else
+        {
+            color = Color::Black;
+        }
+
+        Pen ^ pen = gcnew Pen(color, 2.0);
+        Font ^ font = gcnew Font(FontFamily::GenericMonospace, 10);
+        SolidBrush ^ sb = gcnew SolidBrush(color);
+
+        canvas->DrawRectangle(pen, location->X, location->Y, this->size->Width, this->size->Height);
+
+        canvas->DrawEllipse(pen, this->outputSignalLocation.X, this->outputSignalLocation.Y - 3, 6.0, 6.0);
+
+        canvas->DrawString(type, font, sb , safe_cast<float>(location->X + 3), safe_cast<float>(location->Y) + 3);
+    }
+}
+
+// NOTE: NorWidget
+
+NorWidget::NorWidget(String ^ type, Point ^ location, Gatter ^ gate):
+    LogicWidget(type, location, gate)
+{
+}
+
+NorWidget::NorWidget()
+{
+}
+
+void NorWidget::paint(Graphics ^ canvas)
+{
+    if ( !destructed )
+    {
+        Color color;
+
+        if (selected)
+        {
+            color = Color::Blue;
+        }
+        else if (gate->getResult())
+        {
+            color = Color::Red;
+        }
+        else
+        {
+            color = Color::Black;
+        }
+
+        Pen ^ pen = gcnew Pen(color, 2.0);
+        Font ^ font = gcnew Font(FontFamily::GenericMonospace, 10);
+        SolidBrush ^ sb = gcnew SolidBrush(color);
+
+        canvas->DrawRectangle(pen, location->X, location->Y, this->size->Width, this->size->Height);
+
+        canvas->DrawEllipse(pen, this->outputSignalLocation.X, this->outputSignalLocation.Y - 3, 6.0, 6.0);
+
+        canvas->DrawString(type, font, sb , safe_cast<float>(location->X + 3), safe_cast<float>(location->Y) + 3);
     }
 }

@@ -116,6 +116,25 @@ public:
     NotWidget(void);
 public:
     virtual Boolean connectInputSignalTwo(SignalWidget ^ sw) override;
-    virtual void paint (Graphics ^ canvas) override;
+    virtual void paint(Graphics ^ canvas) override;
+};
+
+ref class NandWidget:
+    public LogicWidget
+{
+public:
+    NandWidget(String ^ type, Point ^ location, Gatter ^ gate);
+    NandWidget();
+public:
+    virtual void paint(Graphics ^ canvas) override;
+};
+
+ref class NorWidget:public LogicWidget
+{
+public:
+    NorWidget(String ^ type, Point ^ location, Gatter ^ gate);
+    NorWidget();
+public:
+    virtual void paint(Graphics ^ canvas) override;
 };
 }

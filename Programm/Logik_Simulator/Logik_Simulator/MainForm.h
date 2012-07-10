@@ -607,11 +607,11 @@ private:
                     break;
                 case 5:
                     gate = gcnew Nor();
-                    lw = gcnew LogicWidget(btn->Text, gcnew Point(e->X, e->Y), gate);
+                    lw = gcnew NorWidget(">=1", gcnew Point(e->X, e->Y), gate);
                     break;
                 case 6:
                     gate = gcnew Nand();
-                    lw = gcnew LogicWidget(btn->Text, gcnew Point(e->X, e->Y), gate);
+                    lw = gcnew NandWidget("&", gcnew Point(e->X, e->Y), gate);
                     break;
                 case 7:
                     gate = gcnew Input();
