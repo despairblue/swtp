@@ -56,7 +56,6 @@ Boolean LogicWidget::isDestructed()
 
 void LogicWidget::paint(Graphics ^ canvas)
 {
-    // TODO: override paint for fork gate
     if ( !destructed )
     {
         Color color;
