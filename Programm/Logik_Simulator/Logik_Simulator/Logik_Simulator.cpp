@@ -38,6 +38,7 @@ int main(array<System::String ^> ^args)
 	// Hauptfenster erstellen und ausführen
 	Application::Run(gcnew MainForm());
 	
+	System::Console::ReadLine();
 	return 0;
 }
 

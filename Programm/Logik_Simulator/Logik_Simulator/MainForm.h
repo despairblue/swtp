@@ -25,7 +25,6 @@ using namespace System::IO;
 using namespace System::Text;
 using namespace LogicWidgets;
 
-
 namespace Logik_Simulator
 {
 
@@ -45,12 +44,15 @@ public:
     {
         InitializeComponent();
 
+	
+
+
         this->toolStripButtons = gcnew ArrayList();
         this->logic_widgets = gcnew ArrayList();
         this->signal_widgets = gcnew ArrayList();
         this->toDelete = gcnew ArrayList();
-		this->inputMap = gcnew Dictionary<String^ , ArrayList^>();
-		this->outputMap = gcnew Dictionary<String^ , ArrayList^>();
+		this->inputMap = gcnew SortedDictionary<String^ , ArrayList^>();
+		this->outputMap = gcnew SortedDictionary<String^ , ArrayList^>();
 
         for each (Object ^ obj in this->toolStrip1->Items)
         {
@@ -82,9 +84,11 @@ protected:
     ArrayList ^ logic_widgets;
     ArrayList ^ signal_widgets;
     ArrayList ^ toDelete;
-	Dictionary<String ^, ArrayList ^> ^ inputMap;
-	Dictionary<String ^, ArrayList ^> ^ outputMap;
 
+public:
+	SortedDictionary<String ^, ArrayList ^> ^ inputMap;
+	SortedDictionary<String ^, ArrayList ^> ^ outputMap;
+	
 private: System::Windows::Forms::ToolStrip ^  toolStrip1;
 private: System::Windows::Forms::ToolStripButton ^  toolStripButton1;
 private: System::Windows::Forms::ToolStripButton ^  toolStripButton2;
@@ -182,22 +186,22 @@ private:
 		(cli::safe_cast<System::ComponentModel::ISupportInitialize^  >(this->logicWidgetBindingSource))->BeginInit();
 		(cli::safe_cast<System::ComponentModel::ISupportInitialize^  >(this->mainFormBindingSource))->BeginInit();
 		this->SuspendLayout();
-		//
+		// 
 		// toolStrip1
-		//
+		// 
 		this->toolStrip1->ImageScalingSize = System::Drawing::Size(24, 24);
-		this->toolStrip1->Items->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(15) {this->toolStripButton1,
-			this->toolStripButton2, this->toolStripButton3, this->toolStripButton4, this->toolStripButton5, this->toolStripButton6, this->toolStripButton10,
-			this->toolStripSeparator1, this->toolStripButton7, this->toolStripButton8, this->toolStripSeparator2, this->toolStripButton9,
+		this->toolStrip1->Items->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(15) {this->toolStripButton1, 
+			this->toolStripButton2, this->toolStripButton3, this->toolStripButton4, this->toolStripButton5, this->toolStripButton6, this->toolStripButton10, 
+			this->toolStripSeparator1, this->toolStripButton7, this->toolStripButton8, this->toolStripSeparator2, this->toolStripButton9, 
 			this->toolStripSeparator3, this->toolStripButton11, this->toolStripButton12});
 		this->toolStrip1->Location = System::Drawing::Point(0, 0);
 		this->toolStrip1->Name = L"toolStrip1";
 		this->toolStrip1->Size = System::Drawing::Size(503, 31);
 		this->toolStrip1->TabIndex = 2;
 		this->toolStrip1->Text = L"toolStrip1";
-		//
+		// 
 		// toolStripButton1
-		//
+		// 
 		this->toolStripButton1->DisplayStyle = System::Windows::Forms::ToolStripItemDisplayStyle::Text;
 		this->toolStripButton1->ImageTransparentColor = System::Drawing::Color::Magenta;
 		this->toolStripButton1->Name = L"toolStripButton1";
@@ -205,9 +209,9 @@ private:
 		this->toolStripButton1->Tag = L"1";
 		this->toolStripButton1->Text = L"AND";
 		this->toolStripButton1->Click += gcnew System::EventHandler(this, &MainForm::toolStripButtons_Click);
-		//
+		// 
 		// toolStripButton2
-		//
+		// 
 		this->toolStripButton2->DisplayStyle = System::Windows::Forms::ToolStripItemDisplayStyle::Text;
 		this->toolStripButton2->ImageTransparentColor = System::Drawing::Color::Magenta;
 		this->toolStripButton2->Name = L"toolStripButton2";
@@ -215,9 +219,9 @@ private:
 		this->toolStripButton2->Tag = L"2";
 		this->toolStripButton2->Text = L"OR";
 		this->toolStripButton2->Click += gcnew System::EventHandler(this, &MainForm::toolStripButtons_Click);
-		//
+		// 
 		// toolStripButton3
-		//
+		// 
 		this->toolStripButton3->DisplayStyle = System::Windows::Forms::ToolStripItemDisplayStyle::Text;
 		this->toolStripButton3->ImageTransparentColor = System::Drawing::Color::Magenta;
 		this->toolStripButton3->Name = L"toolStripButton3";
@@ -225,9 +229,9 @@ private:
 		this->toolStripButton3->Tag = L"3";
 		this->toolStripButton3->Text = L"NOT";
 		this->toolStripButton3->Click += gcnew System::EventHandler(this, &MainForm::toolStripButtons_Click);
-		//
+		// 
 		// toolStripButton4
-		//
+		// 
 		this->toolStripButton4->DisplayStyle = System::Windows::Forms::ToolStripItemDisplayStyle::Text;
 		this->toolStripButton4->Image = (cli::safe_cast<System::Drawing::Image^  >(resources->GetObject(L"toolStripButton4.Image")));
 		this->toolStripButton4->ImageTransparentColor = System::Drawing::Color::Magenta;
@@ -236,9 +240,9 @@ private:
 		this->toolStripButton4->Tag = L"4";
 		this->toolStripButton4->Text = L"XOR";
 		this->toolStripButton4->Click += gcnew System::EventHandler(this, &MainForm::toolStripButtons_Click);
-		//
+		// 
 		// toolStripButton5
-		//
+		// 
 		this->toolStripButton5->DisplayStyle = System::Windows::Forms::ToolStripItemDisplayStyle::Text;
 		this->toolStripButton5->ImageTransparentColor = System::Drawing::Color::Magenta;
 		this->toolStripButton5->Name = L"toolStripButton5";
@@ -246,9 +250,9 @@ private:
 		this->toolStripButton5->Tag = L"5";
 		this->toolStripButton5->Text = L"NOR";
 		this->toolStripButton5->Click += gcnew System::EventHandler(this, &MainForm::toolStripButtons_Click);
-		//
+		// 
 		// toolStripButton6
-		//
+		// 
 		this->toolStripButton6->DisplayStyle = System::Windows::Forms::ToolStripItemDisplayStyle::Text;
 		this->toolStripButton6->ImageTransparentColor = System::Drawing::Color::Magenta;
 		this->toolStripButton6->Name = L"toolStripButton6";
@@ -256,9 +260,9 @@ private:
 		this->toolStripButton6->Tag = L"6";
 		this->toolStripButton6->Text = L"NAND";
 		this->toolStripButton6->Click += gcnew System::EventHandler(this, &MainForm::toolStripButtons_Click);
-		//
+		// 
 		// toolStripButton10
-		//
+		// 
 		this->toolStripButton10->DisplayStyle = System::Windows::Forms::ToolStripItemDisplayStyle::Text;
 		this->toolStripButton10->ImageTransparentColor = System::Drawing::Color::Magenta;
 		this->toolStripButton10->Name = L"toolStripButton10";
@@ -266,14 +270,14 @@ private:
 		this->toolStripButton10->Tag = L"9";
 		this->toolStripButton10->Text = L"Fork";
 		this->toolStripButton10->Click += gcnew System::EventHandler(this, &MainForm::toolStripButtons_Click);
-		//
+		// 
 		// toolStripSeparator1
-		//
+		// 
 		this->toolStripSeparator1->Name = L"toolStripSeparator1";
 		this->toolStripSeparator1->Size = System::Drawing::Size(6, 31);
-		//
+		// 
 		// toolStripButton7
-		//
+		// 
 		this->toolStripButton7->DisplayStyle = System::Windows::Forms::ToolStripItemDisplayStyle::Text;
 		this->toolStripButton7->ImageTransparentColor = System::Drawing::Color::Magenta;
 		this->toolStripButton7->Name = L"toolStripButton7";
@@ -281,9 +285,9 @@ private:
 		this->toolStripButton7->Tag = L"7";
 		this->toolStripButton7->Text = L"Input";
 		this->toolStripButton7->Click += gcnew System::EventHandler(this, &MainForm::toolStripButtons_Click);
-		//
+		// 
 		// toolStripButton8
-		//
+		// 
 		this->toolStripButton8->DisplayStyle = System::Windows::Forms::ToolStripItemDisplayStyle::Text;
 		this->toolStripButton8->ImageTransparentColor = System::Drawing::Color::Magenta;
 		this->toolStripButton8->Name = L"toolStripButton8";
@@ -291,14 +295,14 @@ private:
 		this->toolStripButton8->Tag = L"8";
 		this->toolStripButton8->Text = L"Output";
 		this->toolStripButton8->Click += gcnew System::EventHandler(this, &MainForm::toolStripButtons_Click);
-		//
+		// 
 		// toolStripSeparator2
-		//
+		// 
 		this->toolStripSeparator2->Name = L"toolStripSeparator2";
 		this->toolStripSeparator2->Size = System::Drawing::Size(6, 31);
-		//
+		// 
 		// toolStripButton9
-		//
+		// 
 		this->toolStripButton9->DisplayStyle = System::Windows::Forms::ToolStripItemDisplayStyle::Image;
 		this->toolStripButton9->Image = (cli::safe_cast<System::Drawing::Image^  >(resources->GetObject(L"toolStripButton9.Image")));
 		this->toolStripButton9->ImageTransparentColor = System::Drawing::Color::Magenta;
@@ -307,23 +311,23 @@ private:
 		this->toolStripButton9->Tag = L"9";
 		this->toolStripButton9->Text = L"Start Simulation";
 		this->toolStripButton9->Click += gcnew System::EventHandler(this, &MainForm::toolStripButton9_Click);
-		//
+		// 
 		// toolStripSeparator3
-		//
+		// 
 		this->toolStripSeparator3->Name = L"toolStripSeparator3";
 		this->toolStripSeparator3->Size = System::Drawing::Size(6, 31);
-		//
+		// 
 		// toolStripButton11
-		//
+		// 
 		this->toolStripButton11->DisplayStyle = System::Windows::Forms::ToolStripItemDisplayStyle::Image;
 		this->toolStripButton11->Image = (cli::safe_cast<System::Drawing::Image^  >(resources->GetObject(L"toolStripButton11.Image")));
 		this->toolStripButton11->ImageTransparentColor = System::Drawing::Color::Magenta;
 		this->toolStripButton11->Name = L"toolStripButton11";
 		this->toolStripButton11->Size = System::Drawing::Size(28, 28);
 		this->toolStripButton11->Text = L"Open";
-		//
+		// 
 		// toolStripButton12
-		//
+		// 
 		this->toolStripButton12->DisplayStyle = System::Windows::Forms::ToolStripItemDisplayStyle::Image;
 		this->toolStripButton12->Image = (cli::safe_cast<System::Drawing::Image^  >(resources->GetObject(L"toolStripButton12.Image")));
 		this->toolStripButton12->ImageTransparentColor = System::Drawing::Color::Magenta;
@@ -331,18 +335,18 @@ private:
 		this->toolStripButton12->Size = System::Drawing::Size(28, 28);
 		this->toolStripButton12->Text = L"Save";
 		this->toolStripButton12->Click += gcnew System::EventHandler(this, &MainForm::toolStripButton12_Click);
-		//
+		// 
 		// statusStrip1
-		//
+		// 
 		this->statusStrip1->Items->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(1) {this->toolStripStatusLabel1});
 		this->statusStrip1->Location = System::Drawing::Point(0, 266);
 		this->statusStrip1->Name = L"statusStrip1";
 		this->statusStrip1->Size = System::Drawing::Size(503, 22);
 		this->statusStrip1->TabIndex = 3;
 		this->statusStrip1->Text = L"statusStrip1";
-		//
+		// 
 		// toolStripStatusLabel1
-		//
+		// 
 		this->toolStripStatusLabel1->AutoToolTip = true;
 		this->toolStripStatusLabel1->DisplayStyle = System::Windows::Forms::ToolStripItemDisplayStyle::Text;
 		this->toolStripStatusLabel1->Name = L"toolStripStatusLabel1";
@@ -350,28 +354,28 @@ private:
 		this->toolStripStatusLabel1->Spring = true;
 		this->toolStripStatusLabel1->Text = L"Select a Gate from the tool bar.";
 		this->toolStripStatusLabel1->TextAlign = System::Drawing::ContentAlignment::MiddleLeft;
-		//
+		// 
 		// splitContainer1
-		//
+		// 
 		this->splitContainer1->BorderStyle = System::Windows::Forms::BorderStyle::Fixed3D;
 		this->splitContainer1->Dock = System::Windows::Forms::DockStyle::Fill;
 		this->splitContainer1->Location = System::Drawing::Point(0, 31);
 		this->splitContainer1->Name = L"splitContainer1";
-		//
+		// 
 		// splitContainer1.Panel1
-		//
+		// 
 		this->splitContainer1->Panel1->Controls->Add(this->pictureBox1);
-		//
+		// 
 		// splitContainer1.Panel2
-		//
+		// 
 		this->splitContainer1->Panel2->Controls->Add(this->splitContainer2);
 		this->splitContainer1->Size = System::Drawing::Size(503, 235);
 		this->splitContainer1->SplitterDistance = 351;
 		this->splitContainer1->TabIndex = 4;
 		this->splitContainer1->KeyUp += gcnew System::Windows::Forms::KeyEventHandler(this, &MainForm::MainForm_KeyUp);
-		//
+		// 
 		// pictureBox1
-		//
+		// 
 		this->pictureBox1->BackColor = System::Drawing::SystemColors::Window;
 		this->pictureBox1->Dock = System::Windows::Forms::DockStyle::Fill;
 		this->pictureBox1->Location = System::Drawing::Point(0, 0);
@@ -383,7 +387,7 @@ private:
 		this->pictureBox1->MouseDown += gcnew System::Windows::Forms::MouseEventHandler(this, &MainForm::MainForm_MouseDown);
 		this->pictureBox1->Paint += gcnew System::Windows::Forms::PaintEventHandler(this, &MainForm::MainForm_Paint);
 		this->pictureBox1->MouseUp += gcnew System::Windows::Forms::MouseEventHandler(this, &MainForm::MainForm_MouseUp);
-		//
+		// 
 		// splitContainer2
 		// 
 		this->splitContainer2->BorderStyle = System::Windows::Forms::BorderStyle::Fixed3D;
@@ -405,6 +409,7 @@ private:
 		// 
 		// inputGridView
 		// 
+		this->inputGridView->AllowUserToOrderColumns = true;
 		this->inputGridView->AutoSizeColumnsMode = System::Windows::Forms::DataGridViewAutoSizeColumnsMode::AllCells;
 		this->inputGridView->BackgroundColor = System::Drawing::SystemColors::Window;
 		this->inputGridView->ColumnHeadersHeightSizeMode = System::Windows::Forms::DataGridViewColumnHeadersHeightSizeMode::AutoSize;
@@ -418,11 +423,15 @@ private:
 		// 
 		// outputGridView
 		// 
+		this->outputGridView->AllowUserToOrderColumns = true;
+		this->outputGridView->AutoSizeColumnsMode = System::Windows::Forms::DataGridViewAutoSizeColumnsMode::AllCells;
 		this->outputGridView->BackgroundColor = System::Drawing::SystemColors::Window;
 		this->outputGridView->ColumnHeadersHeightSizeMode = System::Windows::Forms::DataGridViewColumnHeadersHeightSizeMode::AutoSize;
 		this->outputGridView->Dock = System::Windows::Forms::DockStyle::Fill;
 		this->outputGridView->Location = System::Drawing::Point(0, 0);
 		this->outputGridView->Name = L"outputGridView";
+		this->outputGridView->RightToLeft = System::Windows::Forms::RightToLeft::No;
+		this->outputGridView->RowHeadersWidth = 35;
 		this->outputGridView->Size = System::Drawing::Size(144, 91);
 		this->outputGridView->TabIndex = 0;
 		// 
@@ -433,17 +442,17 @@ private:
 		// openFileDialog1
 		// 
 		this->openFileDialog1->FileName = L"openFileDialog1";
-		//
+		// 
 		// logicWidgetBindingSource
-		//
+		// 
 		this->logicWidgetBindingSource->DataSource = LogicWidgets::LogicWidget::typeid;
-		//
+		// 
 		// mainFormBindingSource
-		//
+		// 
 		this->mainFormBindingSource->DataSource = Logik_Simulator::MainForm::typeid;
-		//
+		// 
 		// MainForm
-		//
+		// 
 		this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 		this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
 		this->ClientSize = System::Drawing::Size(503, 288);
@@ -585,6 +594,9 @@ void refreshTable()
 				{	String^ key = "Input" + safe_cast < InputWidget ^ > (lw)->getID();
 					this->inputGridView->Columns->Clear();
 					this->inputGridView->DataSource = nullptr;
+					this->inputGridView->ResetBindings();
+					this->inputGridView->Refresh();
+					//			System::Console::WriteLine("{0} {1}",key, this->inputGridView->Columns->Contains(key));
 					if((this->inputGridView->Columns != nullptr)&&(this->inputGridView->Columns->Contains(key)))
 					{
 						this->inputGridView->Columns->Remove(key);
@@ -599,12 +611,18 @@ void refreshTable()
 				
 				this->inputGridView->Columns->Clear();
 				for each(KeyValuePair<String^,ArrayList^>^ pair1 in this->inputMap)
-				{
+				{  //TODO Umstruktorieren ( alles von liste holen)
 					this->inputGridView->Columns->Add(pair1->Key, pair1->Key);
-					int rowPposition = this->inputGridView->Columns->Count -1;
+					//this->inputGridView->Columns[key]->Selected = true;
+				//	int rowPosition = this->inputMap->K
 					int maxArrayPosition = this->inputMap->Count;
-				//	array<bool> tempArray = this->inputMap->
+					ArrayList^ tempArray = safe_cast<ArrayList^>(this->inputMap[key]);
+					for(int i = 0; i< maxArrayPosition; i++)
+					{
+					//	this->inputGridView->Rows->Add();
+					//	this->inputGridView->Rows[rowPosition]->Cells[i]->Value = tempArray[i];
 
+					}
 
 				//	this->inputGridView->Rows[0]->Cells[rowPosition]->SetValue(0,"0");
 
@@ -794,22 +812,22 @@ void refreshTable()
                 case 7:
                     gate = gcnew Input();
                     lw = gcnew InputWidget(btn->Text, gcnew Point(e->X, e->Y), safe_cast < Input ^ > ( gate), createID());
-                    break;
+					break;
                 case 8:
                     gate = gcnew Output();
                     lw = gcnew OutputWidget(btn->Text, gcnew Point(e->X, e->Y), safe_cast < Output ^ > (gate), createID());
-                    break;
+			        break;
                 case 9:
                 	gate = gcnew Fork();
                 	lw = gcnew ForkWidget(btn->Text, gcnew Point(e->X, e->Y), gate, createID());
                 }
                 this->logic_widgets->Add(lw);
+				refreshTable();
             }
         }
 
         repaint();
-        refreshTable();
-    }
+     }
 
     void MainForm_Paint(System::Object ^  sender, System::Windows::Forms::PaintEventArgs ^  e)
     {
@@ -843,7 +861,8 @@ void refreshTable()
         {
             this->logic_widgets->Remove(obj);
             this->signal_widgets->Remove(obj);
-        }
+			   
+	    }
 
         toDelete->Clear();
 
@@ -883,17 +902,17 @@ private: System::Void MainForm_KeyUp(System::Object ^  sender, System::Windows::
 
 			if (selected_widget->isDestructed())
 			{
-				 if(selected_widget->GetType() == InputWidget::typeid)
-				 {
-					 String^ key = "Input" + safe_cast<InputWidget^>(selected_widget)->getID();
-					 if(this->inputMap->ContainsKey(key))
-					 {
+				if(selected_widget->GetType() == InputWidget::typeid)
+				{
+				 String^ key = "Input" + safe_cast<InputWidget^>(selected_widget)->getID();
+				 if(this->inputMap->ContainsKey(key))
+					{
 						this->inputMap->Remove(key);
-						refreshTable();
 					}
 				}
-            	logic_widgets->Remove(selected_widget);
-                selected_widget = nullptr;
+				logic_widgets->Remove(selected_widget);
+				refreshTable();
+         	    selected_widget = nullptr;
             }
         }
 
