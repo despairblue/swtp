@@ -572,6 +572,8 @@ private:
 
     void startSimulation(Boolean deselectWidgets)
     {
+    	Boolean simulated = false;
+
         if (deselectWidgets)
         {
             checkButton(nullptr);
@@ -585,7 +587,15 @@ private:
 
         for each (SignalWidget ^ sw in signal_widgets)
         {
-            sw->transmit();
+            simulated = sw->transmit();
+        }
+
+        if (simulated)
+        {
+        	toolStripStatusLabel1->Text = "Simulation started.";
+        } else
+        {
+        	toolStripStatusLabel1->Text = "No simulation started. Add some Inputs and connect them to Gates.";
         }
 
         repaint();

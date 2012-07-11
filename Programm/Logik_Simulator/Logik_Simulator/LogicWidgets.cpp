@@ -344,12 +344,14 @@ void SignalWidget::disconnectAll()
     }
 }
 
-void SignalWidget::transmit()
+Boolean SignalWidget::transmit()
 {
     if (inputGate->GetType() == InputWidget::typeid)
     {
         signal->transmit();
+        return true;
     }
+    return false;
 }
 
 // NOTE: InputWidget
