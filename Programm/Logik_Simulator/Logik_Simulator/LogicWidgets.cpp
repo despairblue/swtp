@@ -405,14 +405,14 @@ Boolean InputWidget::keyUp(KeyEventArgs ^ e, ToolStripStatusLabel ^ statusBar)
 
     if ( !handled )
     {
-        if (e->KeyCode == Keys::NumPad0)
+        if ( (e->KeyCode == Keys::NumPad0) || (e->KeyCode == Keys::D0) )
         {
             gate->setInputValue(false);
             statusBar->Text = "Input set to false";
 
             return true;
         }
-        else if (e->KeyCode == Keys::NumPad1)
+        else if ( (e->KeyCode == Keys::NumPad1) || (e->KeyCode == Keys::D1) )
         {
             gate->setInputValue(true);
             statusBar->Text = "Input set to true";
