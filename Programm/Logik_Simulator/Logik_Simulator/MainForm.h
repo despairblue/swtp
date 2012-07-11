@@ -590,6 +590,8 @@ namespace Logik_Simulator
 			{
 					this->inputGridView->Columns->Clear();
 					this->inputGridView->DataSource = nullptr;
+					this->outputGridView->Columns->Clear();
+					this->outputGridView->DataSource = nullptr;
 			}
 			for each (LogicWidget ^ lw in logic_widgets)
 			{	
