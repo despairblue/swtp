@@ -787,22 +787,19 @@ void refreshTable()
                 {
                 case 1:
                     gate = gcnew And();
-                    // TODO: create AndWidget
-                    lw = gcnew LogicWidget("&", gcnew Point(e->X, e->Y), gate, createID());
+                    lw = gcnew AndWidget("&", gcnew Point(e->X, e->Y), gate, createID());
                     break;
                 case 2:
-                    // TODO: create OrWidget
                     gate = gcnew Or();
-                    lw = gcnew LogicWidget(">=1", gcnew Point(e->X, e->Y), gate, createID());
+                    lw = gcnew OrWidget(">=1", gcnew Point(e->X, e->Y), gate, createID());
                     break;
                 case 3:
                     gate = gcnew Not();
                     lw = gcnew NotWidget(btn->Text, gcnew Point(e->X, e->Y), gate, createID());
                     break;
                 case 4:
-                    // TODO: create ExorWidget
                     gate = gcnew Exor();
-                    lw = gcnew LogicWidget("=1", gcnew Point(e->X, e->Y), gate, createID());
+                    lw = gcnew ExorWidget("=1", gcnew Point(e->X, e->Y), gate, createID());
                     break;
                 case 5:
                     gate = gcnew Nor();

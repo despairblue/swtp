@@ -129,7 +129,7 @@ public:
 };
 
 ref class ForkWidget:
-    LogicWidget
+    public LogicWidget
 {
 public:
     ForkWidget(String ^ type, Point ^ location, Gatter ^ gate, Int32 id);
@@ -139,5 +139,26 @@ public:
     virtual Boolean connectInputSignalTwo(SignalWidget ^ sw) override;
     virtual Boolean connectOutputSignal(SignalWidget ^ sw) override;
     virtual void disconnectOutputSignal(SignalWidget ^ sw) override;
+};
+
+ref class AndWidget:
+    public LogicWidget
+{
+public:
+    AndWidget(String ^ type, Point ^ location, Gatter ^ gate, Int32 id);
+};
+
+ref class OrWidget:
+    public LogicWidget
+{
+public:
+    OrWidget(String ^ type, Point ^ location, Gatter ^ gate, Int32 id);
+};
+
+ref class ExorWidget:
+    public LogicWidget
+{
+public:
+    ExorWidget(String ^ type, Point ^ location, Gatter ^ gate, Int32 id);
 };
 }

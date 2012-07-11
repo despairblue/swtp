@@ -56,7 +56,7 @@ Boolean LogicWidget::isDestructed()
 
 void LogicWidget::paint(Graphics ^ canvas)
 {
-    // TODO: override paint for nor, nand and fork gates
+    // TODO: override paint for fork gate
     if ( !destructed )
     {
         Color color;
@@ -671,3 +671,19 @@ void ForkWidget::disconnectOutputSignal(SignalWidget ^ sw)
 //         canvas->DrawString(type, font, sb , safe_cast<float>(location->X + 3), safe_cast<float>(location->Y) + 3);
 //     }
 // }
+
+AndWidget::AndWidget(String ^ type, Point ^ location, Gatter ^ gate, Int32 id):
+    LogicWidget(type, location, gate, id)
+{
+}
+
+OrWidget::OrWidget(String ^ type, Point ^ location, Gatter ^ gate, Int32 id):
+    LogicWidget(type, location, gate, id)
+{
+}
+
+ExorWidget::ExorWidget(String ^ type, Point ^ location, Gatter ^ gate, Int32 id):
+    LogicWidget(type, location, gate, id)
+{
+}
+
