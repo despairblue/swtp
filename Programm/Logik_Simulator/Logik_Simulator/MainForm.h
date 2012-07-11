@@ -175,8 +175,6 @@ private:
 		this->Header = (gcnew System::Windows::Forms::DataGridViewCheckBoxColumn());
 		this->openFileDialog1 = (gcnew System::Windows::Forms::OpenFileDialog());
 		this->saveFileDialog1 = (gcnew System::Windows::Forms::SaveFileDialog());
-		this->logicWidgetBindingSource = (gcnew System::Windows::Forms::BindingSource(this->components));
-		this->mainFormBindingSource = (gcnew System::Windows::Forms::BindingSource(this->components));
 		this->toolStrip1->SuspendLayout();
 		this->statusStrip1->SuspendLayout();
 		this->splitContainer1->Panel1->SuspendLayout();
@@ -188,8 +186,6 @@ private:
 		this->splitContainer2->SuspendLayout();
 		(cli::safe_cast<System::ComponentModel::ISupportInitialize^  >(this->inputGridView))->BeginInit();
 		(cli::safe_cast<System::ComponentModel::ISupportInitialize^  >(this->outputGridView))->BeginInit();
-		(cli::safe_cast<System::ComponentModel::ISupportInitialize^  >(this->logicWidgetBindingSource))->BeginInit();
-		(cli::safe_cast<System::ComponentModel::ISupportInitialize^  >(this->mainFormBindingSource))->BeginInit();
 		this->SuspendLayout();
 		// 
 		// toolStrip1
@@ -458,14 +454,6 @@ private:
 		this->saveFileDialog1->Filter = L"\"Logik Simulator files|*.knorkator";
 		this->saveFileDialog1->Title = L"Where u want save\?";
 		// 
-		// logicWidgetBindingSource
-		// 
-		this->logicWidgetBindingSource->DataSource = LogicWidgets::LogicWidget::typeid;
-		// 
-		// mainFormBindingSource
-		// 
-		this->mainFormBindingSource->DataSource = Logik_Simulator::MainForm::typeid;
-		// 
 		// MainForm
 		// 
 		this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
@@ -490,8 +478,6 @@ private:
 		this->splitContainer2->ResumeLayout(false);
 		(cli::safe_cast<System::ComponentModel::ISupportInitialize^  >(this->inputGridView))->EndInit();
 		(cli::safe_cast<System::ComponentModel::ISupportInitialize^  >(this->outputGridView))->EndInit();
-		(cli::safe_cast<System::ComponentModel::ISupportInitialize^  >(this->logicWidgetBindingSource))->EndInit();
-		(cli::safe_cast<System::ComponentModel::ISupportInitialize^  >(this->mainFormBindingSource))->EndInit();
 		this->ResumeLayout(false);
 		this->PerformLayout();
 
