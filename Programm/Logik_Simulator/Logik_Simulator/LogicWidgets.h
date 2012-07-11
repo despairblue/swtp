@@ -74,7 +74,7 @@ public:
     void setOutputGate(LogicWidget ^ lw);
     LogicWidget ^ getOutputGate();
     void disconnectAll();
-    void transmit();
+    Boolean transmit();
 };
 
 ref class InputWidget :

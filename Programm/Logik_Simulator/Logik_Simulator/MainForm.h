@@ -147,6 +147,7 @@ private:
     /// </summary>
     void InitializeComponent(void)
     {
+		this->components = (gcnew System::ComponentModel::Container());
 		System::ComponentModel::ComponentResourceManager^  resources = (gcnew System::ComponentModel::ComponentResourceManager(MainForm::typeid));
 		this->toolStrip1 = (gcnew System::Windows::Forms::ToolStrip());
 		this->toolStripButton1 = (gcnew System::Windows::Forms::ToolStripButton());
@@ -174,6 +175,8 @@ private:
 		this->Header = (gcnew System::Windows::Forms::DataGridViewCheckBoxColumn());
 		this->openFileDialog1 = (gcnew System::Windows::Forms::OpenFileDialog());
 		this->saveFileDialog1 = (gcnew System::Windows::Forms::SaveFileDialog());
+		this->logicWidgetBindingSource = (gcnew System::Windows::Forms::BindingSource(this->components));
+		this->mainFormBindingSource = (gcnew System::Windows::Forms::BindingSource(this->components));
 		this->toolStrip1->SuspendLayout();
 		this->statusStrip1->SuspendLayout();
 		this->splitContainer1->Panel1->SuspendLayout();
@@ -185,6 +188,8 @@ private:
 		this->splitContainer2->SuspendLayout();
 		(cli::safe_cast<System::ComponentModel::ISupportInitialize^  >(this->inputGridView))->BeginInit();
 		(cli::safe_cast<System::ComponentModel::ISupportInitialize^  >(this->outputGridView))->BeginInit();
+		(cli::safe_cast<System::ComponentModel::ISupportInitialize^  >(this->logicWidgetBindingSource))->BeginInit();
+		(cli::safe_cast<System::ComponentModel::ISupportInitialize^  >(this->mainFormBindingSource))->BeginInit();
 		this->SuspendLayout();
 		// 
 		// toolStrip1
@@ -325,6 +330,7 @@ private:
 		this->toolStripButton11->Name = L"toolStripButton11";
 		this->toolStripButton11->Size = System::Drawing::Size(28, 28);
 		this->toolStripButton11->Text = L"Open";
+		this->toolStripButton11->Click += gcnew System::EventHandler(this, &MainForm::toolStripButton11_Click);
 		// 
 		// toolStripButton12
 		// 
@@ -441,7 +447,24 @@ private:
 		// 
 		// openFileDialog1
 		// 
+		this->openFileDialog1->DefaultExt = L"knorkator";
 		this->openFileDialog1->FileName = L"openFileDialog1";
+		this->openFileDialog1->Filter = L"Logik Simulator files|*.knorkator";
+		this->openFileDialog1->Title = L"What u want open\?";
+		// 
+		// saveFileDialog1
+		// 
+		this->saveFileDialog1->DefaultExt = L"knorkator";
+		this->saveFileDialog1->Filter = L"\"Logik Simulator files|*.knorkator";
+		this->saveFileDialog1->Title = L"Where u want save\?";
+		// 
+		// logicWidgetBindingSource
+		// 
+		this->logicWidgetBindingSource->DataSource = LogicWidgets::LogicWidget::typeid;
+		// 
+		// mainFormBindingSource
+		// 
+		this->mainFormBindingSource->DataSource = Logik_Simulator::MainForm::typeid;
 		// 
 		// MainForm
 		// 
@@ -467,6 +490,8 @@ private:
 		this->splitContainer2->ResumeLayout(false);
 		(cli::safe_cast<System::ComponentModel::ISupportInitialize^  >(this->inputGridView))->EndInit();
 		(cli::safe_cast<System::ComponentModel::ISupportInitialize^  >(this->outputGridView))->EndInit();
+		(cli::safe_cast<System::ComponentModel::ISupportInitialize^  >(this->logicWidgetBindingSource))->EndInit();
+		(cli::safe_cast<System::ComponentModel::ISupportInitialize^  >(this->mainFormBindingSource))->EndInit();
 		this->ResumeLayout(false);
 		this->PerformLayout();
 
@@ -528,6 +553,19 @@ private:
         return result;
     }
 
+    LogicWidget ^ getWidgetByID(Int32 id)
+    {
+    	for each (LogicWidget ^ lw in logic_widgets)
+    	{
+    		if (lw->getID() == id)
+    		{
+    			return lw;
+    		}
+    	}
+
+    	return nullptr;
+    }
+
     Boolean checkButton(ToolStripButton ^ checkBtn)
     {
 
@@ -556,6 +594,8 @@ private:
 
     void startSimulation(Boolean deselectWidgets)
     {
+    	Boolean simulated = false;
+
         if (deselectWidgets)
         {
             checkButton(nullptr);
@@ -569,7 +609,15 @@ private:
 
         for each (SignalWidget ^ sw in signal_widgets)
         {
-            sw->transmit();
+            simulated = sw->transmit();
+        }
+
+        if (simulated)
+        {
+        	toolStripStatusLabel1->Text = "Simulation started.";
+        } else
+        {
+        	toolStripStatusLabel1->Text = "No simulation started. Add some Inputs and connect them to Gates.";
         }
 
         repaint();
@@ -1021,5 +1069,114 @@ private: System::Void toolStripButton12_Click(System::Object ^  sender, System::
         }
 
     }
+    private: System::Void toolStripButton11_Click(System::Object^  sender, System::EventArgs^  e) {
+    	Stream ^ myStream;
+
+    	if ( openFileDialog1->ShowDialog() == ::DialogResult::OK )
+    	{
+    		if ( (myStream = openFileDialog1->OpenFile()) != nullptr )
+    		{
+    			logic_widgets->Clear();
+    			signal_widgets->Clear();
+
+    			StreamReader ^ fileReader = gcnew StreamReader(myStream);
+    			String ^ fileContent = fileReader->ReadToEnd();
+    			LogicWidget ^ lw;
+    			SignalWidget ^ sw;
+
+
+    			for each (String ^ line in fileContent->Split('\n'))
+    			{
+    				array <String ^> ^ seperatedLine = line->Split(',');
+
+						if (seperatedLine->GetLength(0) > 0)
+    				{
+    					if (seperatedLine[0] == "Gate")
+    					{
+    						if (seperatedLine[1] == "LogicWidgets.AndWidget")
+    						{
+    							lw = gcnew AndWidget("&", gcnew Point(Convert::ToInt32(seperatedLine[3]),
+    							                     Convert::ToInt32(seperatedLine[4])), gcnew And(),
+    							                     Convert::ToInt32(seperatedLine[2]));
+    						}
+    						else if (seperatedLine[1] == "LogicWidgets.OrWidget")
+    						{
+    							lw = gcnew OrWidget(">=1", gcnew Point(Convert::ToInt32(seperatedLine[3]),
+    							                     Convert::ToInt32(seperatedLine[4])), gcnew Or(),
+    							                     Convert::ToInt32(seperatedLine[2]));
+    						}
+    						else if (seperatedLine[1] == "LogicWidgets.NandWidget")
+    						{
+    							lw = gcnew NandWidget("&", gcnew Point(Convert::ToInt32(seperatedLine[3]),
+    							                     Convert::ToInt32(seperatedLine[4])), gcnew Nand(),
+    							                     Convert::ToInt32(seperatedLine[2]));
+    						}
+    						else if (seperatedLine[1] == "LogicWidgets.NorWidget")
+    						{
+    							lw = gcnew NorWidget(">=1", gcnew Point(Convert::ToInt32(seperatedLine[3]),
+    							                     Convert::ToInt32(seperatedLine[4])), gcnew Nor(),
+    							                     Convert::ToInt32(seperatedLine[2]));
+    						}
+    						else if (seperatedLine[1] == "LogicWidgets.NotWidget")
+    						{
+    							lw = gcnew NotWidget("1", gcnew Point(Convert::ToInt32(seperatedLine[3]),
+    							                     Convert::ToInt32(seperatedLine[4])), gcnew Not(),
+    							                     Convert::ToInt32(seperatedLine[2]));
+    						}
+    						else if (seperatedLine[1] == "LogicWidgets.ExorWidget")
+    						{
+    							lw = gcnew ExorWidget("=1", gcnew Point(Convert::ToInt32(seperatedLine[3]),
+    							                     Convert::ToInt32(seperatedLine[4])), gcnew Exor(),
+    							                     Convert::ToInt32(seperatedLine[2]));
+    						}
+    						else if (seperatedLine[1] == "LogicWidgets.InputWidget")
+    						{
+    							lw = gcnew InputWidget("Input", gcnew Point(Convert::ToInt32(seperatedLine[3]),
+    							                     Convert::ToInt32(seperatedLine[4])), gcnew Input(),
+    							                     Convert::ToInt32(seperatedLine[2]));
+    						}
+    						else if (seperatedLine[1] == "LogicWidgets.OutputWidget")
+    						{
+    							lw = gcnew OutputWidget("Output", gcnew Point(Convert::ToInt32(seperatedLine[3]),
+    							                     Convert::ToInt32(seperatedLine[4])), gcnew Output(),
+    							                     Convert::ToInt32(seperatedLine[2]));
+    						}
+    						else if (seperatedLine[1] == "LogicWidgets.ForkWidget")
+    						{
+    							lw = gcnew ForkWidget("Fork", gcnew Point(Convert::ToInt32(seperatedLine[3]),
+    							                     Convert::ToInt32(seperatedLine[4])), gcnew Fork(),
+    							                     Convert::ToInt32(seperatedLine[2]));
+    						}
+
+    					} 
+    					else if (seperatedLine[0] == "Signal")
+    					{
+    						sw = gcnew SignalWidget(gcnew Signal());
+
+    						sw->setInputGate( getWidgetByID( Convert::ToInt32( seperatedLine[1] ) ) );
+								sw->setOutputGate( getWidgetByID( Convert::ToInt32( seperatedLine[2] ) ) );
+    					}
+    				}
+
+    				if (lw)
+    				{
+    					logic_widgets->Add(lw);
+    					lw = nullptr;
+    				}
+    				
+    				if (sw)
+    				{
+    					signal_widgets->Add(sw);
+    					sw = nullptr;
+    				}
+    			}
+
+    			fileReader->Close();
+    			myStream->Close();
+    		}
+    	}
+
+    	repaint();
+		}
 };
 }

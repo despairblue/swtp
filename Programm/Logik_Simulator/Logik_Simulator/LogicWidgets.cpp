@@ -56,7 +56,6 @@ Boolean LogicWidget::isDestructed()
 
 void LogicWidget::paint(Graphics ^ canvas)
 {
-    // TODO: override paint for fork gate
     if ( !destructed )
     {
         Color color;
@@ -344,12 +343,14 @@ void SignalWidget::disconnectAll()
     }
 }
 
-void SignalWidget::transmit()
+Boolean SignalWidget::transmit()
 {
     if (inputGate->GetType() == InputWidget::typeid)
     {
         signal->transmit();
+        return true;
     }
+    return false;
 }
 
 // NOTE: InputWidget
