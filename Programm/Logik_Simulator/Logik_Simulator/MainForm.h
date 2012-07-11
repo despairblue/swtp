@@ -593,22 +593,23 @@ private:
 
     void refreshTable()
     {
+		int inputSize = 0;
+		int outputSize = 0;
+
      	if (logic_widgets->Contains("Input") == false)
 		{
 			this->inputGridView->Columns->Clear();
             this->inputGridView->DataSource = nullptr;
 		}
+
 		if (logic_widgets->Contains("Input") == false)
 		{
 			this->outputGridView->Columns->Clear();
             this->outputGridView->DataSource = nullptr;
 		}
 
-
-
         for each (LogicWidget ^ lw in logic_widgets)
         {
-
             if (lw != nullptr)
             {
                 if (lw->GetType() == InputWidget::typeid)
@@ -630,27 +631,13 @@ private:
                     }
 
                     this->inputGridView->Columns->Clear();
+
                     for each(KeyValuePair < String ^ , ArrayList ^ > ^ pair1 in this->inputMap)
                     {
-                        //TODO Umstruktorieren ( alles von liste holen)
                         this->inputGridView->Columns->Add(pair1->Key, pair1->Key);
-                        //this->inputGridView->Columns[key]->Selected = true;
-                        //  int rowPosition = this->inputMap->K
-                        int maxArrayPosition = this->inputMap->Count;
-                        ArrayList ^ tempArray = safe_cast < ArrayList ^ > (this->inputMap[key]);
-                        for (int i = 0; i < maxArrayPosition; i++)
-                        {
-                            //  this->inputGridView->Rows->Add();
-                            //  this->inputGridView->Rows[rowPosition]->Cells[i]->Value = tempArray[i];
-
-                        }
-
-                        //  this->inputGridView->Rows[0]->Cells[rowPosition]->SetValue(0,"0");
-
-                        //ArrayList^ tempList = inputMap->
-
-                    }
-                }
+					}
+				}
+                 
                 if (lw->GetType() == OutputWidget::typeid)
                 {
                     String ^ key = "Output" + safe_cast < OutputWidget ^ > (lw)->getID();
@@ -672,17 +659,28 @@ private:
                     for each(KeyValuePair < String ^ , ArrayList ^ > ^ pair1 in this->outputMap)
                     {
                         this->outputGridView->Columns->Add(pair1->Key, pair1->Key);
+	                }
+				}
+			}
+				 /*      int maxArrayPosition = this->inputMap->Count;
+                        ArrayList ^ tempArray = safe_cast < ArrayList ^ > (this->inputMap[key]);
+                        for (int i = 0; i < maxArrayPosition; i++)
+                        {
+                            //  this->inputGridView->Rows->Add();
+                            //  this->inputGridView->Rows[rowPosition]->Cells[i]->Value = tempArray[i];
 
-                        //int position = this->inputGridView->Columns->IndexOf(pair1->Key);
+                        }
+
+                        //  this->inputGridView->Rows[0]->Cells[rowPosition]->SetValue(0,"0");
+
                         //ArrayList^ tempList = inputMap->
 
-                    }
-                }
+                  */                  
                 /*if(lw->GetType() == OutputWidget::typeid)
                 {
                 this->inputGridView->Columns->Add("Input"+ safe_cast<OutputWidget^>(lw)->getID(), "Input"+ safe_cast<OutputWidget^>(lw)->getID());*/
-            }
-        }
+           
+		}  
     }
 
     void toolStripButtons_Click(System::Object ^  sender, System::EventArgs ^  e)
