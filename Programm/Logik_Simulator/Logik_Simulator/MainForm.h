@@ -54,6 +54,9 @@ public:
         this->inputMap = gcnew SortedDictionary < String ^ , ArrayList ^ > ();
         this->outputMap = gcnew SortedDictionary < String ^ , ArrayList ^ > ();
 
+		this->selectedInputRow = 0;
+		this->selectedOutputRow = 0;
+
         for each (Object ^ obj in this->toolStrip1->Items)
         {
             if (obj->GetType() == ToolStripButton::typeid)
@@ -88,6 +91,8 @@ protected:
 public:
     SortedDictionary < String ^ , ArrayList ^ > ^ inputMap;
     SortedDictionary < String ^ , ArrayList ^ > ^ outputMap;
+	int selectedInputRow;
+	int selectedOutputRow;
 
 private: System::Windows::Forms::ToolStrip ^  toolStrip1;
 private: System::Windows::Forms::ToolStripButton ^  toolStripButton1;
@@ -573,7 +578,11 @@ private:
     void refreshTable()
     {
 		int inputSize = 0;
+		int inputRowSize = 0;
 		int outputSize = 0;
+		int outputRowSize = 0;
+
+		ArrayList^ inputNames = gcnew ArrayList();
 
      	if (logic_widgets->Contains("Input") == false)
 		{
@@ -614,15 +623,26 @@ private:
                     for each(KeyValuePair < String ^ , ArrayList ^ > ^ pair1 in this->inputMap)
                     {
                         this->inputGridView->Columns->Add(pair1->Key, pair1->Key);
-					}
-					for each(array<bool>^ tempArray in this->inputMap)
-
-					{
-						if(tempArray->Length > inputSize)
+						//this->inputGridView->Columns[pair1->Key]->CellType = DataGridViewCheckBoxColumn;
+						inputNames->Add(pair1->Key);
+						
+						if(pair1->Value->Count > inputSize)
 						{
-							inputSize = tempArray->Length;
+							inputSize = pair1->Value->Count;
 						}
 					}
+					
+					inputRowSize = this->inputGridView->Rows->Count;
+
+					if(inputRowSize < inputSize)
+					{
+						for(int i = inputRowSize; i < inputSize + 1; i++)
+						{
+							this->inputGridView->Rows->Add();
+						}
+					}
+					int index = inputNames->IndexOf(key);
+					this->inputGridView->Rows[this->selectedInputRow]->Cells[index]->Value = this->inputMap[key]->ToArray()->GetValue(this->selectedInputRow);
 				}
                  
                 if (lw->GetType() == OutputWidget::typeid)
