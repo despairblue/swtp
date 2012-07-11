@@ -139,6 +139,7 @@ public:
     virtual Boolean connectInputSignalTwo(SignalWidget ^ sw) override;
     virtual Boolean connectOutputSignal(SignalWidget ^ sw) override;
     virtual void disconnectOutputSignal(SignalWidget ^ sw) override;
+    virtual void paint(Graphics ^ canvas) override;
 };
 
 ref class AndWidget:

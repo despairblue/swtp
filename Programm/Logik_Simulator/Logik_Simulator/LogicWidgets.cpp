@@ -609,6 +609,8 @@ ForkWidget::ForkWidget(String ^ type, Point ^ location, Gatter ^ gate, Int32 id)
     LogicWidget(type, location, gate, id)
 {
     this->outputSignals = gcnew array < SignalWidget ^ > (2);
+    this->size = gcnew Size(10, 10);
+    this->setLocation(location);
 }
 
 Boolean ForkWidget::connectInputSignalTwo(SignalWidget ^ sw)
@@ -644,33 +646,34 @@ void ForkWidget::disconnectOutputSignal(SignalWidget ^ sw)
     }
 }
 
-// void ForkWidget::paint(Graphics ^ canvas)
-// {
-//     if ( !destructed )
-//     {
-//         Color color;
+void ForkWidget::paint(Graphics ^ canvas)
+{
+    if ( !destructed )
+    {
+        Color color;
 
-//         if (selected)
-//         {
-//             color = Color::Blue;
-//         }
-//         else if (gate->getResult())
-//         {
-//             color = Color::Red;
-//         }
-//         else
-//         {
-//             color = Color::Black;
-//         }
+        if (selected)
+        {
+            color = Color::Blue;
+        }
+        else if (gate->getResult())
+        {
+            color = Color::Red;
+        }
+        else
+        {
+            color = Color::Black;
+        }
 
-//         Pen ^ pen = gcnew Pen(color, 2.0);
-//         Font ^ font = gcnew Font(FontFamily::GenericMonospace, 10);
-//         SolidBrush ^ sb = gcnew SolidBrush(color);
+        Pen ^ pen = gcnew Pen(color, 2.0);
+        Font ^ font = gcnew Font(FontFamily::GenericMonospace, 10);
+        SolidBrush ^ sb = gcnew SolidBrush(color);
 
-//         canvas->DrawRectangle(pen, location->X, location->Y, this->size->Width, this->size->Height);
-//         canvas->DrawString(type, font, sb , safe_cast<float>(location->X + 3), safe_cast<float>(location->Y) + 3);
-//     }
-// }
+        //canvas->DrawRectangle(pen, location->X, location->Y, this->size->Width, this->size->Height);
+		canvas->FillEllipse(sb, location->X, location->Y, this->size->Width, this->size->Height);
+        // canvas->DrawString(type, font, sb , safe_cast<float>(location->X + 3), safe_cast<float>(location->Y) + 3);
+    }
+}
 
 AndWidget::AndWidget(String ^ type, Point ^ location, Gatter ^ gate, Int32 id):
     LogicWidget(type, location, gate, id)
