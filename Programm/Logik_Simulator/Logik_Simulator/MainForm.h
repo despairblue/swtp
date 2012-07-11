@@ -593,13 +593,19 @@ private:
 
     void refreshTable()
     {
-        if (logic_widgets->Count == 0)
-        {
-            this->inputGridView->Columns->Clear();
+     	if (logic_widgets->Contains("Input") == false)
+		{
+			this->inputGridView->Columns->Clear();
             this->inputGridView->DataSource = nullptr;
-            this->outputGridView->Columns->Clear();
+		}
+		if (logic_widgets->Contains("Input") == false)
+		{
+			this->outputGridView->Columns->Clear();
             this->outputGridView->DataSource = nullptr;
-        }
+		}
+
+
+
         for each (LogicWidget ^ lw in logic_widgets)
         {
 
