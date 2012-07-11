@@ -55,7 +55,7 @@ public:
 public ref class SignalWidget
 {
 public:
-    SignalWidget(Signal ^ );
+    SignalWidget(Signal ^ signal);
 
 protected:
     Boolean destructed;
@@ -70,7 +70,9 @@ public:
     void paint(Graphics ^ canvas);
     Signal ^ getSignal();
     void setInputGate(LogicWidget ^ lw);
+    LogicWidget ^ getInputGate();
     void setOutputGate(LogicWidget ^ lw);
+    LogicWidget ^ getOutputGate();
     void disconnectAll();
     void transmit();
 };

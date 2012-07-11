@@ -294,6 +294,11 @@ void SignalWidget::setInputGate(LogicWidget ^ lw)
     }
 }
 
+LogicWidget ^ SignalWidget::getInputGate()
+{
+    return inputGate;
+}
+
 void SignalWidget::setOutputGate(LogicWidget ^ lw)
 {
     this->outputGate = lw;
@@ -318,6 +323,11 @@ void SignalWidget::setOutputGate(LogicWidget ^ lw)
             this->destruct();
         }
     }
+}
+
+LogicWidget ^ SignalWidget::getOutputGate()
+{
+    return outputGate;
 }
 
 void SignalWidget::disconnectAll()

@@ -735,7 +735,7 @@ void refreshTable()
 
                         Signal ^ signal = gcnew Signal();
 
-                        SignalWidget ^ sw = gcnew SignalWidget(signal);
+						SignalWidget ^ sw = gcnew SignalWidget(signal);
                         sw->setInputGate(this->grabbed_widget);
                         sw->setOutputGate(other_widget);
 
@@ -787,9 +787,11 @@ void refreshTable()
                 {
                 case 1:
                     gate = gcnew And();
+                    // TODO: create AndWidget
                     lw = gcnew LogicWidget("&", gcnew Point(e->X, e->Y), gate, createID());
                     break;
                 case 2:
+                    // TODO: create OrWidget
                     gate = gcnew Or();
                     lw = gcnew LogicWidget(">=1", gcnew Point(e->X, e->Y), gate, createID());
                     break;
@@ -798,6 +800,7 @@ void refreshTable()
                     lw = gcnew NotWidget(btn->Text, gcnew Point(e->X, e->Y), gate, createID());
                     break;
                 case 4:
+                    // TODO: create ExorWidget
                     gate = gcnew Exor();
                     lw = gcnew LogicWidget("=1", gcnew Point(e->X, e->Y), gate, createID());
                     break;
@@ -942,16 +945,33 @@ private: System::Void toolStripButton12_Click(System::Object^  sender, System::E
 			 for each (LogicWidget ^ lw in logic_widgets)
 			 {
 				 StringBuilder ^ line = gcnew StringBuilder();
-				 line->Append("Gate,");
+
+				 line->Append("Gate");
+				 line->Append(",");
 				 line->Append(lw->GetType()->ToString());
 				 line->Append(",");
 				 line->Append(lw->getID());
 				 line->Append(",");
 				 line->Append(lw->getLocation()->X);
+				 line->Append(",");
 				 line->Append(lw->getLocation()->Y);
 
 				 file->Append(line->ToString());
 				 file->Append("\n");
+			 }
+
+			 for each (SignalWidget ^ sw in signal_widgets)
+			 {
+			 	StringBuilder ^ line = gcnew StringBuilder();
+
+			 	line->Append("Signal");
+				line->Append(",");
+				line->Append(sw->getInputGate()->getID());
+				line->Append(",");
+				line->Append(sw->getOutputGate()->getID());
+				
+				file->Append(line->ToString());
+				file->Append("\n");
 			 }
 
 			 StreamWriter ^ fileWriter = gcnew StreamWriter(myStream);
