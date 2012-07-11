@@ -842,7 +842,7 @@ private:
                     gate = gcnew Fork();
                     lw = gcnew ForkWidget(btn->Text, gcnew Point(e->X, e->Y), gate, createID());
                 }
-                this->logic_widgets->Add(lw);
+				this->logic_widgets->Insert(0, lw);
                 refreshTable();
             }
         }
