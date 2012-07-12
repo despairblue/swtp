@@ -266,6 +266,7 @@ Boolean LogicWidget::keyUp(KeyEventArgs ^ e, ToolStripStatusLabel ^ statusBar)
     return false;
 }
 
+/// Returns true if the widget was clicked, otherwise false.
 Boolean LogicWidget::widgetHit(Point ^ clickLocation)
 {
     if ( ( clickLocation->X >= this->location->X ) && ( clickLocation->X  <= this->location->X + this->size->Width ) )
@@ -280,7 +281,7 @@ Boolean LogicWidget::widgetHit(Point ^ clickLocation)
 }
 
 // NOTE: SignalWidget
-
+/// Constructs new SignalWidget
 SignalWidget::SignalWidget()
 {
     this->destructed = false;
@@ -288,16 +289,20 @@ SignalWidget::SignalWidget()
     this->signal = gcnew Signal();
 }
 
+/**
+    Destructs this widget
+    - disconnects all connected LogicWidgets
+    - removes reference to underlying signal
+*/
 void SignalWidget::destruct()
 {
     this->destructed = true;
     this->disconnectAll();
 
-    // FIX: Won't work, need a method to destruct the signal @roesti77
-    // this->signal->setInputGate(nullptr, 0);
-    // this->signal->addOutputGate(nullptr, 0);
+    signal = nullptr;
 }
 
+///
 Boolean SignalWidget::isDestructed()
 {
     return this->destructed;
