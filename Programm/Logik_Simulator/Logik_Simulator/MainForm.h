@@ -436,11 +436,7 @@ namespace Logik_Simulator
 			this->inputGridView->Size = System::Drawing::Size(144, 132);
 			this->inputGridView->TabIndex = 0;
 			this->inputGridView->CellValueChanged += gcnew System::Windows::Forms::DataGridViewCellEventHandler(this, &MainForm::inputGridView_CellValueChanged);
-			this->inputGridView->CellDoubleClick += gcnew System::Windows::Forms::DataGridViewCellEventHandler(this, &MainForm::inputGridView_CellClick);
-			this->inputGridView->CellContentDoubleClick += gcnew System::Windows::Forms::DataGridViewCellEventHandler(this, &MainForm::inputGridView_CellClick);
-			this->inputGridView->CellClick += gcnew System::Windows::Forms::DataGridViewCellEventHandler(this, &MainForm::inputGridView_CellClick);
 			this->inputGridView->RowHeaderMouseClick += gcnew System::Windows::Forms::DataGridViewCellMouseEventHandler(this, &MainForm::inputGridView_RowHeaderMouseClick);
-			this->inputGridView->CellContentClick += gcnew System::Windows::Forms::DataGridViewCellEventHandler(this, &MainForm::inputGridView_CellClick);
 			// 
 			// outputGridView
 			// 
@@ -687,7 +683,7 @@ namespace Logik_Simulator
 						for each(KeyValuePair < String ^ , ArrayList ^ > ^ pair1 in this->inputMap)
 						{
 							this->inputGridView->Columns->Add(pair1->Key, pair1->Key);
-														
+																				
 							inputNames->Add(pair1->Key);
 
 							if(inputNames->Count > inputSize)
@@ -712,6 +708,7 @@ namespace Logik_Simulator
  									tempAL->Add(b);
 								}
 								inputRows->Add(tempAL);
+
 							}
 						}
 					}
@@ -794,6 +791,7 @@ namespace Logik_Simulator
 			for each (ArrayList^ inputRowsAL in inputRows)
 			{
 				this->inputGridView->Rows->Add(inputRowsAL->ToArray());
+				this->inputGridView->CellClick += gcnew System::Windows::Forms::DataGridViewCellEventHandler(this, &MainForm::inputGridView_CellClick);
 			}
 
 			for each (KeyValuePair < String ^ , ArrayList ^ > ^ pair1 in this->outputMap)
@@ -1315,17 +1313,12 @@ private: System::Void inputGridView_CellValueChanged(System::Object^  sender, Sy
 					if(safe_cast<InputWidget^>(lw)->getID() == widgetIndex)
 					{
 						safe_cast<InputWidget^>(lw)->getGate()->setInputValue(safe_cast<bool>(this->inputGridView->CurrentCell->Value));
+						ArrayList^ tempAL = this->inputMap[key1];
+						tempAL[rowIndex] = safe_cast<bool>(this->inputGridView->CurrentCell->Value);
 						repaint();
 					}
 				}
 			}
-			 
-			 			
-
-
-
-
-
 		 }
 
 private: System::Void inputGridView_CellClick(System::Object^  sender, System::Windows::Forms::DataGridViewCellEventArgs^  e) {
