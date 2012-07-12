@@ -94,6 +94,9 @@ protected:
     int connectedToInput;
     Signal ^ signal; ///< Contains underlying Signal.
 
+private:
+    array<Int32> ^ cross(array<Int32> ^ v1, array<Int32> ^ v2);
+
 public:
     void destruct();
     Boolean isDestructed();

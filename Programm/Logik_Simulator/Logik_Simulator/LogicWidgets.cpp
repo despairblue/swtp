@@ -427,30 +427,194 @@ Boolean SignalWidget::transmit()
 
 Boolean SignalWidget::signalCut(Point start, Point stop)
 {
-	Single slope1 = (start.Y - stop.Y) / (Single) (start.X - stop.X);
-    Single slope2 = (inputGate->getLocation()->Y - outputGate->getLocation()->Y) / 
-    (Single) (inputGate->getLocation()->X - outputGate->getLocation()->X);
-    Point ^ inputLocation = inputGate->getLocation();
-    Point ^ outputLocation = outputGate->getLocation();
+    Point inputLocation;
+    Point outputLocation;
+    array<Int32> ^ l1;
+    array<Int32> ^ l2;
+    array<Int32> ^ s;
+    PointF sp;
 
-    array<Int32>^ v1 = {start.X, start.Y, 1};
-    array<Int32>^ v2 = {stop.X, stop.Y, 1};
-    array<Int32>^ v3 = {inputLocation->X, inputLocation->Y, 1};
-	array<Int32>^ v4 = {outputLocation->X, outputLocation->Y, 1};
+    
+    Boolean onLineSegmentOne = false;
+    Boolean onLineSegmentTwo = false;
+
+    inputLocation.X = (int) inputGate->outputSignalLocation.X;
+    inputLocation.Y = (int) inputGate->outputSignalLocation.Y;
+    
+    if (connectedToInput == 1)
+    {
+        outputLocation.X = (int) outputGate->inputSignalOneLocation.X;
+        outputLocation.Y = (int) outputGate->inputSignalOneLocation.Y;
+    }
+    else
+    {
+        outputLocation.X = (int) outputGate->inputSignalTwoLocation.X;
+        outputLocation.Y = (int) outputGate->inputSignalTwoLocation.Y;
+    }
+
+    array<Int32> ^ v1 = {start.X, start.Y, 1};
+    array<Int32> ^ v2 = {stop.X, stop.Y, 1};
+    array<Int32> ^ v3 = {inputLocation.X, inputLocation.Y, 1};
+    array<Int32> ^ v4 = {outputLocation.X, outputLocation.Y, 1};
+
+    l1 = cross(v1, v2);
+    l2 = cross(v3, v4);
+
+    s = cross(l1, l2);
 
 
+    sp.X = (Single) s[0] / (Single) s[2];
+    sp.Y = (Single) s[1] / (Single) s[2];
 
-    return false;
+    // Check wether sp is on line segment one.
+    if ( ( sp.X > start.X) && ( sp.X < stop.X ) )
+    {
+        if ( ( sp.Y > start.Y) && ( sp.Y < stop.Y) )
+        {
+            onLineSegmentOne = true;
+        }
+        else if ( ( sp.Y > stop.Y ) && ( sp.Y < start.Y ) )
+        {
+            onLineSegmentOne = true;
+        }
+    }
+    else if ( (sp.X > stop.X ) && (sp.X < start.X ) )
+    {
+        if ( ( sp.Y > start.Y) && ( sp.Y < stop.Y) )
+        {
+            onLineSegmentOne = true;
+        }
+        else if ( ( sp.Y > stop.Y ) && ( sp.Y < start.Y ) )
+        {
+            onLineSegmentOne = true;
+        }
+    }
+
+    // Check wether sp is on line segment two.
+    if ( ( sp.X > inputLocation.X) && ( sp.X < outputLocation.X ) )
+    {
+        if ( ( sp.Y > inputLocation.Y) && ( sp.Y < outputLocation.Y) )
+        {
+            onLineSegmentTwo = true;
+        }
+        else if ( ( sp.Y > outputLocation.Y ) && ( sp.Y < inputLocation.Y ) )
+        {
+            onLineSegmentTwo = true;
+        }
+    }
+    else if ( (sp.X > outputLocation.X ) && (sp.X < inputLocation.X ) )
+    {
+        if ( ( sp.Y > inputLocation.Y) && ( sp.Y < outputLocation.Y) )
+        {
+            onLineSegmentTwo = true;
+        }
+        else if ( ( sp.Y > outputLocation.Y ) && ( sp.Y < inputLocation.Y ) )
+        {
+            onLineSegmentTwo = true;
+        }
+    }
+
+    if ( onLineSegmentOne && onLineSegmentTwo )
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
 }
 
-// array<Int32> ^ SignalWidget::cross(array<Int32> ^ v1, array<Int32> ^ v2)
+// Boolean SignalWidget::signalCut(Point start, Point stop)
 // {
-//     array<Int32> ^ result = array<Int32>(3);
+//     Point inputLocation;
+//     Point outputLocation;
+//     Boolean xChecked = false;
+//     Boolean yChecked = false;
 
-//     result[0] = v1[1] * v2[2] - v1[2] * v2[1];
-//     result[1] = v1[0] * v2[2] - v1[2] * v2[1];
-//     result[2] = v1[1] * v2[2] - v1[2] * v2[1];
+//     inputLocation.X = inputGate->getLocation()->X;
+//     inputLocation.Y = inputGate->getLocation()->Y;
+//     outputLocation.X = outputGate->getLocation()->X;
+//     outputLocation.Y = outputGate->getLocation()->Y;
+
+//     array<Point> ^ lineOneSortedByX = gcnew array<Point>(2);
+//     array<Point> ^ lineTwoSortedByX = gcnew array<Point>(2);
+//     array<Point> ^ lineOneSortedByY = gcnew array<Point>(2);
+//     array<Point> ^ lineTwoSortedByY = gcnew array<Point>(2);
+
+//     if ( start.X > stop.X )
+//     {
+//         lineOneSortedByX[0] = start;
+//         lineOneSortedByX[1] = stop;
+//     }
+//     else
+//     {
+//         lineOneSortedByX[0] = stop;
+//         lineOneSortedByX[1] = start;
+//     }
+
+//     if ( inputLocation.X > outputLocation.X)
+//     {
+//         lineTwoSortedByX[0] = inputLocation;
+//         lineTwoSortedByX[1] = outputLocation;
+//     }
+//     else
+//     {
+//         lineTwoSortedByX[0] = outputLocation;
+//         lineTwoSortedByX[1] = inputLocation;
+//     }
+
+//     if ( start.Y > stop.Y )
+//     {
+//         lineOneSortedByY[0] = start;
+//         lineOneSortedByY[1] = stop;
+//     }
+//     else
+//     {
+//         lineOneSortedByY[0] = stop;
+//         lineOneSortedByY[1] = start;
+//     }
+
+//     if ( inputLocation.Y > outputLocation.Y)
+//     {
+//         lineTwoSortedByY[0] = inputLocation;
+//         lineTwoSortedByY[1] = outputLocation;
+//     }
+//     else
+//     {
+//         lineTwoSortedByY[0] = outputLocation;
+//         lineTwoSortedByY[1] = inputLocation;
+//     }
+
+//     if ( ( lineOneSortedByX[0].X > lineTwoSortedByX[1].X ) && ( lineTwoSortedByX[0].X > lineOneSortedByX[1].X ) )
+//     {
+//         xChecked = true;
+//     }
+
+//     if ( ( lineOneSortedByY[0].Y > lineTwoSortedByY[1].Y ) && ( lineTwoSortedByY[0].Y > lineOneSortedByY[1].Y ) )
+//     {
+//         yChecked = true;
+//     }
+
+//     if ( xChecked && yChecked )
+//     {
+//         return true;
+//     }
+//     else
+//     {
+//         return false;
+//     }
 // }
+
+array<Int32> ^ SignalWidget::cross(array<Int32> ^ v1, array<Int32> ^ v2)
+{
+    array<Int32> ^ result = gcnew array<Int32>(3);
+
+    result[0] = v1[1] * v2[2] - v1[2] * v2[1];
+    result[1] = v1[0] * v2[2] - v1[2] * v2[0];
+    result[2] = v1[0] * v2[1] - v1[1] * v2[0];
+
+    return result;
+}
 
 // NOTE: InputWidget
 /**
@@ -558,7 +722,7 @@ OutputWidget::OutputWidget(Point ^ location, Int32 id):
 void OutputWidget::setLocation(Point ^ location)
 {
     LogicWidget::setLocation(location);
-    
+
     this->inputSignalOneLocation.X = (float) this->location->X ;
     this->inputSignalOneLocation.Y = (float) (this->location->Y + (this->size->Height / 2));
 }
@@ -828,7 +992,7 @@ void ForkWidget::paint(Graphics ^ canvas)
         Font ^ font = gcnew Font(FontFamily::GenericMonospace, 10);
         SolidBrush ^ sb = gcnew SolidBrush(color);
 
-		canvas->FillEllipse(sb, location->X, location->Y, this->size->Width, this->size->Height);
+        canvas->FillEllipse(sb, location->X, location->Y, this->size->Width, this->size->Height);
     }
 }
 
