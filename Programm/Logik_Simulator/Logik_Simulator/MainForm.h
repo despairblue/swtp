@@ -439,6 +439,7 @@ namespace Logik_Simulator
 			this->inputGridView->CellDoubleClick += gcnew System::Windows::Forms::DataGridViewCellEventHandler(this, &MainForm::inputGridView_CellClick);
 			this->inputGridView->CellContentDoubleClick += gcnew System::Windows::Forms::DataGridViewCellEventHandler(this, &MainForm::inputGridView_CellClick);
 			this->inputGridView->CellClick += gcnew System::Windows::Forms::DataGridViewCellEventHandler(this, &MainForm::inputGridView_CellClick);
+			this->inputGridView->RowHeaderMouseClick += gcnew System::Windows::Forms::DataGridViewCellMouseEventHandler(this, &MainForm::inputGridView_RowHeaderMouseClick);
 			this->inputGridView->CellContentClick += gcnew System::Windows::Forms::DataGridViewCellEventHandler(this, &MainForm::inputGridView_CellClick);
 			// 
 			// outputGridView
@@ -675,7 +676,6 @@ namespace Logik_Simulator
 					{
 							ArrayList ^ tempList2 = gcnew ArrayList();
 							bool tempBool2 = lw->getGate()->getResult();
-							System::Console::WriteLine("{0} {1}", key, tempBool2);
 							tempList2->Add(tempBool2);
 							this->inputMap->Remove(key);
 							this->inputMap->Add(key, tempList2);
@@ -1340,6 +1340,30 @@ private: System::Void inputGridView_CellClick(System::Object^  sender, System::W
 				 }else
 				 {
 					 this->inputGridView->CurrentCell->Value = true;
+				 }
+			 }
+		 }
+
+
+private: System::Void inputGridView_RowHeaderMouseClick(System::Object^  sender, System::Windows::Forms::DataGridViewCellMouseEventArgs^  e) {
+
+			 int columnMaxIndex =  this->inputGridView->Columns->Count;
+			 int rowIndex = this->inputGridView->CurrentCell->RowIndex;
+
+			 for(int i = 0 ; i < columnMaxIndex; i++)
+			 {
+				 String^ key1 = this->inputGridView->Columns[i]->HeaderText;
+				 int widgetIndex = Convert::ToInt32(key1->Substring(5));
+				 for each (LogicWidget ^ lw in logic_widgets)
+				 {
+					 if(lw->GetType() == InputWidget::typeid)
+					 {
+						 if(safe_cast<InputWidget^>(lw)->getID() == widgetIndex)
+						 {
+							 safe_cast<InputWidget^>(lw)->getGate()->setInputValue(safe_cast<bool>(this->inputGridView->Rows[rowIndex]->Cells[i]->Value));
+							 repaint();
+						 }
+					 }
 				 }
 			 }
 		 }
