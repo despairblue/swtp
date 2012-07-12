@@ -147,8 +147,8 @@ private:
     /// </summary>
     void InitializeComponent(void)
     {
-		this->components = (gcnew System::ComponentModel::Container());
 		System::ComponentModel::ComponentResourceManager^  resources = (gcnew System::ComponentModel::ComponentResourceManager(MainForm::typeid));
+		System::Windows::Forms::DataGridViewCellStyle^  dataGridViewCellStyle1 = (gcnew System::Windows::Forms::DataGridViewCellStyle());
 		this->toolStrip1 = (gcnew System::Windows::Forms::ToolStrip());
 		this->toolStripButton1 = (gcnew System::Windows::Forms::ToolStripButton());
 		this->toolStripButton2 = (gcnew System::Windows::Forms::ToolStripButton());
@@ -411,7 +411,6 @@ private:
 		// 
 		// inputGridView
 		// 
-		this->inputGridView->AllowUserToOrderColumns = true;
 		this->inputGridView->AutoSizeColumnsMode = System::Windows::Forms::DataGridViewAutoSizeColumnsMode::AllCells;
 		this->inputGridView->BackgroundColor = System::Drawing::SystemColors::Window;
 		this->inputGridView->ColumnHeadersHeightSizeMode = System::Windows::Forms::DataGridViewColumnHeadersHeightSizeMode::AutoSize;
@@ -419,6 +418,15 @@ private:
 		this->inputGridView->Location = System::Drawing::Point(0, 0);
 		this->inputGridView->Name = L"inputGridView";
 		this->inputGridView->RightToLeft = System::Windows::Forms::RightToLeft::No;
+		dataGridViewCellStyle1->Alignment = System::Windows::Forms::DataGridViewContentAlignment::MiddleLeft;
+		dataGridViewCellStyle1->BackColor = System::Drawing::SystemColors::Control;
+		dataGridViewCellStyle1->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 8.25F, System::Drawing::FontStyle::Regular, 
+			System::Drawing::GraphicsUnit::Point, static_cast<System::Byte>(0)));
+		dataGridViewCellStyle1->ForeColor = System::Drawing::SystemColors::WindowText;
+		dataGridViewCellStyle1->SelectionBackColor = System::Drawing::SystemColors::Info;
+		dataGridViewCellStyle1->SelectionForeColor = System::Drawing::SystemColors::HighlightText;
+		dataGridViewCellStyle1->WrapMode = System::Windows::Forms::DataGridViewTriState::True;
+		this->inputGridView->RowHeadersDefaultCellStyle = dataGridViewCellStyle1;
 		this->inputGridView->RowHeadersWidth = 35;
 		this->inputGridView->Size = System::Drawing::Size(144, 132);
 		this->inputGridView->TabIndex = 0;
@@ -616,6 +624,8 @@ private:
 		int outputSize = 0;
 		int outputRowSize = 0;
 
+		ArrayList^ rows = gcnew ArrayList();
+	
 		ArrayList^ inputNames = gcnew ArrayList();
 
      	if (logic_widgets->Contains("Input") == false)
@@ -627,58 +637,74 @@ private:
 		if (logic_widgets->Contains("Input") == false)
 		{
 			this->outputGridView->Columns->Clear();
-            this->outputGridView->DataSource = nullptr;
+			this->outputGridView->DataSource = nullptr;
 		}
 
-        for each (LogicWidget ^ lw in logic_widgets)
-        {
-            if (lw != nullptr)
-            {
-                if (lw->GetType() == InputWidget::typeid)
-                {
-                    String ^ key = "Input" + safe_cast < InputWidget ^ > (lw)->getID();
-                    this->inputGridView->Columns->Clear();
-                    this->inputGridView->DataSource = nullptr;
+		for each (LogicWidget ^ lw in logic_widgets)
+		{
+			if (lw != nullptr)
+			{
+				if (lw->GetType() == InputWidget::typeid)
+				{
+					String ^ key = "Input" + safe_cast < InputWidget ^ > (lw)->getID();
+					this->inputGridView->Columns->Clear();
+					this->inputGridView->DataSource = nullptr;
 
-                    if ((this->inputGridView->Columns != nullptr) && (this->inputGridView->Columns->Contains(key)))
-                    {
-                        this->inputGridView->Columns->Remove(key);
-                    }
-                    if (this->inputMap->ContainsKey(key) == false)
-                    {
-                        ArrayList ^ tempList = gcnew ArrayList();
-                        bool tempBool = lw->getGate()->getResult();
-                        tempList->Add(tempBool);
-                        this->inputMap->Add(key, tempList);
-                    }
+					if ((this->inputGridView->Columns != nullptr) && (this->inputGridView->Columns->Contains(key)))
+					{
+						this->inputGridView->Columns->Remove(key);
+					}
+					if (this->inputMap->ContainsKey(key) == false)
+					{
+						ArrayList ^ tempList = gcnew ArrayList();
+						bool tempBool = lw->getGate()->getResult();
+						tempList->Add(tempBool);
+						this->inputMap->Add(key, tempList);
+					}
 
-                    this->inputGridView->Columns->Clear();
+					this->inputGridView->Columns->Clear();
 
-                    for each(KeyValuePair < String ^ , ArrayList ^ > ^ pair1 in this->inputMap)
-                    {
-                        this->inputGridView->Columns->Add(pair1->Key, pair1->Key);
+					for each(KeyValuePair < String ^ , ArrayList ^ > ^ pair1 in this->inputMap)
+					{
+						this->inputGridView->Columns->Add(pair1->Key, pair1->Key);
 						//this->inputGridView->Columns[pair1->Key]->CellType = DataGridViewCheckBoxColumn;
 						inputNames->Add(pair1->Key);
-						
-						if(pair1->Value->Count > inputSize)
+
+						if(inputNames->Count > inputSize)
 						{
-							inputSize = pair1->Value->Count;
+							inputSize = inputNames->Count;
 						}
 					}
-					
+
 					inputRowSize = this->inputGridView->Rows->Count;
 
-					if(inputRowSize < inputSize)
+					if(rows->Count < inputSize)
 					{
-						for(int i = inputRowSize; i < inputSize + 1; i++)
+						for(int i = rows->Count; i < inputRowSize ; i++)
 						{
-							this->inputGridView->Rows->Add();
+							ArrayList^ tempAL = gcnew ArrayList();
+							for (int i = 0; i < inputSize; i++)
+							{
+								tempAL->Add(false);
+							}
+							rows->Add(tempAL);
+		
+
 						}
 					}
-					int index = inputNames->IndexOf(key);
-					this->inputGridView->Rows[this->selectedInputRow]->Cells[index]->Value = this->inputMap[key]->ToArray()->GetValue(this->selectedInputRow);
+				
+
 				}
-                 
+
+				
+					
+		/*			bool b = safe_cast<bool>(this->inputMap[key]->ToArray()->GetValue(this->selectedInputRow));
+					//System::Console::WriteLine("{0} {1}",key, b);
+					this->inputGridView->CurrentCell = this->inputGridView->Rows[this->selectedInputRow]->Cells[index];
+					this->inputGridView->CurrentCell->Value = b;
+					this->inputGridView->Refresh();
+			
+          */      
                 if (lw->GetType() == OutputWidget::typeid)
                 {
                     String ^ key = "Output" + safe_cast < OutputWidget ^ > (lw)->getID();
@@ -724,7 +750,25 @@ private:
                 {
                 this->inputGridView->Columns->Add("Input"+ safe_cast<OutputWidget^>(lw)->getID(), "Input"+ safe_cast<OutputWidget^>(lw)->getID());*/
            
-		}  
+		}
+		for each (KeyValuePair < String ^ , ArrayList ^ > ^ pair1 in this->inputMap)
+				{
+					int index = inputNames->IndexOf(pair1->Key);
+					int maxValues = this->inputMap[pair1->Key]->Count;
+
+					for(int i = 0; i < maxValues; i++)
+					{//TODO ARRAY LIST füllen
+						ArrayList^ tempAL = safe_cast<ArrayList^>(rows[i]);
+					//	tempAL[index] = pair1->Value
+					}
+
+				}
+
+		for each (ArrayList^ rowsAL in rows)
+		{
+			this->inputGridView->Rows->Add(rowsAL->ToArray());
+		}
+			
     }
 
     void toolStripButtons_Click(System::Object ^  sender, System::EventArgs ^  e)
