@@ -800,7 +800,7 @@ private:
 
                         Signal ^ signal = gcnew Signal();
 
-                        SignalWidget ^ sw = gcnew SignalWidget(signal);
+                        SignalWidget ^ sw = gcnew SignalWidget();
                         sw->setInputGate(this->grabbed_widget);
                         sw->setOutputGate(other_widget);
 
@@ -1081,63 +1081,63 @@ private: System::Void toolStripButton12_Click(System::Object ^  sender, System::
     					{
     						if (seperatedLine[1] == "LogicWidgets.AndWidget")
     						{
-    							lw = gcnew AndWidget("&", gcnew Point(Convert::ToInt32(seperatedLine[3]),
-    							                     Convert::ToInt32(seperatedLine[4])), gcnew And(),
+    							lw = gcnew AndWidget(gcnew Point(Convert::ToInt32(seperatedLine[3]),
+    							                     Convert::ToInt32(seperatedLine[4])), 
     							                     Convert::ToInt32(seperatedLine[2]));
     						}
     						else if (seperatedLine[1] == "LogicWidgets.OrWidget")
     						{
-    							lw = gcnew OrWidget(">=1", gcnew Point(Convert::ToInt32(seperatedLine[3]),
-    							                     Convert::ToInt32(seperatedLine[4])), gcnew Or(),
+    							lw = gcnew OrWidget(gcnew Point(Convert::ToInt32(seperatedLine[3]),
+    							                     Convert::ToInt32(seperatedLine[4])),
     							                     Convert::ToInt32(seperatedLine[2]));
     						}
     						else if (seperatedLine[1] == "LogicWidgets.NandWidget")
     						{
-    							lw = gcnew NandWidget("&", gcnew Point(Convert::ToInt32(seperatedLine[3]),
-    							                     Convert::ToInt32(seperatedLine[4])), gcnew Nand(),
+    							lw = gcnew NandWidget(gcnew Point(Convert::ToInt32(seperatedLine[3]),
+    							                     Convert::ToInt32(seperatedLine[4])),
     							                     Convert::ToInt32(seperatedLine[2]));
     						}
     						else if (seperatedLine[1] == "LogicWidgets.NorWidget")
     						{
-    							lw = gcnew NorWidget(">=1", gcnew Point(Convert::ToInt32(seperatedLine[3]),
-    							                     Convert::ToInt32(seperatedLine[4])), gcnew Nor(),
+    							lw = gcnew NorWidget(gcnew Point(Convert::ToInt32(seperatedLine[3]),
+    							                     Convert::ToInt32(seperatedLine[4])),
     							                     Convert::ToInt32(seperatedLine[2]));
     						}
     						else if (seperatedLine[1] == "LogicWidgets.NotWidget")
     						{
-    							lw = gcnew NotWidget("1", gcnew Point(Convert::ToInt32(seperatedLine[3]),
-    							                     Convert::ToInt32(seperatedLine[4])), gcnew Not(),
+    							lw = gcnew NotWidget(gcnew Point(Convert::ToInt32(seperatedLine[3]),
+    							                     Convert::ToInt32(seperatedLine[4])),
     							                     Convert::ToInt32(seperatedLine[2]));
     						}
     						else if (seperatedLine[1] == "LogicWidgets.ExorWidget")
     						{
-    							lw = gcnew ExorWidget("=1", gcnew Point(Convert::ToInt32(seperatedLine[3]),
-    							                     Convert::ToInt32(seperatedLine[4])), gcnew Exor(),
+    							lw = gcnew ExorWidget(gcnew Point(Convert::ToInt32(seperatedLine[3]),
+    							                     Convert::ToInt32(seperatedLine[4])),
     							                     Convert::ToInt32(seperatedLine[2]));
     						}
     						else if (seperatedLine[1] == "LogicWidgets.InputWidget")
     						{
-    							lw = gcnew InputWidget("Input", gcnew Point(Convert::ToInt32(seperatedLine[3]),
-    							                     Convert::ToInt32(seperatedLine[4])), gcnew Input(),
+    							lw = gcnew InputWidget(gcnew Point(Convert::ToInt32(seperatedLine[3]),
+    							                     Convert::ToInt32(seperatedLine[4])),
     							                     Convert::ToInt32(seperatedLine[2]));
     						}
     						else if (seperatedLine[1] == "LogicWidgets.OutputWidget")
     						{
-    							lw = gcnew OutputWidget("Output", gcnew Point(Convert::ToInt32(seperatedLine[3]),
-    							                     Convert::ToInt32(seperatedLine[4])), gcnew Output(),
+    							lw = gcnew OutputWidget(gcnew Point(Convert::ToInt32(seperatedLine[3]),
+    							                     Convert::ToInt32(seperatedLine[4])), 
     							                     Convert::ToInt32(seperatedLine[2]));
     						}
     						else if (seperatedLine[1] == "LogicWidgets.ForkWidget")
     						{
-    							lw = gcnew ForkWidget("Fork", gcnew Point(Convert::ToInt32(seperatedLine[3]),
-    							                     Convert::ToInt32(seperatedLine[4])), gcnew Fork(),
+    							lw = gcnew ForkWidget(gcnew Point(Convert::ToInt32(seperatedLine[3]),
+    							                     Convert::ToInt32(seperatedLine[4])),
     							                     Convert::ToInt32(seperatedLine[2]));
     						}
 
-    					}
+    					} 
     					else if (seperatedLine[0] == "Signal")
     					{
-    						sw = gcnew SignalWidget(gcnew Signal());
+    						sw = gcnew SignalWidget();
 
     						sw->setInputGate( getWidgetByID( Convert::ToInt32( seperatedLine[1] ) ) );
 								sw->setOutputGate( getWidgetByID( Convert::ToInt32( seperatedLine[2] ) ) );

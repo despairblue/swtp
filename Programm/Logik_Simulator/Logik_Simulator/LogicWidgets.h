@@ -1,9 +1,18 @@
 #pragma once
 
 #include "Gatter.h"
+#include "And.h"
+#include "Or.h"
+#include "Exor.h"
+#include "Not.h"
+#include "Nand.h"
+#include "Nor.h"
+#include "Input.h"
+#include "Output.h"
 #include "Signal.h"
 #include "Input.h"
 #include "Output.h"
+#include "Fork.h"
 
 using namespace System;
 using namespace System::Windows::Forms;
@@ -21,7 +30,7 @@ ref class SignalWidget;
 public ref class LogicWidget
 {
 public:
-    LogicWidget( Point ^ location, Int32 id );
+    LogicWidget( Point ^ location, Int32 id, String ^ text);
     /// False by default. Changes the appearance of the widget if true.
     /** Depending on state paint will draw the widget in another color.
         @see LogicWidget::paint() */
@@ -36,6 +45,7 @@ protected:
     Boolean destructed;
     Size ^ size; ///< Size of the widget.
     Point ^ location; ///< Location of the widget.
+    String ^ text; ///< Text inside the widget.
     Gatter ^ gate; ///< The underlying Gatter.
     SignalWidget ^ inputSignalOne; ///< First ingoing SignalWidget
     SignalWidget ^ inputSignalTwo; ///< Second ingoing SignalWidget
@@ -67,7 +77,7 @@ public:
 public ref class SignalWidget
 {
 public:
-    SignalWidget(Signal ^ signal);
+    SignalWidget();
 
 protected:
     /// False by default. Set to true after destruct() finishes.
