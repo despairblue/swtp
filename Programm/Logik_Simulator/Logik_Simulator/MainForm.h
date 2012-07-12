@@ -1367,6 +1367,18 @@ private: System::Void inputGridView_CellValueChanged(System::Object^  sender, Sy
 					if(safe_cast<InputWidget^>(lw)->getID() == widgetIndex)
 					{
 						safe_cast<InputWidget^>(lw)->getGate()->setInputValue(safe_cast<bool>(this->inputGridView->CurrentCell->Value));
+						ArrayList^ tempAL = this->inputMap[key1];
+						if(tempAL->Count -1 < rowIndex)
+						{
+							for(int i = tempAL->Count -1; i < rowIndex ; i++)
+							{
+								tempAL->Add(false);
+							}
+						}
+
+						tempAL[rowIndex] = safe_cast<bool>(this->inputGridView->CurrentCell->Value);
+						this->inputMap->Remove(key1);
+						this->inputMap->Add(key1, tempAL);
 						repaint();
 					}
 				}
