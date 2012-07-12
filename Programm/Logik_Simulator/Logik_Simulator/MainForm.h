@@ -644,8 +644,7 @@ namespace Logik_Simulator
 
 			for each (LogicWidget ^ lw in logic_widgets)
 			{
-				if (lw != nullptr)
-				{
+			 System::Console::WriteLine("neue Schleife");
 					if (lw->GetType() == InputWidget::typeid)
 					{
 						String ^ key = "Input" + safe_cast < InputWidget ^ > (lw)->getID();
@@ -663,6 +662,16 @@ namespace Logik_Simulator
 							tempList->Add(tempBool);
 							this->inputMap->Add(key, tempList);
 						}
+					if (this->inputMap->ContainsKey(key) == true)					
+					{
+							ArrayList ^ tempList2 = gcnew ArrayList();
+							bool tempBool2 = lw->getGate()->getResult();
+							System::Console::WriteLine("{0} {1}", key, tempBool2);
+							tempList2->Add(tempBool2);
+							this->inputMap->Remove(key);
+							this->inputMap->Add(key, tempList2);
+					}
+						
 
 						this->inputGridView->Columns->Clear();
 
@@ -690,14 +699,15 @@ namespace Logik_Simulator
 									String^ key = safe_cast<String^>(inputNames[j]);
 									ArrayList^ t = safe_cast<ArrayList^>(this->inputMap[key]);
 									bool b = safe_cast<bool>(t[i]);
-									tempAL->Add(b);
+									System::Console::WriteLine("{0} i{1} j{2} {3}",key,i,j,b);
+ 									tempAL->Add(b);
 								}
 								inputRows->Add(tempAL);
 							}
 						}
 					}
 				}
-			}
+			
 
 			for each (LogicWidget ^ lw in logic_widgets)
 			{
@@ -794,7 +804,7 @@ namespace Logik_Simulator
 			{
 				this->outputGridView->Rows->Add(outputRowsAL->ToArray());
 			}
-
+		
 		}
 
 		void cleanCanvas()
