@@ -518,18 +518,31 @@ void InputWidget::click(ToolStripStatusLabel ^ statusBar)
 }
 
 // NOTE: OutputWidget
-
+/**
+    @param location The widgets location
+    @param id The widgets ID
+*/
 OutputWidget::OutputWidget(Point ^ location, Int32 id):
     LogicWidget(location, id, "Out:\n")
 {
-    this->gate = gcnew Output();
+    this->setLocation(location);
 }
 
+void OutputWidget::setLocation(Point ^ location)
+{
+    LogicWidget::setLocation(location);
+    
+    this->inputSignalOneLocation.X = (float) this->location->X ;
+    this->inputSignalOneLocation.Y = (float) (this->location->Y + (this->size->Height / 2));
+}
+
+/// Will always return false, OutputWidget instances have only one input slot.
 Boolean OutputWidget::connectInputSignalTwo(SignalWidget ^ sw)
 {
     return false;
 }
 
+/// Will always return false, OutputWidget instances have no output slot.
 Boolean OutputWidget::connectOutputSignal(SignalWidget ^ sw)
 {
     return false;
@@ -569,13 +582,27 @@ void OutputWidget::paint(Graphics ^ canvas)
 }
 
 // NOTE: NotWidget
-
+/**
+    @param location The widgets location
+    @param id The widgets ID
+*/
 NotWidget::NotWidget(Point ^ location, Int32 id):
     LogicWidget(location, id, "1")
 {
     this->gate = gcnew Not();
+
+    this->setLocation(location);
 }
 
+void NotWidget::setLocation(Point ^ location)
+{
+    LogicWidget::setLocation(location);
+
+    this->inputSignalOneLocation.X = (float) this->location->X ;
+    this->inputSignalOneLocation.Y = (float) (this->location->Y + (this->size->Height / 2));
+}
+
+/// Will always return false, NotWidget instances have only one input slot.
 Boolean NotWidget::connectInputSignalTwo(SignalWidget ^ sw)
 {
     return false;
