@@ -988,6 +988,10 @@ private: System::Void MainForm_KeyUp(System::Object ^  sender, System::Windows::
                 selected_widget = nullptr;
             }
         }
+        else if (e->KeyCode == Keys::Delete)
+        {
+					toolStripStatusLabel1->Text = "No Gate selected. Select the Gate you want to remove.";
+        }
 
         if ( !handled )
         {

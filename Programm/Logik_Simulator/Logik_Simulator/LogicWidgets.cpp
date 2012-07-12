@@ -13,6 +13,7 @@ using namespace LogicWidgets;
     Constructs a new LogicWidget.
     @param location The location of this widget on the canvas.
     @param id The ID of this widget.
+    @param text The Text inside the widget
 */
 LogicWidget::LogicWidget(Point ^ location, Int32 id, String ^ text )
 {
@@ -26,16 +27,29 @@ LogicWidget::LogicWidget(Point ^ location, Int32 id, String ^ text )
     this->text = text;
 }
 
+/**
+    Set the ID
+    @param id The new ID
+*/
 void LogicWidget::setID(Int32 id)
 {
     this->id = id;
 }
 
+/**
+    Get the ID
+    @return ID of the widget.
+*/
 Int32 LogicWidget::getID()
 {
     return id;
 }
 
+/**
+    Destructs the widget
+    - sets destructed to true
+    - desctructs oll connected SignalWidgets
+*/
 void LogicWidget::destruct()
 {
     this->destructed = true;
@@ -54,11 +68,19 @@ void LogicWidget::destruct()
     }
 }
 
+/**
+    Returns true if the widget was desctructed
+    @see desctructed destruct()
+*/
 Boolean LogicWidget::isDestructed()
 {
     return this->destructed;
 }
 
+/**
+    Paints the widget on a graphics context.
+    @param canvas An instance of System::Drawing::Graphics
+*/
 void LogicWidget::paint(Graphics ^ canvas)
 {
     if ( !destructed )
@@ -90,16 +112,20 @@ void LogicWidget::paint(Graphics ^ canvas)
     }
 }
 
+
+/// Returns the size of the widget.
 Size ^ LogicWidget::getSize()
 {
     return this->size;
 }
 
+/// Returns the location of the widget.
 Point ^ LogicWidget::getLocation()
 {
     return this->location;
 }
 
+/// Sets the Location of the widget.
 void LogicWidget::setLocation(Point ^ location)
 {
     this->location = location;
@@ -114,26 +140,44 @@ void LogicWidget::setLocation(Point ^ location)
     this->outputSignalLocation.Y = (float) (this->location->Y + (this->size->Height / 2));
 }
 
+/// Returns underlying Gatter
 Gatter ^ LogicWidget::getGate()
 {
     return this->gate;
 }
 
+/**
+    Tries to connect sw to this widgets first input slot.
+    @param sw SignalWidget that's supposed to be connected.
+    @return true if connection succeeded, otherwise false.
+*/
 Boolean LogicWidget::connectInputSignalOne(SignalWidget ^ sw)
 {
 
-    if ( this->inputSignalOne && !( this->inputSignalOne->isDestructed() ) )
+    if ( this->inputSignalOne )
     {
         return false;
     }
     else
     {
-        this->inputSignalOne = sw;
-        return true;
+        if ( destructed )
+        {
+            return false;
+        }
+        else
+        {
+            this->inputSignalOne = sw;
+            return true;
+        }
     }
 
 }
 
+/**
+    Tries to connect sw to this widgets second input slot.
+    @param sw SignalWidget that's supposed to be connected.
+    @return true if connection succeeded, otherwise false.
+*/
 Boolean LogicWidget::connectInputSignalTwo(SignalWidget ^ sw)
 {
 
@@ -149,6 +193,7 @@ Boolean LogicWidget::connectInputSignalTwo(SignalWidget ^ sw)
 
 }
 
+/// Disconnects sw from this widgets input
 void LogicWidget::disconnectInputSignal(SignalWidget ^ sw)
 {
     if (this->inputSignalOne == sw)
@@ -161,6 +206,12 @@ void LogicWidget::disconnectInputSignal(SignalWidget ^ sw)
     }
 }
 
+
+/**
+    Tries to connect sw to this widgets output slot.
+    @param sw SignalWidget that's supposed to be connected.
+    @return true if connection succeeded, otherwise false.
+*/
 Boolean LogicWidget::connectOutputSignal(SignalWidget ^ sw)
 {
 
@@ -176,6 +227,7 @@ Boolean LogicWidget::connectOutputSignal(SignalWidget ^ sw)
 
 }
 
+/// Disconnects sw from this widgets output
 void LogicWidget::disconnectOutputSignal(SignalWidget ^ sw)
 {
     if (this->outputSignal == sw)
@@ -184,6 +236,8 @@ void LogicWidget::disconnectOutputSignal(SignalWidget ^ sw)
     }
 }
 
+/// Tells the widget that it has been clicked
+/// @param statusBar the status bar of the main form
 void LogicWidget::click(ToolStripStatusLabel ^ statusBar)
 {
     if (this->selected)
@@ -198,6 +252,7 @@ void LogicWidget::click(ToolStripStatusLabel ^ statusBar)
     }
 }
 
+/// Tells the widget that a key was pressed
 Boolean LogicWidget::keyUp(KeyEventArgs ^ e, ToolStripStatusLabel ^ statusBar)
 {
     if (e->KeyCode == Keys::Delete && selected)
@@ -206,11 +261,6 @@ Boolean LogicWidget::keyUp(KeyEventArgs ^ e, ToolStripStatusLabel ^ statusBar)
         statusBar->Text = "Gate removed.";
 
         return true;
-    }
-    else if (e->KeyCode == Keys::Delete)
-    {
-        statusBar->Text = "No Gate selected. Select the Gate you want to remove.";
-        return false;
     }
 
     return false;
