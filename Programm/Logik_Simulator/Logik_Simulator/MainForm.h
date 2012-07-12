@@ -1148,6 +1148,9 @@ namespace Logik_Simulator
 	private: System::Void toolStripButton11_Click(System::Object^  sender, System::EventArgs^  e) {
 				 Stream ^ myStream;
 
+				// workaround for the weird doubleclick behaviour of the OpenFileDialog
+				 this->pictureBox1->MouseUp -= gcnew System::Windows::Forms::MouseEventHandler(this, &MainForm::MainForm_MouseUp);
+
 				 if ( openFileDialog1->ShowDialog() == ::DialogResult::OK )
 				 {
 					 if ( (myStream = openFileDialog1->OpenFile()) != nullptr )
@@ -1250,6 +1253,10 @@ namespace Logik_Simulator
 						 myStream->Close();
 					 }
 				 }
+
+				 // finish workaround
+				 Application::DoEvents();
+				 this->pictureBox1->MouseUp += gcnew System::Windows::Forms::MouseEventHandler(this, &MainForm::MainForm_MouseUp);
 
 				 refreshTable();
 				 repaint();
