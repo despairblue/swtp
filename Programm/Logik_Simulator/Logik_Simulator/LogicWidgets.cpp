@@ -7,17 +7,21 @@
 using namespace System::Windows::Forms;
 using namespace LogicWidgets;
 
-// NOTE: LogicWidget
 
-LogicWidget::LogicWidget( String ^ type, Point ^ location, Gatter ^ gate, Int32 id )
+// NOTE: LogicWidget
+/**
+    Constructs a new LogicWidget.
+    @param location The location of this widget on the canvas.
+    @param id The ID of this widget.
+*/
+LogicWidget::LogicWidget(Point ^ location, Int32 id )
 {
     this->size = gcnew Size(40, 40);
     this->selected = false;
     this->destructed = false;
 
-    this->type = type;
     this->setLocation(location);
-    this->gate = gate;
+    this->gate = gcnew Gatter();
     this->id = id;
 }
 
@@ -78,7 +82,7 @@ void LogicWidget::paint(Graphics ^ canvas)
         SolidBrush ^ sb = gcnew SolidBrush(color);
 
         canvas->DrawRectangle(pen, location->X, location->Y, this->size->Width, this->size->Height);
-        canvas->DrawString(type, font, sb , safe_cast<float>(location->X + 3), safe_cast<float>(location->Y) + 3);
+        canvas->DrawString("Töööörrröööö!!!", font, sb , safe_cast<float>(location->X + 3), safe_cast<float>(location->Y) + 3);
     }
 }
 
@@ -223,11 +227,11 @@ Boolean LogicWidget::widgetHit(Point ^ clickLocation)
 
 // NOTE: SignalWidget
 
-SignalWidget::SignalWidget(Signal ^ signal)
+SignalWidget::SignalWidget()
 {
     this->destructed = false;
     this->connectedToInput = 0;
-    this->signal = signal;
+    this->signal = gcnew Signal();
 }
 
 void SignalWidget::destruct()
@@ -355,9 +359,10 @@ Boolean SignalWidget::transmit()
 
 // NOTE: InputWidget
 
-InputWidget::InputWidget(String ^ type, Point ^ location, Input ^ gate, Int32 id):
-    LogicWidget(type, location, gate, id)
+InputWidget::InputWidget(Point ^ location, Int32 id):
+    LogicWidget(location, id)
 {
+    this->gate = gcnew Input();
 }
 
 Boolean InputWidget::connectInputSignalOne(SignalWidget ^ sw)
@@ -434,9 +439,10 @@ void InputWidget::click(ToolStripStatusLabel ^ statusBar)
 
 // NOTE: OutputWidget
 
-OutputWidget::OutputWidget(String ^ type, Point ^ location, Output ^ gate, Int32 id):
-    LogicWidget(type, location, gate, id)
+OutputWidget::OutputWidget(Point ^ location, Output ^ Int32 id):
+    LogicWidget(location, id)
 {
+    this->gate = gcnew Output();
 }
 
 Boolean OutputWidget::connectInputSignalTwo(SignalWidget ^ sw)
@@ -484,9 +490,10 @@ void OutputWidget::paint(Graphics ^ canvas)
 
 // NOTE: NotWidget
 
-NotWidget::NotWidget(String ^ type, Point ^ location, Gatter ^ gate, Int32 id):
-    LogicWidget(type, location, gate, id)
+NotWidget::NotWidget(Point ^ location, Int32 id):
+    LogicWidget(location, id)
 {
+    this->gate = Not();
 }
 
 Boolean NotWidget::connectInputSignalTwo(SignalWidget ^ sw)
@@ -532,9 +539,10 @@ void NotWidget::paint(Graphics ^ canvas)
 
 // NOTE: NandWidget
 
-NandWidget::NandWidget(String ^ type, Point ^ location, Gatter ^ gate, Int32 id):
-    LogicWidget(type, location, gate, id)
+NandWidget::NandWidget(Point ^ location, Int32 id):
+    LogicWidget(location, id)
 {
+    this->gate = Nand();
 }
 
 void NandWidget::paint(Graphics ^ canvas)
@@ -564,15 +572,16 @@ void NandWidget::paint(Graphics ^ canvas)
 
         canvas->DrawEllipse(pen, this->outputSignalLocation.X, this->outputSignalLocation.Y - 3, 6.0, 6.0);
 
-        canvas->DrawString(type, font, sb , safe_cast<float>(location->X + 3), safe_cast<float>(location->Y) + 3);
+        canvas->DrawString("&", font, sb , safe_cast<float>(location->X + 3), safe_cast<float>(location->Y) + 3);
     }
 }
 
 // NOTE: NorWidget
 
-NorWidget::NorWidget(String ^ type, Point ^ location, Gatter ^ gate, Int32 id):
-    LogicWidget(type, location, gate, id)
+NorWidget::NorWidget(Point ^ location, Int32 id):
+    LogicWidget(location, id)
 {
+    this->gate = Nor();
 }
 
 void NorWidget::paint(Graphics ^ canvas)
@@ -602,13 +611,16 @@ void NorWidget::paint(Graphics ^ canvas)
 
         canvas->DrawEllipse(pen, this->outputSignalLocation.X, this->outputSignalLocation.Y - 3, 6.0, 6.0);
 
-        canvas->DrawString(type, font, sb , safe_cast<float>(location->X + 3), safe_cast<float>(location->Y) + 3);
+        canvas->DrawString(font, sb , safe_cast<float>(location->X + 3), safe_cast<float>(location->Y) + 3);
     }
 }
 
-ForkWidget::ForkWidget(String ^ type, Point ^ location, Gatter ^ gate, Int32 id):
-    LogicWidget(type, location, gate, id)
+// NOTE: ForkWidget
+ForkWidget::ForkWidget(Point ^ location, Int32 id):
+    LogicWidget( location, id)
 {
+    this->gate = gcnew Fork();
+
     this->outputSignals = gcnew array < SignalWidget ^ > (2);
     this->size = gcnew Size(10, 10);
     this->setLocation(location);
@@ -670,24 +682,28 @@ void ForkWidget::paint(Graphics ^ canvas)
         Font ^ font = gcnew Font(FontFamily::GenericMonospace, 10);
         SolidBrush ^ sb = gcnew SolidBrush(color);
 
-        //canvas->DrawRectangle(pen, location->X, location->Y, this->size->Width, this->size->Height);
 		canvas->FillEllipse(sb, location->X, location->Y, this->size->Width, this->size->Height);
-        // canvas->DrawString(type, font, sb , safe_cast<float>(location->X + 3), safe_cast<float>(location->Y) + 3);
     }
 }
 
-AndWidget::AndWidget(String ^ type, Point ^ location, Gatter ^ gate, Int32 id):
-    LogicWidget(type, location, gate, id)
+// NOTE: AndWidget
+AndWidget::AndWidget(Point ^ location, Int32 id):
+    LogicWidget( location, id)
 {
+    this->gate = gcnew And();
 }
 
-OrWidget::OrWidget(String ^ type, Point ^ location, Gatter ^ gate, Int32 id):
-    LogicWidget(type, location, gate, id)
+// NOTE: OrWidget
+OrWidget::OrWidget(Point ^ location, Int32 id):
+    LogicWidget( location, id)
 {
+    this->gate = gcnew Or();
 }
 
-ExorWidget::ExorWidget(String ^ type, Point ^ location, Gatter ^ gate, Int32 id):
-    LogicWidget(type, location, gate, id)
+// NOTE: ExorWidget
+ExorWidget::ExorWidget(Point ^ location, Int32 id):
+    LogicWidget( location, id)
 {
+    this->gate = gcnew Exor();
 }
 
