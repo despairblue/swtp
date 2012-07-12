@@ -37,7 +37,7 @@ int main(array<System::String ^> ^args)
 
 	Application::Run(gcnew MainForm());
 
-	//System::Console::Read();
+	//System::Console::ReadLine();
 
 	return 0;
 }
