@@ -131,6 +131,7 @@ public:
     virtual Boolean connectInputSignalTwo(SignalWidget ^ sw) override;
     virtual Boolean connectOutputSignal(SignalWidget ^ sw) override;
     virtual void paint(Graphics ^ canvas) override;
+    virtual void setLocation(Point ^ location) override;
 };
 
 /// Graphical representation of Not.
@@ -142,6 +143,7 @@ public:
 public:
     virtual Boolean connectInputSignalTwo(SignalWidget ^ sw) override;
     virtual void paint(Graphics ^ canvas) override;
+    virtual void setLocation(Point ^ location) override;
 };
 
 /// Graphical representation of Nand.

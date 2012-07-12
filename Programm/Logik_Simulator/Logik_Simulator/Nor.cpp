@@ -7,7 +7,6 @@ Nor::Nor(void):Gatter()
 
 Nor::Nor(int number):Gatter(number)
 {
-	System::Console::WriteLine("Nor Gatter hinzugefügt");
 }
 
 void Nor::calculate(){

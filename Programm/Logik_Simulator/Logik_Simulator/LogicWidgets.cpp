@@ -266,6 +266,7 @@ Boolean LogicWidget::keyUp(KeyEventArgs ^ e, ToolStripStatusLabel ^ statusBar)
     return false;
 }
 
+/// Returns true if the widget was clicked, otherwise false.
 Boolean LogicWidget::widgetHit(Point ^ clickLocation)
 {
     if ( ( clickLocation->X >= this->location->X ) && ( clickLocation->X  <= this->location->X + this->size->Width ) )
@@ -280,7 +281,7 @@ Boolean LogicWidget::widgetHit(Point ^ clickLocation)
 }
 
 // NOTE: SignalWidget
-
+/// Constructs new SignalWidget
 SignalWidget::SignalWidget()
 {
     this->destructed = false;
@@ -288,21 +289,27 @@ SignalWidget::SignalWidget()
     this->signal = gcnew Signal();
 }
 
+/**
+    Destructs this widget
+    - disconnects all connected LogicWidgets
+    - removes reference to underlying signal
+*/
 void SignalWidget::destruct()
 {
     this->destructed = true;
     this->disconnectAll();
 
-    // FIX: Won't work, need a method to destruct the signal @roesti77
-    // this->signal->setInputGate(nullptr, 0);
-    // this->signal->addOutputGate(nullptr, 0);
+    signal = nullptr;
 }
 
+/// Returns true if the widget was destructed.
 Boolean SignalWidget::isDestructed()
 {
     return this->destructed;
 }
 
+/// Paints the widget on a graphics context.
+/// @param canvas   An instance of System::Drawing::Graphics
 void SignalWidget::paint( Graphics ^ canvas )
 {
     if ( !destructed )
@@ -331,11 +338,13 @@ void SignalWidget::paint( Graphics ^ canvas )
     }
 }
 
+/// Returns underlying Signal
 Signal ^ SignalWidget::getSignal()
 {
     return this->signal;
 }
 
+/// Sets the widgets input LogicWidget.
 void SignalWidget::setInputGate(LogicWidget ^ lw)
 {
     this->inputGate = lw;
@@ -351,11 +360,13 @@ void SignalWidget::setInputGate(LogicWidget ^ lw)
     }
 }
 
+/// Returns the the widgets input LogicWidget
 LogicWidget ^ SignalWidget::getInputGate()
 {
     return inputGate;
 }
 
+/// Sets the widgets output LogicWidget
 void SignalWidget::setOutputGate(LogicWidget ^ lw)
 {
     this->outputGate = lw;
@@ -382,11 +393,13 @@ void SignalWidget::setOutputGate(LogicWidget ^ lw)
     }
 }
 
+/// Returns the widgets output LogicWidget.
 LogicWidget ^ SignalWidget::getOutputGate()
 {
     return outputGate;
 }
 
+/// Disconnects this widget from all LogicWidget instances it was connected to.
 void SignalWidget::disconnectAll()
 {
     if (this->inputGate)
@@ -401,6 +414,7 @@ void SignalWidget::disconnectAll()
     }
 }
 
+/// Starts simulation if this SignalWidget is connected to an InputWidget.
 Boolean SignalWidget::transmit()
 {
     if (inputGate->GetType() == InputWidget::typeid)
@@ -412,18 +426,23 @@ Boolean SignalWidget::transmit()
 }
 
 // NOTE: InputWidget
-
+/**
+    @param location The widgets location
+    @param id The widgets ID
+*/
 InputWidget::InputWidget(Point ^ location, Int32 id):
     LogicWidget(location, id, "In:\n")
 {
     this->gate = gcnew Input();
 }
 
+/// Will always return false, InputWidgets have no input slots.
 Boolean InputWidget::connectInputSignalOne(SignalWidget ^ sw)
 {
     return false;
 }
 
+/// Will always return false, InputWidgets have no input slots.
 Boolean InputWidget::connectInputSignalTwo(SignalWidget ^ sw)
 {
     return false;
@@ -459,6 +478,10 @@ void InputWidget::paint(Graphics ^ canvas)
     }
 }
 
+/** Handles key events.
+    - Keys::Delete will destruct the widget
+    - 0 and 1 change the @link Input Inputs @endlink state
+*/
 Boolean InputWidget::keyUp(KeyEventArgs ^ e, ToolStripStatusLabel ^ statusBar)
 {
     Boolean handled = LogicWidget::keyUp(e, statusBar);
@@ -488,22 +511,38 @@ void InputWidget::click(ToolStripStatusLabel ^ statusBar)
 {
     LogicWidget::click(statusBar);
 
-    statusBar->Text = "Press 1 or 0 to toggle state. Press Delete to remove. Drag to another Widget to connect.";
+    if (selected)
+    {
+        statusBar->Text = "Press 1 or 0 to toggle state. Press Delete to remove. Drag to another Widget to connect.";
+    }
 }
 
 // NOTE: OutputWidget
-
+/**
+    @param location The widgets location
+    @param id The widgets ID
+*/
 OutputWidget::OutputWidget(Point ^ location, Int32 id):
     LogicWidget(location, id, "Out:\n")
 {
-    this->gate = gcnew Output();
+    this->setLocation(location);
 }
 
+void OutputWidget::setLocation(Point ^ location)
+{
+    LogicWidget::setLocation(location);
+    
+    this->inputSignalOneLocation.X = (float) this->location->X ;
+    this->inputSignalOneLocation.Y = (float) (this->location->Y + (this->size->Height / 2));
+}
+
+/// Will always return false, OutputWidget instances have only one input slot.
 Boolean OutputWidget::connectInputSignalTwo(SignalWidget ^ sw)
 {
     return false;
 }
 
+/// Will always return false, OutputWidget instances have no output slot.
 Boolean OutputWidget::connectOutputSignal(SignalWidget ^ sw)
 {
     return false;
@@ -543,13 +582,27 @@ void OutputWidget::paint(Graphics ^ canvas)
 }
 
 // NOTE: NotWidget
-
+/**
+    @param location The widgets location
+    @param id The widgets ID
+*/
 NotWidget::NotWidget(Point ^ location, Int32 id):
     LogicWidget(location, id, "1")
 {
     this->gate = gcnew Not();
+
+    this->setLocation(location);
 }
 
+void NotWidget::setLocation(Point ^ location)
+{
+    LogicWidget::setLocation(location);
+
+    this->inputSignalOneLocation.X = (float) this->location->X ;
+    this->inputSignalOneLocation.Y = (float) (this->location->Y + (this->size->Height / 2));
+}
+
+/// Will always return false, NotWidget instances have only one input slot.
 Boolean NotWidget::connectInputSignalTwo(SignalWidget ^ sw)
 {
     return false;
@@ -592,7 +645,10 @@ void NotWidget::paint(Graphics ^ canvas)
 }
 
 // NOTE: NandWidget
-
+/**
+    @param location The widgets location
+    @param id The widgets ID
+*/
 NandWidget::NandWidget(Point ^ location, Int32 id):
     LogicWidget(location, id, "&")
 {
@@ -631,7 +687,10 @@ void NandWidget::paint(Graphics ^ canvas)
 }
 
 // NOTE: NorWidget
-
+/**
+    @param location The widgets location
+    @param id The widgets ID
+*/
 NorWidget::NorWidget(Point ^ location, Int32 id):
     LogicWidget(location, id, ">=1")
 {
@@ -670,6 +729,10 @@ void NorWidget::paint(Graphics ^ canvas)
 }
 
 // NOTE: ForkWidget
+/**
+    @param location The widgets location
+    @param id The widgets ID
+*/
 ForkWidget::ForkWidget(Point ^ location, Int32 id):
     LogicWidget( location, id, "Fork")
 {
@@ -680,11 +743,13 @@ ForkWidget::ForkWidget(Point ^ location, Int32 id):
     this->setLocation(location);
 }
 
+/// Will always return false. ForkWidget instances have only one input slot.
 Boolean ForkWidget::connectInputSignalTwo(SignalWidget ^ sw)
 {
     return false;
 }
 
+/// Connects up to 2 output SignalWidget instances.
 Boolean ForkWidget::connectOutputSignal(SignalWidget ^ sw)
 {
     if ( !(outputSignals[0]) || outputSignals[0]->isDestructed() )
@@ -741,6 +806,10 @@ void ForkWidget::paint(Graphics ^ canvas)
 }
 
 // NOTE: AndWidget
+/**
+    @param location The widgets location
+    @param id The widgets ID
+*/
 AndWidget::AndWidget(Point ^ location, Int32 id):
     LogicWidget( location, id, "&")
 {
@@ -748,6 +817,10 @@ AndWidget::AndWidget(Point ^ location, Int32 id):
 }
 
 // NOTE: OrWidget
+/**
+    @param location The widgets location
+    @param id The widgets ID
+*/
 OrWidget::OrWidget(Point ^ location, Int32 id):
     LogicWidget( location, id, ">=1")
 {
@@ -755,6 +828,10 @@ OrWidget::OrWidget(Point ^ location, Int32 id):
 }
 
 // NOTE: ExorWidget
+/**
+    @param location The widgets location
+    @param id The widgets ID
+*/
 ExorWidget::ExorWidget(Point ^ location, Int32 id):
     LogicWidget( location, id, "=1")
 {

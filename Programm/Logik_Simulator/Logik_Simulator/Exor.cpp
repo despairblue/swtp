@@ -6,7 +6,6 @@ Exor::Exor(void):Gatter()
 }
 
 Exor::Exor(int number):Gatter(number){
-	System::Console::WriteLine("Exor Gatter hinzugefügt");
 }
 
 void Exor::calculate(){

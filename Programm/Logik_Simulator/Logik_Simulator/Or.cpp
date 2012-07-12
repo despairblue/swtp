@@ -5,7 +5,6 @@ Or::Or(void):Gatter()
 {
 }
 Or::Or(int number):Gatter(number){
-	System::Console::WriteLine("Or Gatter hinzugefügt");
 }
 
 void Or::calculate(){
