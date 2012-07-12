@@ -684,17 +684,16 @@ namespace Logik_Simulator
 							for(int i = inputRows->Count; i < inputRowSize ; i++)
 							{
 								ArrayList^ tempAL = gcnew ArrayList();
-								for (int i = 0; i < inputSize; i++)
+								for (int j = 0; j < inputSize; j++)
 								{
-									tempAL->Add(false);
+									String^ key = safe_cast<String^>(inputNames[j]);
+									ArrayList^ t = safe_cast<ArrayList^>(this->inputMap[key]);
+									bool b = safe_cast<bool>(t[i]);
+									tempAL->Add(b);
 								}
 								inputRows->Add(tempAL);
-
-
 							}
 						}
-
-
 					}
 				}
 			}
@@ -755,19 +754,22 @@ namespace Logik_Simulator
 
 				}
 			}
-
+	/*		ArrayList^ inputAL = gcnew ArrayList();
 			for each (KeyValuePair < String ^ , ArrayList ^ > ^ pair1 in this->inputMap)
 			{
 				int index = inputNames->IndexOf(pair1->Key);
 				int maxValues = this->inputMap[pair1->Key]->Count;
 
 				for(int i = 0; i < maxValues; i++)
-				{//TODO ARRAY LIST füllen
+				{
 					ArrayList^ tempAL = safe_cast<ArrayList^>(inputRows[i]);
-					//	tempAL[index] = pair1->Value
+					inputAL->Add(safe_cast<ArrayList^>(this->inputMap[pair1->Key]));
+				//	array<bool> ^ tempArray = safe_cast<array<bool>>(inputAL[i]->ToArray());
+					tempAL[index] = safe_cast<ArrayList^>(inputAL[index]);
 				}
 
 			}
+			*/
 
 			for each (ArrayList^ inputRowsAL in inputRows)
 			{
@@ -1084,7 +1086,7 @@ namespace Logik_Simulator
         {
 					toolStripStatusLabel1->Text = "No Gate selected. Select the Gate you want to remove.";
         }
-
+				 refreshTable();
 				 repaint();
 			 }
 	private: System::Void toolStripButton9_Click(System::Object ^  sender, System::EventArgs ^  e)
