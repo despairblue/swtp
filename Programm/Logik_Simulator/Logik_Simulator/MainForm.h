@@ -794,6 +794,25 @@ namespace Logik_Simulator
 
 		}
 
+		void cleanCanvas()
+		{
+			for each (LogicWidget ^ lw in logic_widgets)
+			{
+				lw->destruct();
+			}
+
+			for each (SignalWidget ^ sw in signal_widgets)
+			{
+				sw->destruct();
+			}
+
+			logic_widgets->Clear();
+			signal_widgets->Clear();
+			selected_widget = nullptr;
+
+			repaint();
+		}
+
 		void toolStripButtons_Click(System::Object ^  sender, System::EventArgs ^  e)
 		{
 			ToolStripButton ^ sen = safe_cast < ToolStripButton ^ > (sender);
@@ -1131,8 +1150,7 @@ namespace Logik_Simulator
 				 {
 					 if ( (myStream = openFileDialog1->OpenFile()) != nullptr )
 					 {
-						 logic_widgets->Clear();
-						 signal_widgets->Clear();
+						 cleanCanvas();
 
 						 StreamReader ^ fileReader = gcnew StreamReader(myStream);
 						 String ^ fileContent = fileReader->ReadToEnd();
@@ -1231,6 +1249,7 @@ namespace Logik_Simulator
 					 }
 				 }
 
+				 refreshTable();
 				 repaint();
 			 }
 	};
