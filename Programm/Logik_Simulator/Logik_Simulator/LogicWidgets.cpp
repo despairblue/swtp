@@ -425,6 +425,33 @@ Boolean SignalWidget::transmit()
     return false;
 }
 
+Boolean SignalWidget::signalCut(Point start, Point stop)
+{
+	Single slope1 = (start.Y - stop.Y) / (Single) (start.X - stop.X);
+    Single slope2 = (inputGate->getLocation()->Y - outputGate->getLocation()->Y) / 
+    (Single) (inputGate->getLocation()->X - outputGate->getLocation()->X);
+    Point ^ inputLocation = inputGate->getLocation();
+    Point ^ outputLocation = outputGate->getLocation();
+
+    array<Int32>^ v1 = {start.X, start.Y, 1};
+    array<Int32>^ v2 = {stop.X, stop.Y, 1};
+    array<Int32>^ v3 = {inputLocation->X, inputLocation->Y, 1};
+	array<Int32>^ v4 = {outputLocation->X, outputLocation->Y, 1};
+
+
+
+    return false;
+}
+
+// array<Int32> ^ SignalWidget::cross(array<Int32> ^ v1, array<Int32> ^ v2)
+// {
+//     array<Int32> ^ result = array<Int32>(3);
+
+//     result[0] = v1[1] * v2[2] - v1[2] * v2[1];
+//     result[1] = v1[0] * v2[2] - v1[2] * v2[1];
+//     result[2] = v1[1] * v2[2] - v1[2] * v2[1];
+// }
+
 // NOTE: InputWidget
 /**
     @param location The widgets location

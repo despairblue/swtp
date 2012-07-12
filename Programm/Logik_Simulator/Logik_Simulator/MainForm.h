@@ -44,13 +44,15 @@ namespace Logik_Simulator
 		{
 			InitializeComponent();
 
+			this->Focus();
+
 			this->toolStripButtons = gcnew ArrayList();
 			this->logic_widgets = gcnew ArrayList();
 			this->signal_widgets = gcnew ArrayList();
 			this->toDelete = gcnew ArrayList();
 
-			this->currentMousePosition = gcnew Point();
-			this->mouse_down_location = gcnew Point();
+			this->mouse_down_location.X = 0;
+			this->mouse_down_location.Y = 0;
 
 			this->inputMap = gcnew SortedDictionary < String ^ , ArrayList ^ > ();
 			this->outputMap = gcnew SortedDictionary < String ^ , ArrayList ^ > ();
@@ -82,9 +84,8 @@ namespace Logik_Simulator
 	protected:
 		LogicWidget ^ grabbed_widget;
 		LogicWidget ^ selected_widget;
-		Point ^ mouse_down_location;
-		Point ^ currentMousePosition;
-		Point ^ grabbed_widget_location;
+		Point mouse_down_location;
+		Point grabbed_widget_location;
 		ArrayList ^ toolStripButtons;
 		ArrayList ^ logic_widgets;
 		ArrayList ^ signal_widgets;
@@ -151,7 +152,7 @@ namespace Logik_Simulator
 		void InitializeComponent(void)
 		{
 			System::ComponentModel::ComponentResourceManager^  resources = (gcnew System::ComponentModel::ComponentResourceManager(MainForm::typeid));
-			System::Windows::Forms::DataGridViewCellStyle^  dataGridViewCellStyle1 = (gcnew System::Windows::Forms::DataGridViewCellStyle());
+			System::Windows::Forms::DataGridViewCellStyle^  dataGridViewCellStyle2 = (gcnew System::Windows::Forms::DataGridViewCellStyle());
 			this->toolStrip1 = (gcnew System::Windows::Forms::ToolStrip());
 			this->toolStripButton1 = (gcnew System::Windows::Forms::ToolStripButton());
 			this->toolStripButton2 = (gcnew System::Windows::Forms::ToolStripButton());
@@ -423,20 +424,26 @@ namespace Logik_Simulator
 			this->inputGridView->Name = L"inputGridView";
 			this->inputGridView->ReadOnly = true;
 			this->inputGridView->RightToLeft = System::Windows::Forms::RightToLeft::No;
-			dataGridViewCellStyle1->Alignment = System::Windows::Forms::DataGridViewContentAlignment::MiddleLeft;
-			dataGridViewCellStyle1->BackColor = System::Drawing::SystemColors::Control;
-			dataGridViewCellStyle1->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 8.25F, System::Drawing::FontStyle::Regular, 
+			dataGridViewCellStyle2->Alignment = System::Windows::Forms::DataGridViewContentAlignment::MiddleLeft;
+			dataGridViewCellStyle2->BackColor = System::Drawing::SystemColors::Control;
+			dataGridViewCellStyle2->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 8.25F, System::Drawing::FontStyle::Regular, 
 				System::Drawing::GraphicsUnit::Point, static_cast<System::Byte>(0)));
-			dataGridViewCellStyle1->ForeColor = System::Drawing::SystemColors::WindowText;
-			dataGridViewCellStyle1->SelectionBackColor = System::Drawing::SystemColors::Info;
-			dataGridViewCellStyle1->SelectionForeColor = System::Drawing::SystemColors::HighlightText;
-			dataGridViewCellStyle1->WrapMode = System::Windows::Forms::DataGridViewTriState::True;
-			this->inputGridView->RowHeadersDefaultCellStyle = dataGridViewCellStyle1;
+			dataGridViewCellStyle2->ForeColor = System::Drawing::SystemColors::WindowText;
+			dataGridViewCellStyle2->SelectionBackColor = System::Drawing::SystemColors::Info;
+			dataGridViewCellStyle2->SelectionForeColor = System::Drawing::SystemColors::HighlightText;
+			dataGridViewCellStyle2->WrapMode = System::Windows::Forms::DataGridViewTriState::True;
+			this->inputGridView->RowHeadersDefaultCellStyle = dataGridViewCellStyle2;
 			this->inputGridView->RowHeadersWidth = 35;
 			this->inputGridView->Size = System::Drawing::Size(144, 132);
 			this->inputGridView->TabIndex = 0;
 			this->inputGridView->CellValueChanged += gcnew System::Windows::Forms::DataGridViewCellEventHandler(this, &MainForm::inputGridView_CellValueChanged);
+			this->inputGridView->CellDoubleClick += gcnew System::Windows::Forms::DataGridViewCellEventHandler(this, &MainForm::inputGridView_CellClick);
+			this->inputGridView->CellContentDoubleClick += gcnew System::Windows::Forms::DataGridViewCellEventHandler(this, &MainForm::inputGridView_CellClick);
+			this->inputGridView->CellClick += gcnew System::Windows::Forms::DataGridViewCellEventHandler(this, &MainForm::inputGridView_CellClick);
+			this->inputGridView->KeyDown += gcnew System::Windows::Forms::KeyEventHandler(this, &MainForm::splitContainer1_KeyDown);
+			this->inputGridView->KeyUp += gcnew System::Windows::Forms::KeyEventHandler(this, &MainForm::MainForm_KeyUp);
 			this->inputGridView->RowHeaderMouseClick += gcnew System::Windows::Forms::DataGridViewCellMouseEventHandler(this, &MainForm::inputGridView_RowHeaderMouseClick);
+			this->inputGridView->CellContentClick += gcnew System::Windows::Forms::DataGridViewCellEventHandler(this, &MainForm::inputGridView_CellClick);
 			// 
 			// outputGridView
 			// 
@@ -451,6 +458,8 @@ namespace Logik_Simulator
 			this->outputGridView->RowHeadersWidth = 35;
 			this->outputGridView->Size = System::Drawing::Size(144, 91);
 			this->outputGridView->TabIndex = 0;
+			this->outputGridView->KeyDown += gcnew System::Windows::Forms::KeyEventHandler(this, &MainForm::splitContainer1_KeyDown);
+			this->outputGridView->KeyUp += gcnew System::Windows::Forms::KeyEventHandler(this, &MainForm::MainForm_KeyUp);
 			// 
 			// Header
 			// 
@@ -480,6 +489,8 @@ namespace Logik_Simulator
 			this->DoubleBuffered = true;
 			this->Name = L"MainForm";
 			this->Text = L"MainForm";
+			this->KeyUp += gcnew System::Windows::Forms::KeyEventHandler(this, &MainForm::MainForm_KeyUp);
+			this->KeyDown += gcnew System::Windows::Forms::KeyEventHandler(this, &MainForm::splitContainer1_KeyDown);
 			this->toolStrip1->ResumeLayout(false);
 			this->toolStrip1->PerformLayout();
 			this->statusStrip1->ResumeLayout(false);
@@ -521,14 +532,16 @@ namespace Logik_Simulator
 
 		void move_widget(Point ^ location)
 		{
-			int x_diff = location->X - this->mouse_down_location->X;
-			int y_diff = location->Y - this->mouse_down_location->Y;
+			if (grabbed_widget) {
+				int x_diff = location->X - this->mouse_down_location.X;
+				int y_diff = location->Y - this->mouse_down_location.Y;
 
-			Point new_loc = Point(grabbed_widget_location->X + x_diff, grabbed_widget_location->Y + y_diff);
+				Point new_loc = Point(grabbed_widget_location.X + x_diff, grabbed_widget_location.Y + y_diff);
 
-			grabbed_widget->setLocation(new_loc);
+				grabbed_widget->setLocation(new_loc);
 
-			repaint();
+				repaint();
+			}
 		}
 
 		void repaint()
@@ -683,7 +696,7 @@ namespace Logik_Simulator
 						for each(KeyValuePair < String ^ , ArrayList ^ > ^ pair1 in this->inputMap)
 						{
 							this->inputGridView->Columns->Add(pair1->Key, pair1->Key);
-																				
+														
 							inputNames->Add(pair1->Key);
 
 							if(inputNames->Count > inputSize)
@@ -708,7 +721,6 @@ namespace Logik_Simulator
  									tempAL->Add(b);
 								}
 								inputRows->Add(tempAL);
-
 							}
 						}
 					}
@@ -791,7 +803,6 @@ namespace Logik_Simulator
 			for each (ArrayList^ inputRowsAL in inputRows)
 			{
 				this->inputGridView->Rows->Add(inputRowsAL->ToArray());
-				this->inputGridView->CellClick += gcnew System::Windows::Forms::DataGridViewCellEventHandler(this, &MainForm::inputGridView_CellClick);
 			}
 
 			for each (KeyValuePair < String ^ , ArrayList ^ > ^ pair1 in this->outputMap)
@@ -852,12 +863,16 @@ namespace Logik_Simulator
 
 		void MainForm_MouseUp(System::Object ^  sender, System::Windows::Forms::MouseEventArgs ^  e)
 		{
+			Control ^ control = dynamic_cast<Control^>(sender);
+
+			Boolean sameLocation = ( (mouse_down_location.X == e->X) && (mouse_down_location.Y == e->Y) );
+			Boolean controlKeyDown = Control::ModifierKeys == Keys::Control;
 
 			if (grabbed_widget)
 			{
 				// MouseDown inside of a Widget, might be drag 'n drop or click
 
-				if ( (mouse_down_location->X == e->X) && (mouse_down_location->Y == e->Y) )
+				if (sameLocation)
 				{
 					// MouseDown location equals MouseUp location -> click
 					// change selection and repaint form
@@ -935,63 +950,83 @@ namespace Logik_Simulator
 			}
 			else
 			{
-				// MouseDown outside of a Widget -> create a widget here
+				if ( sameLocation )
+				{					
+					//MouseDown outside of a Widget and in the same location as mouseup -> create a widget here
 
-				ToolStripButton ^ btn;
+					ToolStripButton ^ btn;
 
-				for each (ToolStripButton ^ ts_btn in this->toolStripButtons)
-				{
-					if ( ts_btn->Checked )
+					for each (ToolStripButton ^ ts_btn in this->toolStripButtons)
 					{
-						btn = ts_btn;
+						if ( ts_btn->Checked )
+						{
+							btn = ts_btn;
+						}
+					}
+
+					if ( btn )
+					{
+						Gatter ^ gate;
+						LogicWidget ^ lw;
+
+						switch (Int32::Parse(btn->Tag->ToString()))
+						{
+						case 1:
+							gate = gcnew And();
+							lw = gcnew AndWidget(gcnew Point(e->X, e->Y), createID());
+							break;
+						case 2:
+							gate = gcnew Or();
+							lw = gcnew OrWidget(gcnew Point(e->X, e->Y), createID());
+							break;
+						case 3:
+							gate = gcnew Not();
+							lw = gcnew NotWidget(gcnew Point(e->X, e->Y), createID());
+							break;
+						case 4:
+							gate = gcnew Exor();
+							lw = gcnew ExorWidget(gcnew Point(e->X, e->Y), createID());
+							break;
+						case 5:
+							gate = gcnew Nor();
+							lw = gcnew NorWidget( gcnew Point(e->X, e->Y), createID());
+							break;
+						case 6:
+							gate = gcnew Nand();
+							lw = gcnew NandWidget(gcnew Point(e->X, e->Y), createID());
+							break;
+						case 7:
+							gate = gcnew Input();
+							lw = gcnew InputWidget(gcnew Point(e->X, e->Y), createID());
+							break;
+						case 8:
+							gate = gcnew Output();
+							lw = gcnew OutputWidget(gcnew Point(e->X, e->Y), createID());
+							break;
+						case 9:
+							gate = gcnew Fork();
+							lw = gcnew ForkWidget(gcnew Point(e->X, e->Y), createID());
+						}
+						this->logic_widgets->Insert(0, lw);
+						refreshTable();
 					}
 				}
-
-				if ( btn )
+				else if ( controlKeyDown )
 				{
-					Gatter ^ gate;
-					LogicWidget ^ lw;
+					// MouseUp in different location than mouse down and control key pressed -> cut tool
 
-					switch (Int32::Parse(btn->Tag->ToString()))
+					for each (SignalWidget ^ sw in signal_widgets)
 					{
-					case 1:
-						gate = gcnew And();
-						lw = gcnew AndWidget(gcnew Point(e->X, e->Y), createID());
-						break;
-					case 2:
-						gate = gcnew Or();
-						lw = gcnew OrWidget(gcnew Point(e->X, e->Y), createID());
-						break;
-					case 3:
-						gate = gcnew Not();
-						lw = gcnew NotWidget(gcnew Point(e->X, e->Y), createID());
-						break;
-					case 4:
-						gate = gcnew Exor();
-						lw = gcnew ExorWidget(gcnew Point(e->X, e->Y), createID());
-						break;
-					case 5:
-						gate = gcnew Nor();
-						lw = gcnew NorWidget( gcnew Point(e->X, e->Y), createID());
-						break;
-					case 6:
-						gate = gcnew Nand();
-						lw = gcnew NandWidget(gcnew Point(e->X, e->Y), createID());
-						break;
-					case 7:
-						gate = gcnew Input();
-						lw = gcnew InputWidget(gcnew Point(e->X, e->Y), createID());
-						break;
-					case 8:
-						gate = gcnew Output();
-						lw = gcnew OutputWidget(gcnew Point(e->X, e->Y), createID());
-						break;
-					case 9:
-						gate = gcnew Fork();
-						lw = gcnew ForkWidget(gcnew Point(e->X, e->Y), createID());
+						if (sw->signalCut(mouse_down_location, control->PointToClient(control->MousePosition)))
+						{
+							sw->destruct();
+						}
+						else
+						{
+							toolStripStatusLabel1->Text = "No Signal cut.";
+						}
 					}
-					this->logic_widgets->Insert(0, lw);
-					refreshTable();
+
 				}
 			}
 
@@ -1000,7 +1035,10 @@ namespace Logik_Simulator
 
 		void MainForm_Paint(System::Object ^  sender, System::Windows::Forms::PaintEventArgs ^  e)
 		{
+			Control^ control = dynamic_cast<Control^>(sender);
 			Pen^ pen = gcnew Pen(Color::Orange);
+			Boolean controlKeyDown = Control::ModifierKeys == Keys::Control;
+			Boolean leftMouseButtonDown = Control::MouseButtons == ::MouseButtons::Left;
 
 			e->Graphics->Clear(Color::LightGray);
 
@@ -1036,9 +1074,11 @@ namespace Logik_Simulator
 
 			toDelete->Clear();
 
-			if (Control::ModifierKeys == Keys::Control)
+			if ( controlKeyDown && leftMouseButtonDown )
 			{
-				e->Graphics->DrawLine(pen, mouse_down_location->X, mouse_down_location->Y, currentMousePosition->X, currentMousePosition->Y);
+				Point endPoint = control->PointToClient(control->MousePosition);
+
+				e->Graphics->DrawLine(pen, mouse_down_location.X, mouse_down_location.Y, endPoint.X, endPoint.Y);
 			}
 		}
 
@@ -1050,19 +1090,32 @@ namespace Logik_Simulator
 			// if the mouse was over a widget, save it's old location
 			if (grabbed_widget)
 			{
-				this->grabbed_widget_location = this->grabbed_widget->getLocation();
+				this->grabbed_widget_location.X = this->grabbed_widget->getLocation()->X;
+				this->grabbed_widget_location.Y = this->grabbed_widget->getLocation()->Y;
 			}
 		}
 
 		void MainForm_MouseMove(System::Object ^  sender, System::Windows::Forms::MouseEventArgs ^  e)
 		{
-			currentMousePosition = e->Location;
+			Boolean controlKeyDown = Control::ModifierKeys == Keys::Control;
+			Boolean leftMouseButtonDown = Control::MouseButtons == ::MouseButtons::Left;
 
 			if (grabbed_widget && !(grabbed_widget->selected) )
 			{
-				move_widget( gcnew Point( e->X, e->Y ) );
+				// only if an unselected widget is grabbed
+				if (controlKeyDown)
+				{
+					// undo move and grabbing if control is pressed
+					move_widget(grabbed_widget_location);
+					grabbed_widget = nullptr;
+				}
+				else
+				{
+					// else move it
+					move_widget( gcnew Point( e->X, e->Y ) );
+				}
 			}
-			if (Control::ModifierKeys == Keys::Control)
+			if ( controlKeyDown && leftMouseButtonDown )
 			{
 				repaint();
 			}
@@ -1297,9 +1350,10 @@ namespace Logik_Simulator
 					if (Control::ModifierKeys == Keys::Control)
 					{
 						pictureBox1->Cursor = Cursors::Cross;
-						toolStripStatusLabel1->Text ="Cut Signals to remove them.";
+						toolStripStatusLabel1->Text ="While pressing Control you can cut Signals to remove them.";
 					}
 			 }
+
 private: System::Void inputGridView_CellValueChanged(System::Object^  sender, System::Windows::Forms::DataGridViewCellEventArgs^  e) {
 			 int columnIndex =  this->inputGridView->CurrentCell->ColumnIndex;
 			 int rowIndex = this->inputGridView->CurrentCell->RowIndex;
@@ -1313,12 +1367,17 @@ private: System::Void inputGridView_CellValueChanged(System::Object^  sender, Sy
 					if(safe_cast<InputWidget^>(lw)->getID() == widgetIndex)
 					{
 						safe_cast<InputWidget^>(lw)->getGate()->setInputValue(safe_cast<bool>(this->inputGridView->CurrentCell->Value));
-						ArrayList^ tempAL = this->inputMap[key1];
-						tempAL[rowIndex] = safe_cast<bool>(this->inputGridView->CurrentCell->Value);
 						repaint();
 					}
 				}
 			}
+			 
+			 			
+
+
+
+
+
 		 }
 
 private: System::Void inputGridView_CellClick(System::Object^  sender, System::Windows::Forms::DataGridViewCellEventArgs^  e) {
