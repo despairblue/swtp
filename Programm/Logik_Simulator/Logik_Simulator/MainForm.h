@@ -1061,6 +1061,10 @@ namespace Logik_Simulator
 						 startSimulation(true);
 					 }
 				 }
+        else if (e->KeyCode == Keys::Delete)
+        {
+					toolStripStatusLabel1->Text = "No Gate selected. Select the Gate you want to remove.";
+        }
 
 				 repaint();
 			 }

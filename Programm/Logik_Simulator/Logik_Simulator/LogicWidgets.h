@@ -41,7 +41,10 @@ public:
 
 protected:
     /// False by default. Set to true after destruct() finishes.
-    /** @see LogicWidget::destruct()*/
+    /** 
+        If true prevents widget from painting.
+        @see LogicWidget::destruct()
+    */
     Boolean destructed;
     Size ^ size; ///< Size of the widget.
     Point ^ location; ///< Location of the widget.
