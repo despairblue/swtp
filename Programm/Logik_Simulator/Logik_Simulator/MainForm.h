@@ -375,6 +375,7 @@ namespace Logik_Simulator
 			this->splitContainer1->SplitterDistance = 351;
 			this->splitContainer1->TabIndex = 4;
 			this->splitContainer1->KeyUp += gcnew System::Windows::Forms::KeyEventHandler(this, &MainForm::MainForm_KeyUp);
+			this->splitContainer1->KeyDown += gcnew System::Windows::Forms::KeyEventHandler(this, &MainForm::splitContainer1_KeyDown);
 			// 
 			// pictureBox1
 			// 
@@ -1046,15 +1047,18 @@ namespace Logik_Simulator
 		{
 			if (grabbed_widget && !(grabbed_widget->selected) )
 			{
-
 				move_widget( gcnew Point( e->X, e->Y ) );
-
 			}
 		}
 
 	private: System::Void MainForm_KeyUp(System::Object ^  sender, System::Windows::Forms::KeyEventArgs ^  e)
-			 {
-				 Boolean handled = false;
+			{
+				Boolean handled = false;
+
+				if (Control::ModifierKeys != Keys::Control)
+				{
+					pictureBox1->Cursor = Cursors::Default;
+				}
 
 				 if (selected_widget)
 				 {
@@ -1271,5 +1275,12 @@ namespace Logik_Simulator
 				 refreshTable();
 				 repaint();
 			 }
-	};
+
+	private: System::Void splitContainer1_KeyDown(System::Object^  sender, System::Windows::Forms::KeyEventArgs^  e) {
+					if (Control::ModifierKeys == Keys::Control)
+					{
+						pictureBox1->Cursor = Cursors::Cross;
+					}
+			 }
+};
 }
