@@ -105,6 +105,7 @@ public:
     LogicWidget ^ getOutputGate();
     void disconnectAll();
     Boolean transmit();
+    Boolean signalCut(Point start, Point stop);
 };
 
 /// Graphical representation of Input.
