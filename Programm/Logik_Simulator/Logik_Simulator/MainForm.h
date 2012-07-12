@@ -1280,6 +1280,7 @@ namespace Logik_Simulator
 					if (Control::ModifierKeys == Keys::Control)
 					{
 						pictureBox1->Cursor = Cursors::Cross;
+						toolStripStatusLabel1->Text ="Cut Signals to remove them.";
 					}
 			 }
 };
