@@ -302,12 +302,14 @@ void SignalWidget::destruct()
     signal = nullptr;
 }
 
-///
+/// Returns true if the widget was destructed.
 Boolean SignalWidget::isDestructed()
 {
     return this->destructed;
 }
 
+/// Paints the widget on a graphics context.
+/// @param canvas   An instance of System::Drawing::Graphics
 void SignalWidget::paint( Graphics ^ canvas )
 {
     if ( !destructed )
@@ -336,11 +338,13 @@ void SignalWidget::paint( Graphics ^ canvas )
     }
 }
 
+/// Returns underlying Signal
 Signal ^ SignalWidget::getSignal()
 {
     return this->signal;
 }
 
+/// Sets the widgets input LogicWidget.
 void SignalWidget::setInputGate(LogicWidget ^ lw)
 {
     this->inputGate = lw;
@@ -356,11 +360,13 @@ void SignalWidget::setInputGate(LogicWidget ^ lw)
     }
 }
 
+/// Returns the the widgets input LogicWidget
 LogicWidget ^ SignalWidget::getInputGate()
 {
     return inputGate;
 }
 
+/// Sets the widgets output LogicWidget
 void SignalWidget::setOutputGate(LogicWidget ^ lw)
 {
     this->outputGate = lw;
@@ -387,11 +393,13 @@ void SignalWidget::setOutputGate(LogicWidget ^ lw)
     }
 }
 
+/// Returns the widgets output LogicWidget.
 LogicWidget ^ SignalWidget::getOutputGate()
 {
     return outputGate;
 }
 
+/// Disconnects this widget from all LogicWidget instances it was connected to.
 void SignalWidget::disconnectAll()
 {
     if (this->inputGate)
@@ -406,6 +414,7 @@ void SignalWidget::disconnectAll()
     }
 }
 
+/// Starts simulation if this SignalWidget is connected to an InputWidget.
 Boolean SignalWidget::transmit()
 {
     if (inputGate->GetType() == InputWidget::typeid)
@@ -417,18 +426,23 @@ Boolean SignalWidget::transmit()
 }
 
 // NOTE: InputWidget
-
+/**
+    @param location The widgets location
+    @param id The widgets ID
+*/
 InputWidget::InputWidget(Point ^ location, Int32 id):
     LogicWidget(location, id, "In:\n")
 {
     this->gate = gcnew Input();
 }
 
+/// Will always return false, InputWidgets have no input slots.
 Boolean InputWidget::connectInputSignalOne(SignalWidget ^ sw)
 {
     return false;
 }
 
+/// Will always return false, InputWidgets have no input slots.
 Boolean InputWidget::connectInputSignalTwo(SignalWidget ^ sw)
 {
     return false;
@@ -464,6 +478,10 @@ void InputWidget::paint(Graphics ^ canvas)
     }
 }
 
+/** Handles key events.
+    - Keys::Delete will destruct the widget
+    - 0 and 1 change the @link Input Inputs @endlink state
+*/
 Boolean InputWidget::keyUp(KeyEventArgs ^ e, ToolStripStatusLabel ^ statusBar)
 {
     Boolean handled = LogicWidget::keyUp(e, statusBar);
@@ -493,7 +511,10 @@ void InputWidget::click(ToolStripStatusLabel ^ statusBar)
 {
     LogicWidget::click(statusBar);
 
-    statusBar->Text = "Press 1 or 0 to toggle state. Press Delete to remove. Drag to another Widget to connect.";
+    if (selected)
+    {
+        statusBar->Text = "Press 1 or 0 to toggle state. Press Delete to remove. Drag to another Widget to connect.";
+    }
 }
 
 // NOTE: OutputWidget
