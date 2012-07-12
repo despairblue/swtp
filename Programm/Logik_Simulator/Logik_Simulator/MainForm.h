@@ -82,6 +82,7 @@ namespace Logik_Simulator
 		LogicWidget ^ grabbed_widget;
 		LogicWidget ^ selected_widget;
 		Point ^ mouse_down_location;
+		Point ^ currentMousePosition;
 		Point ^ grabbed_widget_location;
 		ArrayList ^ toolStripButtons;
 		ArrayList ^ logic_widgets;
@@ -993,6 +994,8 @@ namespace Logik_Simulator
 
 		void MainForm_Paint(System::Object ^  sender, System::Windows::Forms::PaintEventArgs ^  e)
 		{
+			Pen^ pen = gcnew Pen(Color::Orange);
+
 			e->Graphics->Clear(Color::LightGray);
 
 			for each (LogicWidget ^ lw in this->logic_widgets)
@@ -1023,15 +1026,19 @@ namespace Logik_Simulator
 			{
 				this->logic_widgets->Remove(obj);
 				this->signal_widgets->Remove(obj);
-
 			}
 
 			toDelete->Clear();
 
+			if (Control::ModifierKeys == Keys::Control)
+			{
+				e->Graphics->DrawLine(pen, mouse_down_location->X, mouse_down_location->Y, currentMousePosition->X, currentMousePosition->Y);
+			}
 		}
 
 		void MainForm_MouseDown(System::Object ^  sender, System::Windows::Forms::MouseEventArgs ^  e)
 		{
+			this->mouse_down_location = e->Location;
 			this->grabbed_widget = checkWidgetHit(e->Location);
 
 			// if the mouse was over a widget, save it's old location
@@ -1039,15 +1046,19 @@ namespace Logik_Simulator
 			{
 				this->grabbed_widget_location = this->grabbed_widget->getLocation();
 			}
-
-			this->mouse_down_location = e->Location;
 		}
 
 		void MainForm_MouseMove(System::Object ^  sender, System::Windows::Forms::MouseEventArgs ^  e)
 		{
+			currentMousePosition = e->Location;
+
 			if (grabbed_widget && !(grabbed_widget->selected) )
 			{
 				move_widget( gcnew Point( e->X, e->Y ) );
+			}
+			if (Control::ModifierKeys == Keys::Control)
+			{
+				repaint();
 			}
 		}
 
