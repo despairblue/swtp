@@ -6,7 +6,6 @@ Not::Not(void):Gatter(1)
 }
 
 Not::Not(int number):Gatter(1){
-	System::Console::WriteLine("Not Gatter hinzugefügt");
 }
 
 void Not::calculate(){

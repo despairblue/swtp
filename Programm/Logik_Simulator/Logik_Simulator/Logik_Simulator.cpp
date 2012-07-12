@@ -35,9 +35,8 @@ int main(array<System::String ^> ^args)
 	Application::EnableVisualStyles();
 	Application::SetCompatibleTextRenderingDefault(false);
 
-	// Hauptfenster erstellen und ausführen
 	Application::Run(gcnew MainForm());
-	
+
 	//System::Console::Read();
 
 	return 0;

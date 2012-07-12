@@ -5,7 +5,6 @@
 Nand::Nand(void):Gatter(){}
 
 Nand::Nand(int number):Gatter(number){
-	System::Console::WriteLine("Nand Gatter hinzugefügt");
 }
 
 void Nand::calculate(){

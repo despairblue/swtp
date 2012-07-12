@@ -4,8 +4,6 @@
 And::And(void):Gatter(){}
 
 And::And(int number):Gatter(number){
-
-		System::Console::WriteLine("And Gatter hinzugefügt");
 }
 
 void And::calculate(){

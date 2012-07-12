@@ -13,7 +13,6 @@ Fork::Fork(int number): Gatter(number)
     this->output = gcnew ArrayList();
     this->output->Add(false);
     this->output->Add(false);
-    System::Console::WriteLine("Vergabelung hinzugefügt");
 }
 
 void Fork::calculate()
