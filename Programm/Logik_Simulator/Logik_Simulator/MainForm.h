@@ -436,17 +436,20 @@ namespace Logik_Simulator
 			this->inputGridView->Size = System::Drawing::Size(144, 132);
 			this->inputGridView->TabIndex = 0;
 			this->inputGridView->CellValueChanged += gcnew System::Windows::Forms::DataGridViewCellEventHandler(this, &MainForm::inputGridView_CellValueChanged);
+			this->inputGridView->CellDoubleClick += gcnew System::Windows::Forms::DataGridViewCellEventHandler(this, &MainForm::inputGridView_CellClick);
+			this->inputGridView->CellContentDoubleClick += gcnew System::Windows::Forms::DataGridViewCellEventHandler(this, &MainForm::inputGridView_CellClick);
 			this->inputGridView->CellClick += gcnew System::Windows::Forms::DataGridViewCellEventHandler(this, &MainForm::inputGridView_CellClick);
+			this->inputGridView->CellContentClick += gcnew System::Windows::Forms::DataGridViewCellEventHandler(this, &MainForm::inputGridView_CellClick);
 			// 
 			// outputGridView
 			// 
-			this->outputGridView->AllowUserToOrderColumns = true;
 			this->outputGridView->AutoSizeColumnsMode = System::Windows::Forms::DataGridViewAutoSizeColumnsMode::AllCells;
 			this->outputGridView->BackgroundColor = System::Drawing::SystemColors::Window;
 			this->outputGridView->ColumnHeadersHeightSizeMode = System::Windows::Forms::DataGridViewColumnHeadersHeightSizeMode::AutoSize;
 			this->outputGridView->Dock = System::Windows::Forms::DockStyle::Fill;
 			this->outputGridView->Location = System::Drawing::Point(0, 0);
 			this->outputGridView->Name = L"outputGridView";
+			this->outputGridView->ReadOnly = true;
 			this->outputGridView->RightToLeft = System::Windows::Forms::RightToLeft::No;
 			this->outputGridView->RowHeadersWidth = 35;
 			this->outputGridView->Size = System::Drawing::Size(144, 91);
@@ -1300,19 +1303,24 @@ namespace Logik_Simulator
 					}
 			 }
 private: System::Void inputGridView_CellValueChanged(System::Object^  sender, System::Windows::Forms::DataGridViewCellEventArgs^  e) {
-			/* bool^ value = safe_cast<bool^>(this->inputGridView->CurrentCell->Value);
-			if(value->Equals("1"))
-			{
-				 this->inputGridView->CurrentCell->Value = true;
-			 }
-		 else
-			 {
-				 this->inputGridView->CurrentCell->Value = false;
-			 }
-			*/
-			 int ColumnIndex =  this->inputGridView->CurrentCell->ColumnIndex;
-			 int RowIndex = this->inputGridView->CurrentCell->RowIndex;
+			 int columnIndex =  this->inputGridView->CurrentCell->ColumnIndex;
+			 int rowIndex = this->inputGridView->CurrentCell->RowIndex;
 			
+			String^ key1 = this->inputGridView->Columns[columnIndex]->HeaderText;
+			int widgetIndex = Convert::ToInt32(key1->Substring(5));
+			for each (LogicWidget ^ lw in logic_widgets)
+			{
+				if(lw->GetType() == InputWidget::typeid)
+				{
+					if(safe_cast<InputWidget^>(lw)->getID() == widgetIndex)
+					{
+						safe_cast<InputWidget^>(lw)->getGate()->setInputValue(safe_cast<bool>(this->inputGridView->CurrentCell->Value));
+						repaint();
+					}
+				}
+			}
+			 
+			 			
 
 
 
@@ -1321,12 +1329,18 @@ private: System::Void inputGridView_CellValueChanged(System::Object^  sender, Sy
 		 }
 
 private: System::Void inputGridView_CellClick(System::Object^  sender, System::Windows::Forms::DataGridViewCellEventArgs^  e) {
-			 if(this->inputGridView->CurrentCell->Value->Equals(true))
+			 if(this->inputGridView->CurrentCell->Value == nullptr)
 			 {
-				this->inputGridView->CurrentCell->Value = false;
+				 this->inputGridView->CurrentCell->Value = false;
 			 }else
 			 {
-				 this->inputGridView->CurrentCell->Value = true;
+				 if(this->inputGridView->CurrentCell->Value->Equals(true))
+				 {
+					 this->inputGridView->CurrentCell->Value = false;
+				 }else
+				 {
+					 this->inputGridView->CurrentCell->Value = true;
+				 }
 			 }
 		 }
 };
