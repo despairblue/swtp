@@ -1063,7 +1063,7 @@ namespace Logik_Simulator
 				 if (selected_widget)
 				 {
 					 handled = selected_widget->keyUp(e, toolStripStatusLabel1);
-
+						refreshTable();
 
 					 if (selected_widget->isDestructed())
 					 {
