@@ -645,7 +645,10 @@ void NotWidget::paint(Graphics ^ canvas)
 }
 
 // NOTE: NandWidget
-
+/**
+    @param location The widgets location
+    @param id The widgets ID
+*/
 NandWidget::NandWidget(Point ^ location, Int32 id):
     LogicWidget(location, id, "&")
 {
@@ -684,7 +687,10 @@ void NandWidget::paint(Graphics ^ canvas)
 }
 
 // NOTE: NorWidget
-
+/**
+    @param location The widgets location
+    @param id The widgets ID
+*/
 NorWidget::NorWidget(Point ^ location, Int32 id):
     LogicWidget(location, id, ">=1")
 {
@@ -723,6 +729,10 @@ void NorWidget::paint(Graphics ^ canvas)
 }
 
 // NOTE: ForkWidget
+/**
+    @param location The widgets location
+    @param id The widgets ID
+*/
 ForkWidget::ForkWidget(Point ^ location, Int32 id):
     LogicWidget( location, id, "Fork")
 {
@@ -733,11 +743,13 @@ ForkWidget::ForkWidget(Point ^ location, Int32 id):
     this->setLocation(location);
 }
 
+/// Will always return false. ForkWidget instances have only one input slot.
 Boolean ForkWidget::connectInputSignalTwo(SignalWidget ^ sw)
 {
     return false;
 }
 
+/// Connects up to 2 output SignalWidget instances.
 Boolean ForkWidget::connectOutputSignal(SignalWidget ^ sw)
 {
     if ( !(outputSignals[0]) || outputSignals[0]->isDestructed() )
@@ -794,6 +806,10 @@ void ForkWidget::paint(Graphics ^ canvas)
 }
 
 // NOTE: AndWidget
+/**
+    @param location The widgets location
+    @param id The widgets ID
+*/
 AndWidget::AndWidget(Point ^ location, Int32 id):
     LogicWidget( location, id, "&")
 {
@@ -801,6 +817,10 @@ AndWidget::AndWidget(Point ^ location, Int32 id):
 }
 
 // NOTE: OrWidget
+/**
+    @param location The widgets location
+    @param id The widgets ID
+*/
 OrWidget::OrWidget(Point ^ location, Int32 id):
     LogicWidget( location, id, ">=1")
 {
@@ -808,6 +828,10 @@ OrWidget::OrWidget(Point ^ location, Int32 id):
 }
 
 // NOTE: ExorWidget
+/**
+    @param location The widgets location
+    @param id The widgets ID
+*/
 ExorWidget::ExorWidget(Point ^ location, Int32 id):
     LogicWidget( location, id, "=1")
 {
