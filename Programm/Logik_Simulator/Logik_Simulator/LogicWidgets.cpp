@@ -524,87 +524,6 @@ Boolean SignalWidget::signalCut(Point start, Point stop)
     }
 }
 
-// Boolean SignalWidget::signalCut(Point start, Point stop)
-// {
-//     Point inputLocation;
-//     Point outputLocation;
-//     Boolean xChecked = false;
-//     Boolean yChecked = false;
-
-//     inputLocation.X = inputGate->getLocation()->X;
-//     inputLocation.Y = inputGate->getLocation()->Y;
-//     outputLocation.X = outputGate->getLocation()->X;
-//     outputLocation.Y = outputGate->getLocation()->Y;
-
-//     array<Point> ^ lineOneSortedByX = gcnew array<Point>(2);
-//     array<Point> ^ lineTwoSortedByX = gcnew array<Point>(2);
-//     array<Point> ^ lineOneSortedByY = gcnew array<Point>(2);
-//     array<Point> ^ lineTwoSortedByY = gcnew array<Point>(2);
-
-//     if ( start.X > stop.X )
-//     {
-//         lineOneSortedByX[0] = start;
-//         lineOneSortedByX[1] = stop;
-//     }
-//     else
-//     {
-//         lineOneSortedByX[0] = stop;
-//         lineOneSortedByX[1] = start;
-//     }
-
-//     if ( inputLocation.X > outputLocation.X)
-//     {
-//         lineTwoSortedByX[0] = inputLocation;
-//         lineTwoSortedByX[1] = outputLocation;
-//     }
-//     else
-//     {
-//         lineTwoSortedByX[0] = outputLocation;
-//         lineTwoSortedByX[1] = inputLocation;
-//     }
-
-//     if ( start.Y > stop.Y )
-//     {
-//         lineOneSortedByY[0] = start;
-//         lineOneSortedByY[1] = stop;
-//     }
-//     else
-//     {
-//         lineOneSortedByY[0] = stop;
-//         lineOneSortedByY[1] = start;
-//     }
-
-//     if ( inputLocation.Y > outputLocation.Y)
-//     {
-//         lineTwoSortedByY[0] = inputLocation;
-//         lineTwoSortedByY[1] = outputLocation;
-//     }
-//     else
-//     {
-//         lineTwoSortedByY[0] = outputLocation;
-//         lineTwoSortedByY[1] = inputLocation;
-//     }
-
-//     if ( ( lineOneSortedByX[0].X > lineTwoSortedByX[1].X ) && ( lineTwoSortedByX[0].X > lineOneSortedByX[1].X ) )
-//     {
-//         xChecked = true;
-//     }
-
-//     if ( ( lineOneSortedByY[0].Y > lineTwoSortedByY[1].Y ) && ( lineTwoSortedByY[0].Y > lineOneSortedByY[1].Y ) )
-//     {
-//         yChecked = true;
-//     }
-
-//     if ( xChecked && yChecked )
-//     {
-//         return true;
-//     }
-//     else
-//     {
-//         return false;
-//     }
-// }
-
 array<Int32> ^ SignalWidget::cross(array<Int32> ^ v1, array<Int32> ^ v2)
 {
     array<Int32> ^ result = gcnew array<Int32>(3);
@@ -716,6 +635,7 @@ void InputWidget::click(ToolStripStatusLabel ^ statusBar)
 OutputWidget::OutputWidget(Point ^ location, Int32 id):
     LogicWidget(location, id, "Out:\n")
 {
+    this->gate = gcnew Output();
     this->setLocation(location);
 }
 
