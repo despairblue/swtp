@@ -44,13 +44,14 @@ namespace Logik_Simulator
 		{
 			InitializeComponent();
 
-
-
-
 			this->toolStripButtons = gcnew ArrayList();
 			this->logic_widgets = gcnew ArrayList();
 			this->signal_widgets = gcnew ArrayList();
 			this->toDelete = gcnew ArrayList();
+
+			this->currentMousePosition = gcnew Point();
+			this->mouse_down_location = gcnew Point();
+
 			this->inputMap = gcnew SortedDictionary < String ^ , ArrayList ^ > ();
 			this->outputMap = gcnew SortedDictionary < String ^ , ArrayList ^ > ();
 
