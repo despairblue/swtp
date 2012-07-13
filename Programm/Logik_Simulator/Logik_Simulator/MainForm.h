@@ -510,11 +510,20 @@ namespace Logik_Simulator
 #pragma endregion
 
 	private:
+		/**
+			Change status bar text.
+			@param text new status bar text
+		*/
 		void changeStatusBar(String ^ text)
 		{
 			this->toolStripStatusLabel1->Text = text;
 		}
 
+		/**
+			Iterate over logic_widgets and calls LogicWidget::widgetHit() 
+			for every LogicWidget.
+			@return the first LogicWidget that was hit by the mouse click.
+		*/
 		LogicWidget ^ checkWidgetHit(Point ^ location)
 		{
 			for each (LogicWidget ^ lw in this->logic_widgets)
@@ -529,6 +538,10 @@ namespace Logik_Simulator
 			return nullptr;
 		}
 
+		/**
+			Moves the selected_widget to the specified location.
+			@param location Location to move to
+		*/
 		void move_widget(Point ^ location)
 		{
 			if (grabbed_widget) {
@@ -543,12 +556,17 @@ namespace Logik_Simulator
 			}
 		}
 
+		/// Invalidates and Updates the form.
 		void repaint()
 		{
 			pictureBox1->Invalidate();
 			pictureBox1->Update();
 		}
 
+		/**
+			Returns an ID that is unique for the current circuit.
+			@return ID as Int32
+		*/
 		Int32 createID()
 		{
 			Int32 result = 0;
@@ -566,6 +584,11 @@ namespace Logik_Simulator
 			return result;
 		}
 
+		/**
+			Returns the LogicWidget with the given ID or nullptr.
+			@param id ID as Int32
+			@return LogicWidget with the corresponding ID.
+		*/
 		LogicWidget ^ getWidgetByID(Int32 id)
 		{
 			for each (LogicWidget ^ lw in logic_widgets)
@@ -579,6 +602,11 @@ namespace Logik_Simulator
 			return nullptr;
 		}
 
+		/**
+			Checks the given ToolStripButton and unchecks all others.
+			@param checkBtn ToolStripButton to check or nullptr to uncheck all
+			@return True if succeeded, otherwise false.
+		*/
 		Boolean checkButton(ToolStripButton ^ checkBtn)
 		{
 
@@ -630,10 +658,11 @@ namespace Logik_Simulator
 
 			if (simulated)
 			{
-				toolStripStatusLabel1->Text = "Simulation started.";
-			} else
+				changeStatusBar("Simulation started.");
+			}
+			else
 			{
-				toolStripStatusLabel1->Text = "No simulation started. Add some Inputs and connect them to Gates.";
+				changeStatusBar("No simulation started. Add some Inputs and connect them to Gates.");
 			}
 
 			refreshTable();
@@ -828,7 +857,20 @@ namespace Logik_Simulator
 			repaint();
 		}
 
-		ArrayList^ getKeys(ArrayList ^ inputMap)
+		Boolean containsKey(ArrayList ^ inputMap, String ^ key)
+		{
+			for each (KeyValuePair<String^, ArrayList^>^ kvp in inputMap)
+			{
+				if (kvp->Key == key)
+				{
+					return true;
+				}
+			}
+
+			return false;
+		}
+
+		array<String^>^ getKeys(ArrayList ^ inputMap)
 		{
 			ArrayList ^ keys = gcnew ArrayList();
 
@@ -855,9 +897,16 @@ namespace Logik_Simulator
 
 		void addKeyValuePair (ArrayList ^ inputMap, String ^ key, ArrayList ^ value)
 		{
-			KeyValuePair<String^, ArrayList^> ^ kvp = gcnew KeyValuePair<String^, ArrayList^>(key, value);
-
-			inputMap->Add(kvp);
+			if (containsKey(inputMap, key))
+			{
+				ArrayList ^ val = getValue(inputMap, key);
+				val->Clear();
+				val->AddRange(value);
+			}
+			else {
+				KeyValuePair<String^, ArrayList^> ^ kvp = gcnew KeyValuePair<String^, ArrayList^>(key, value);
+				inputMap->Add(kvp);
+			}
 		}
 
 		void toolStripButtons_Click(System::Object ^  sender, System::EventArgs ^  e)
@@ -1039,7 +1088,7 @@ namespace Logik_Simulator
 						}
 						else
 						{
-							toolStripStatusLabel1->Text = "No Signal cut.";
+							changeStatusBar("No Signal cut.");
 						}
 					}
 
@@ -1184,7 +1233,7 @@ namespace Logik_Simulator
 				 }
         else if (e->KeyCode == Keys::Delete)
         {
-					toolStripStatusLabel1->Text = "No Gate selected. Select the Gate you want to remove.";
+					changeStatusBar("No Gate selected. Select the Gate you want to remove.");
         }
 				 refreshTable();
 				 repaint();
@@ -1431,7 +1480,7 @@ namespace Logik_Simulator
 					if (Control::ModifierKeys == Keys::Control)
 					{
 						pictureBox1->Cursor = Cursors::Cross;
-						toolStripStatusLabel1->Text ="While pressing Control you can cut Signals to remove them.";
+						changeStatusBar("While pressing Control you can cut Signals to remove them.");
 					}
 			 }
 
