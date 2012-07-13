@@ -52,6 +52,7 @@ namespace Logik_Simulator
 			this->signal_widgets = gcnew ArrayList();
 			this->toDelete = gcnew ArrayList();
 			this->inputMap2 = gcnew TableMap();
+			this->inputMap2->addRow();
 
 			this->mouse_down_location.X = 0;
 			this->mouse_down_location.Y = 0;
@@ -441,6 +442,7 @@ namespace Logik_Simulator
 			this->inputGridView->ColumnHeadersHeightSizeMode = System::Windows::Forms::DataGridViewColumnHeadersHeightSizeMode::AutoSize;
 			this->inputGridView->Dock = System::Windows::Forms::DockStyle::Fill;
 			this->inputGridView->Location = System::Drawing::Point(0, 0);
+			this->inputGridView->MultiSelect = false;
 			this->inputGridView->Name = L"inputGridView";
 			this->inputGridView->ReadOnly = true;
 			this->inputGridView->RightToLeft = System::Windows::Forms::RightToLeft::No;
@@ -454,9 +456,11 @@ namespace Logik_Simulator
 			dataGridViewCellStyle2->WrapMode = System::Windows::Forms::DataGridViewTriState::True;
 			this->inputGridView->RowHeadersDefaultCellStyle = dataGridViewCellStyle2;
 			this->inputGridView->RowHeadersWidth = 35;
+			this->inputGridView->SelectionMode = System::Windows::Forms::DataGridViewSelectionMode::FullRowSelect;
 			this->inputGridView->Size = System::Drawing::Size(144, 132);
 			this->inputGridView->TabIndex = 0;
 			this->inputGridView->CellValueChanged += gcnew System::Windows::Forms::DataGridViewCellEventHandler(this, &MainForm::inputGridView_CellValueChanged);
+			this->inputGridView->RowsAdded += gcnew System::Windows::Forms::DataGridViewRowsAddedEventHandler(this, &MainForm::inputGridView_RowsAdded);
 			this->inputGridView->KeyDown += gcnew System::Windows::Forms::KeyEventHandler(this, &MainForm::splitContainer1_KeyDown);
 			this->inputGridView->KeyUp += gcnew System::Windows::Forms::KeyEventHandler(this, &MainForm::MainForm_KeyUp);
 			// 
@@ -690,6 +694,51 @@ namespace Logik_Simulator
 			//refreshTable();
 			repaint();
 		}
+
+		void disconnectInputGridHandlers()
+		{
+			inputGridView->RowsAdded -= gcnew System::Windows::Forms::DataGridViewRowsAddedEventHandler(this, &MainForm::inputGridView_RowsAdded);
+			inputGridView->CellMouseClick -= gcnew System::Windows::Forms::DataGridViewCellMouseEventHandler(this, &MainForm::inputGridView_CellClick);
+		}
+
+		void connectInputGridHandlers()
+		{
+			inputGridView->RowsAdded += gcnew System::Windows::Forms::DataGridViewRowsAddedEventHandler(this, &MainForm::inputGridView_RowsAdded);
+			inputGridView->CellMouseClick += gcnew System::Windows::Forms::DataGridViewCellMouseEventHandler(this, &MainForm::inputGridView_CellClick);
+		}
+
+		void createTable()
+		{
+			disconnectInputGridHandlers();
+			
+			ArrayList ^ keys = inputMap2->getKeys();
+			Int32 columnCount = keys->Count;
+			Int32 rowCount = inputMap2->getLength();
+
+			inputGridView->Columns->Clear();
+
+			// adding columns 
+			for each (String ^ key in inputMap2->getKeys())
+			{
+				this->inputGridView->Columns->Add(key, key);
+			}
+
+			// adding rows
+			for (int r = 0; r < rowCount; r++)
+			{
+				ArrayList ^ currentRow = gcnew ArrayList();
+				
+				for (int c = 0; c < columnCount; c++)
+				{
+					currentRow->Add( (bool) inputMap2->getValue( keys[c]->ToString() )[r] );
+				}
+
+				inputGridView->Rows->Add(currentRow->ToArray());
+			}
+
+			connectInputGridHandlers();
+		}
+
 		///refreshes the Sidebar Table
 		void refreshTable()
 		{
@@ -702,7 +751,7 @@ namespace Logik_Simulator
 			ArrayList^ inputRows = gcnew ArrayList();
 			ArrayList^ outputRows = gcnew ArrayList();
 			ArrayList^ inputNames;
-			ArrayList^ outputNames = gcnew ArrayList();
+			ArrayList^ outputNames = gcnew ArrayList();			
 
 			if (logic_widgets->Contains("Input") == false)
 			{
@@ -718,37 +767,37 @@ namespace Logik_Simulator
 
 			for each (LogicWidget ^ lw in logic_widgets)
 			{
-			 System::Console::WriteLine("neue Schleife");
 					if (lw->GetType() == InputWidget::typeid)
 					{
-						String ^ key = "Input" + safe_cast < InputWidget ^ > (lw)->getID();
+						String ^ key = "Input " + lw->getID();
+
 						this->inputGridView->Columns->Clear();
 						this->inputGridView->DataSource = nullptr;
 
 						if ((this->inputGridView->Columns != nullptr) && (this->inputGridView->Columns->Contains(key)))
 						{
+							// FIXME: Never Called
 							this->inputGridView->Columns->Remove(key);
 						}
+
 						inputNames = this->inputMap2->getKeys();
 
 						if (inputNames->Contains(key) == true)					
 						{
-							ArrayList ^ tempList2 = gcnew ArrayList();
-							bool tempBool2 = lw->getGate()->getResult();
-							tempList2 = inputMap2->getValue(key);
+							//ArrayList ^ tempList2 = gcnew ArrayList();
+							//bool tempBool2 = lw->getGate()->getResult();
+							//tempList2 = inputMap2->getValue(key);
+							//tempList2->Add(tempBool2);
 							//this->inputMap2->remove(key);
-							inputMap2->addKeyValuePair(key, tempList2);
+							//inputMap2->addKeyValuePair(key, tempList2);
 						} 
-						if (inputNames->Contains(key) == false)
+						else
 						{
 							ArrayList ^ tempList = gcnew ArrayList();
 							bool tempBool = lw->getGate()->getResult();
 							tempList->Add(tempBool);
 							inputMap2->addKeyValuePair(key,tempList);
-							
 						}
-					
-
 					}
 				}
 				ArrayList^ keys = inputMap2->getKeys();
@@ -793,10 +842,8 @@ namespace Logik_Simulator
 							{	
 								String^ key = safe_cast<String^>(inputNames[j]);			
 								int l = inputMap2->getValue(key)->Count;
-								if((k<l)&&(tAL->Count >= k)){
-								tAL[k] = inputMap2->getValue(key)->ToArray()[k];
-								}
-								bool b = safe_cast<bool>(tAL->ToArray()[j]);
+								array<Object^>^ obj = tAL->ToArray();
+								bool b = safe_cast<bool>(obj[j]);
 								tempAL->Add(b);
 							}
 						//	array<bool>^ tempArray = tempAL[k]->ToArray();
@@ -1059,6 +1106,7 @@ namespace Logik_Simulator
 						case 7:
 							gate = gcnew Input();
 							lw = gcnew InputWidget(gcnew Point(e->X, e->Y), createID());
+							inputMap2->addKey(lw->getID().ToString());
 							break;
 						case 8:
 							gate = gcnew Output();
@@ -1070,7 +1118,7 @@ namespace Logik_Simulator
 						}
 						this->logic_widgets->Insert(0, lw);
 
-						refreshTable();
+						createTable();
 					}
 				}
 				else if ( controlKeyDown )
@@ -1205,7 +1253,13 @@ namespace Logik_Simulator
 				 if (selected_widget)
 				 {
 					 handled = selected_widget->keyUp(e, toolStripStatusLabel1);
-						refreshTable();
+
+					 if (selected_widget->GetType() == InputWidget::typeid)
+					 {
+						 Int32 index = inputGridView->CurrentCell->RowIndex;
+						 inputMap2->getValue(selected_widget->getID().ToString())[index] = selected_widget->getGate()->getResult();
+						 createTable();
+					 }
 
 					 if (selected_widget->isDestructed())
 					 {
@@ -1226,8 +1280,11 @@ namespace Logik_Simulator
 							 }
 						 }
 						 logic_widgets->Remove(selected_widget);
-						 refreshTable();
+						 inputMap2->remove(selected_widget->getID().ToString());
+
 						 selected_widget = nullptr;
+
+						 createTable();
 					 }
 				 }
 
@@ -1241,7 +1298,6 @@ namespace Logik_Simulator
         else if (e->KeyCode == Keys::Delete)
         {
 					changeStatusBar("No Gate selected. Select the Gate you want to remove.");
-					 refreshTable();
         }
 				
 				 repaint();
@@ -1305,13 +1361,13 @@ namespace Logik_Simulator
 						 // Input Table
 						 file = gcnew StringBuilder();
 
-						 for each (String ^ key in inputMap->Keys)
+						 for each (String ^ key in inputMap2->getKeys())
 						 {
 							 StringBuilder ^ line = gcnew StringBuilder();
 
 							 line->Append(key);
 
-							 for each (Boolean ^ boo in inputMap[key])
+							 for each (Boolean ^ boo in inputMap2->getValue(key))
 							 {
 								 line->Append(",");
 								 line->Append(boo->ToString());
@@ -1504,7 +1560,7 @@ private: System::Void inputGridView_CellValueChanged(System::Object^  sender, Sy
 			 int rowIndex = this->inputGridView->CurrentCell->RowIndex;
 			
 			 String^ key1 = this->inputGridView->Columns[columnIndex]->HeaderText;
-			int widgetIndex = Convert::ToInt32(key1->Substring(5));
+			int widgetIndex = Convert::ToInt32(key1);
 			for each (LogicWidget ^ lw in logic_widgets)
 			{
 				if(lw->GetType() == InputWidget::typeid)
@@ -1586,19 +1642,50 @@ private: System::Void inputGridView_RowHeaderMouseClick(System::Object^  sender,
 			 for(int i = 0 ; i < columnMaxIndex; i++)
 			 {
 				 String^ key1 = this->inputGridView->Columns[i]->HeaderText;
-				 int widgetIndex = Convert::ToInt32(key1->Substring(5));
-				 for each (LogicWidget ^ lw in logic_widgets)
-				 {
+				 int widgetIndex = Convert::ToInt32(key1);
+				 LogicWidget ^ lw = getWidgetByID(widgetIndex);
 					 if(lw->GetType() == InputWidget::typeid)
 					 {
 						 if(safe_cast<InputWidget^>(lw)->getID() == widgetIndex)
 						 {
 							 safe_cast<InputWidget^>(lw)->getGate()->setInputValue(safe_cast<bool>(this->inputGridView->Rows[rowIndex]->Cells[i]->Value));
+
 							 refreshRow();
+
 							 repaint();
 						 }
 					 }
+			 }
+		 }
+private: System::Void inputGridView_RowsAdded(System::Object^  sender, System::Windows::Forms::DataGridViewRowsAddedEventArgs^  e) {
+			 Int32 rowCount = inputGridView->Rows->Count;
+			 Int32 cellCount = inputGridView->ColumnCount;
+
+			 String^ key = "";
+			 ArrayList ^ tempValue = gcnew ArrayList();
+
+
+
+			 for (int c = 0; c < cellCount; c++)
+			 {
+				 key = inputGridView->Columns[c]->HeaderText;
+				 tempValue->Clear();
+
+				 for (int r = 0; r < rowCount; r++)
+				 {
+					 DataGridViewCell ^ cell = inputGridView->Rows[r]->Cells[c]; 
+					 if (cell->Value)
+					 {
+						tempValue->Add( cell->Value );	
+					 }
+					 else
+					 {
+						 tempValue->Add(false);
+					 }
+					 
 				 }
+
+				 inputMap2->addKeyValuePair(key, tempValue);
 			 }
 		 }
 
