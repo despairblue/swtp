@@ -3,7 +3,7 @@
 using namespace System;
 using namespace System::Collections;
 
-ref class TableMap
+public ref class TableMap
 {
 public:
 	TableMap(void);
