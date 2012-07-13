@@ -59,6 +59,8 @@ namespace Logik_Simulator
 			this->inputMap = gcnew SortedDictionary < String ^ , ArrayList ^ > ();
 			this->outputMap = gcnew SortedDictionary < String ^ , ArrayList ^ > ();
 
+			this->multiOutput = false;
+
 			this->selectedInputRow = 0;
 			this->selectedOutputRow = 0;
 
@@ -93,6 +95,7 @@ namespace Logik_Simulator
 		ArrayList ^ signal_widgets;
 		ArrayList ^ toDelete;
 		TableMap ^ inputMap2;
+		bool multiOutput;
 
 	public:
 		SortedDictionary < String ^ , ArrayList ^ > ^ inputMap;
@@ -130,6 +133,7 @@ namespace Logik_Simulator
 	private: System::Windows::Forms::SaveFileDialog ^  saveFileDialog1;
 	private: System::Windows::Forms::SplitContainer ^  splitContainer2;
 	private: System::Windows::Forms::DataGridView ^  outputGridView;
+	private: System::Windows::Forms::ToolStripButton^  toolStripButton13;
 
 
 
@@ -155,7 +159,7 @@ namespace Logik_Simulator
 		void InitializeComponent(void)
 		{
 			System::ComponentModel::ComponentResourceManager^  resources = (gcnew System::ComponentModel::ComponentResourceManager(MainForm::typeid));
-			System::Windows::Forms::DataGridViewCellStyle^  dataGridViewCellStyle1 = (gcnew System::Windows::Forms::DataGridViewCellStyle());
+			System::Windows::Forms::DataGridViewCellStyle^  dataGridViewCellStyle2 = (gcnew System::Windows::Forms::DataGridViewCellStyle());
 			this->toolStrip1 = (gcnew System::Windows::Forms::ToolStrip());
 			this->toolStripButton1 = (gcnew System::Windows::Forms::ToolStripButton());
 			this->toolStripButton2 = (gcnew System::Windows::Forms::ToolStripButton());
@@ -169,6 +173,7 @@ namespace Logik_Simulator
 			this->toolStripButton8 = (gcnew System::Windows::Forms::ToolStripButton());
 			this->toolStripSeparator2 = (gcnew System::Windows::Forms::ToolStripSeparator());
 			this->toolStripButton9 = (gcnew System::Windows::Forms::ToolStripButton());
+			this->toolStripButton13 = (gcnew System::Windows::Forms::ToolStripButton());
 			this->toolStripSeparator3 = (gcnew System::Windows::Forms::ToolStripSeparator());
 			this->toolStripButton11 = (gcnew System::Windows::Forms::ToolStripButton());
 			this->toolStripButton12 = (gcnew System::Windows::Forms::ToolStripButton());
@@ -198,10 +203,10 @@ namespace Logik_Simulator
 			// toolStrip1
 			// 
 			this->toolStrip1->ImageScalingSize = System::Drawing::Size(24, 24);
-			this->toolStrip1->Items->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(15) {this->toolStripButton1, 
+			this->toolStrip1->Items->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(16) {this->toolStripButton1, 
 				this->toolStripButton2, this->toolStripButton3, this->toolStripButton4, this->toolStripButton5, this->toolStripButton6, this->toolStripButton10, 
 				this->toolStripSeparator1, this->toolStripButton7, this->toolStripButton8, this->toolStripSeparator2, this->toolStripButton9, 
-				this->toolStripSeparator3, this->toolStripButton11, this->toolStripButton12});
+				this->toolStripButton13, this->toolStripSeparator3, this->toolStripButton11, this->toolStripButton12});
 			this->toolStrip1->Location = System::Drawing::Point(0, 0);
 			this->toolStrip1->Name = L"toolStrip1";
 			this->toolStrip1->Size = System::Drawing::Size(503, 31);
@@ -320,6 +325,17 @@ namespace Logik_Simulator
 			this->toolStripButton9->Text = L"Start Simulation";
 			this->toolStripButton9->Click += gcnew System::EventHandler(this, &MainForm::toolStripButton9_Click);
 			// 
+			// toolStripButton13
+			// 
+			this->toolStripButton13->DisplayStyle = System::Windows::Forms::ToolStripItemDisplayStyle::Image;
+			this->toolStripButton13->Image = (cli::safe_cast<System::Drawing::Image^  >(resources->GetObject(L"toolStripButton13.Image")));
+			this->toolStripButton13->ImageTransparentColor = System::Drawing::Color::Magenta;
+			this->toolStripButton13->Name = L"toolStripButton13";
+			this->toolStripButton13->Size = System::Drawing::Size(28, 28);
+			this->toolStripButton13->Text = L"toolStripButton13";
+			this->toolStripButton13->ToolTipText = L"Start whole Simulation";
+			this->toolStripButton13->Click += gcnew System::EventHandler(this, &MainForm::toolStripButton13_Click);
+			// 
 			// toolStripSeparator3
 			// 
 			this->toolStripSeparator3->Name = L"toolStripSeparator3";
@@ -428,15 +444,15 @@ namespace Logik_Simulator
 			this->inputGridView->Name = L"inputGridView";
 			this->inputGridView->ReadOnly = true;
 			this->inputGridView->RightToLeft = System::Windows::Forms::RightToLeft::No;
-			dataGridViewCellStyle1->Alignment = System::Windows::Forms::DataGridViewContentAlignment::MiddleLeft;
-			dataGridViewCellStyle1->BackColor = System::Drawing::SystemColors::Control;
-			dataGridViewCellStyle1->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 8.25F, System::Drawing::FontStyle::Regular, 
+			dataGridViewCellStyle2->Alignment = System::Windows::Forms::DataGridViewContentAlignment::MiddleLeft;
+			dataGridViewCellStyle2->BackColor = System::Drawing::SystemColors::Control;
+			dataGridViewCellStyle2->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 8.25F, System::Drawing::FontStyle::Regular, 
 				System::Drawing::GraphicsUnit::Point, static_cast<System::Byte>(0)));
-			dataGridViewCellStyle1->ForeColor = System::Drawing::SystemColors::WindowText;
-			dataGridViewCellStyle1->SelectionBackColor = System::Drawing::SystemColors::Info;
-			dataGridViewCellStyle1->SelectionForeColor = System::Drawing::SystemColors::HighlightText;
-			dataGridViewCellStyle1->WrapMode = System::Windows::Forms::DataGridViewTriState::True;
-			this->inputGridView->RowHeadersDefaultCellStyle = dataGridViewCellStyle1;
+			dataGridViewCellStyle2->ForeColor = System::Drawing::SystemColors::WindowText;
+			dataGridViewCellStyle2->SelectionBackColor = System::Drawing::SystemColors::Info;
+			dataGridViewCellStyle2->SelectionForeColor = System::Drawing::SystemColors::HighlightText;
+			dataGridViewCellStyle2->WrapMode = System::Windows::Forms::DataGridViewTriState::True;
+			this->inputGridView->RowHeadersDefaultCellStyle = dataGridViewCellStyle2;
 			this->inputGridView->RowHeadersWidth = 35;
 			this->inputGridView->Size = System::Drawing::Size(144, 132);
 			this->inputGridView->TabIndex = 0;
@@ -446,6 +462,8 @@ namespace Logik_Simulator
 			// 
 			// outputGridView
 			// 
+			this->outputGridView->AllowUserToAddRows = false;
+			this->outputGridView->AllowUserToDeleteRows = false;
 			this->outputGridView->AutoSizeColumnsMode = System::Windows::Forms::DataGridViewAutoSizeColumnsMode::AllCells;
 			this->outputGridView->BackgroundColor = System::Drawing::SystemColors::Window;
 			this->outputGridView->ColumnHeadersHeightSizeMode = System::Windows::Forms::DataGridViewColumnHeadersHeightSizeMode::AutoSize;
@@ -754,12 +772,13 @@ namespace Logik_Simulator
 							{
 								inputMaxLength =inputMap2->getValue(key)->Count;
 							}
-						}
-				
-				if(inputNames->Count > inputSize)
+							if(inputNames->Count > inputSize)
 							{
 								inputSize = inputNames->Count;
 							}
+						}
+				
+				
 				for (int k = 0; k < inputMaxLength; k++)
 						{	
 							ArrayList^ tempAL = gcnew ArrayList(inputSize);
@@ -783,16 +802,70 @@ namespace Logik_Simulator
 						//	array<bool>^ tempArray = tempAL[k]->ToArray();
 							
 							this->inputGridView->Rows->Add(tempAL->ToArray());
-							}
+				}
 						
 			
-			for each (LogicWidget ^ lw in logic_widgets)
-			{
-				if (lw != nullptr)
+				for each (LogicWidget ^ lw in logic_widgets)
 				{
-					if (lw->GetType() == OutputWidget::typeid)
+					if (lw != nullptr)
 					{
-						String ^ key = "Output" + safe_cast < OutputWidget ^ > (lw)->getID();
+						if (lw->GetType() == OutputWidget::typeid)
+						{	String ^ key = "Output" + safe_cast < OutputWidget ^ > (lw)->getID();
+						this->outputGridView->Columns->Clear();
+						this->outputGridView->DataSource = nullptr;
+
+						if ((this->outputGridView->Columns != nullptr) && (this->outputGridView->Columns->Contains(key)))
+						{
+							this->outputGridView->Columns->Remove(key);
+						}
+
+
+						if(!this->multiOutput)
+						{
+							if (this->outputMap->ContainsKey(key) == true)					
+							{
+								ArrayList ^ tempList2 = gcnew ArrayList();
+								bool tempBool2 = lw->getGate()->getResult();
+								tempList2->Add(tempBool2);
+								this->outputMap->Remove(key);
+								this->outputMap->Add(key, tempList2);
+							}
+							if (this->outputMap->ContainsKey(key) == false)
+							{
+								ArrayList ^ tempList = gcnew ArrayList();
+								bool tempBool = lw->getGate()->getResult();
+								tempList->Add(tempBool);
+								this->outputMap->Add(key, tempList);
+							}
+							for each(KeyValuePair < String ^ , ArrayList ^ > ^ pair1 in this->outputMap)
+							{
+								this->outputGridView->Columns->Add(pair1->Key, pair1->Key);
+								//this->inputGridView->Columns[pair1->Key]->CellType = DataGridViewCheckBoxColumn;
+								outputNames->Add(pair1->Key);
+
+								if(outputNames->Count > outputSize)
+								{
+									outputSize = outputNames->Count;
+								}
+							}
+
+							outputRowSize = this->outputGridView->Rows->Count;
+
+							if(outputRows->Count < outputSize)
+							{
+								for(int i = outputRows->Count; i < inputMaxLength ; i++)
+								{
+									ArrayList^ tempAL = gcnew ArrayList();
+									for (int i = 0; i < inputMaxLength; i++)
+									{
+										tempAL->Add(false);
+									}
+									outputRows->Add(tempAL);
+								}
+							}
+						}
+
+					/*	String ^ key = "Output" + safe_cast < OutputWidget ^ > (lw)->getID();
 						this->outputGridView->Columns->Clear();
 						this->outputGridView->DataSource = nullptr;
 
@@ -845,7 +918,7 @@ namespace Logik_Simulator
 
 
 							}
-						}
+						}*/
 					}	
 
 				}
@@ -1223,6 +1296,7 @@ namespace Logik_Simulator
 	private: System::Void MainForm_KeyUp(System::Object ^  sender, System::Windows::Forms::KeyEventArgs ^  e)
 			{
 				Boolean handled = false;
+				this->multiOutput = false;
 
 				if (Control::ModifierKeys != Keys::Control)
 				{
@@ -1274,7 +1348,7 @@ namespace Logik_Simulator
 				 repaint();
 			 }
 	private: System::Void toolStripButton9_Click(System::Object ^  sender, System::EventArgs ^  e)
-			 {
+			 {	 this->multiOutput = false;
 				 startSimulation(true);
 			 }
 	private: System::Void toolStripButton12_Click(System::Object ^  sender, System::EventArgs ^  e)
@@ -1556,7 +1630,7 @@ void refreshRow()
 	int rowIndex = this->inputGridView->CurrentCell->RowIndex;
 	int keyNumber = inputMap2->getKeys()->Count;
 
-
+	
 	for each (LogicWidget ^ lw in logic_widgets)
 	{
 
@@ -1617,6 +1691,33 @@ private: System::Void inputGridView_RowHeaderMouseClick(System::Object^  sender,
 						 }
 					 }
 				 }
+			 }
+		 }
+private: System::Void toolStripButton13_Click(System::Object^  sender, System::EventArgs^  e) {
+			 int rowIndex = this->inputGridView->RowCount;
+			 for ( int j = 0; j< rowIndex;j++)
+			 {
+				 int keyNumber = inputMap2->getKeys()->Count;
+
+
+				 for each (LogicWidget ^ lw in logic_widgets)
+				 {
+
+					 if(lw->GetType() == InputWidget::typeid)
+					 {
+						 for( int i = 0; i < keyNumber; i++)
+						 {
+							 int ID = safe_cast<InputWidget^>(lw)->getID();
+							 ArrayList^ temp = inputMap2->getValue("Input"+ID);
+							 if(this->inputGridView->Columns[i]->HeaderText->Equals("Input"+ID))
+							 {
+								 bool b = safe_cast<bool>(temp->ToArray()[j]);
+								 safe_cast<InputWidget^>(lw)->getGate()->setInputValue(b);
+							 }
+						 }
+					 }
+				 }this->multiOutput = true;
+				 startSimulation(true);
 			 }
 		 }
 };
