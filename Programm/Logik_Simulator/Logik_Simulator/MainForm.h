@@ -1207,6 +1207,31 @@ namespace Logik_Simulator
 
 						 fileWriter->Close();
 						 myStream->Close();
+
+						 // Input Table
+						 file = gcnew StringBuilder();
+
+						 for each (String ^ key in inputMap->Keys)
+						 {
+							 StringBuilder ^ line = gcnew StringBuilder();
+
+							 line->Append(key);
+
+							 for each (Boolean ^ boo in inputMap[key])
+							 {
+								 line->Append(",");
+								 line->Append(boo->ToString());
+							 }
+
+							 file->Append(line->ToString());
+							 file->Append("\n");
+						 }
+
+						 fileWriter = gcnew StreamWriter(Path::ChangeExtension(saveFileDialog1->FileName, "otto"));
+
+						 fileWriter->Write(file->ToString());
+
+						 fileWriter->Close();
 					 }
 				 }
 
@@ -1317,6 +1342,46 @@ namespace Logik_Simulator
 
 						 fileReader->Close();
 						 myStream->Close();
+
+						 // Input Table
+
+						 String ^ otto = Path::ChangeExtension(openFileDialog1->FileName, "otto");
+
+						 if (File::Exists(otto))
+						 {
+							fileReader = gcnew StreamReader(otto);
+
+							fileContent = fileReader->ReadToEnd();
+
+							inputMap->Clear();
+
+							for each (String ^ line in fileContent->Split('\n'))
+							{
+								ArrayList ^ inputCol = gcnew ArrayList();
+
+								for each (String ^ row in line->Split(','))
+								{
+									if (row == "False") {
+										inputCol->Add(false);
+									}
+									else if (row == "True")
+									{
+										inputCol->Add(true);
+									}
+									else
+									{
+										inputCol->Add(row);
+									}
+								}
+
+								if (inputCol[0]->ToString()->Contains("Input"))
+								{
+									inputMap->Add(inputCol[0]->ToString(), inputCol->GetRange(1, inputCol->Count - 1));
+								}
+							}
+
+							fileReader->Close();
+						 }
 					 }
 				 }
 
