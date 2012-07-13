@@ -630,10 +630,11 @@ namespace Logik_Simulator
 
 			if (simulated)
 			{
-				toolStripStatusLabel1->Text = "Simulation started.";
-			} else
+				changeStatusBar("Simulation started.");
+			}
+			else
 			{
-				toolStripStatusLabel1->Text = "No simulation started. Add some Inputs and connect them to Gates.";
+				changeStatusBar("No simulation started. Add some Inputs and connect them to Gates.");
 			}
 
 			refreshTable();
@@ -824,6 +825,19 @@ namespace Logik_Simulator
 			selected_widget = nullptr;
 
 			repaint();
+		}
+
+		Boolean containsKey(ArrayList ^ inputMap, String ^ key)
+		{
+			for each (KeyValuePair<String^, ArrayList^>^ kvp in inputMap)
+			{
+				if (kvp->Key == key)
+				{
+					return true;
+				}
+			}
+
+			return false;
 		}
 
 		array<String^>^ getKeys(ArrayList ^ inputMap)
@@ -1037,7 +1051,7 @@ namespace Logik_Simulator
 						}
 						else
 						{
-							toolStripStatusLabel1->Text = "No Signal cut.";
+							changeStatusBar("No Signal cut.");
 						}
 					}
 
@@ -1182,7 +1196,7 @@ namespace Logik_Simulator
 				 }
         else if (e->KeyCode == Keys::Delete)
         {
-					toolStripStatusLabel1->Text = "No Gate selected. Select the Gate you want to remove.";
+					changeStatusBar("No Gate selected. Select the Gate you want to remove.");
         }
 				 refreshTable();
 				 repaint();
@@ -1429,7 +1443,7 @@ namespace Logik_Simulator
 					if (Control::ModifierKeys == Keys::Control)
 					{
 						pictureBox1->Cursor = Cursors::Cross;
-						toolStripStatusLabel1->Text ="While pressing Control you can cut Signals to remove them.";
+						changeStatusBar("While pressing Control you can cut Signals to remove them.");
 					}
 			 }
 
