@@ -1549,6 +1549,8 @@ private: System::Void inputGridView_CellValueChanged(System::Object^  sender, Sy
 
 	
 private: System::Void inputGridView_CellClick(System::Object^  sender, System::Windows::Forms::DataGridViewCellMouseEventArgs^  e) {
+			 if(e->Button == ::MouseButtons::Left)
+			 {
 			 if(this->inputGridView->CurrentCell->Value == nullptr)
 			 {
 				 this->inputGridView->CurrentCell->Value = false;
@@ -1561,6 +1563,7 @@ private: System::Void inputGridView_CellClick(System::Object^  sender, System::W
 				 {
 					 this->inputGridView->CurrentCell->Value = true;
 				 }
+			 }
 			 }
 		 }
 
