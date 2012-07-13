@@ -851,6 +851,13 @@ namespace Logik_Simulator
 			return nullptr;
 		}
 
+		void addKeyValuePair (ArrayList ^ inputMap, String ^ key, ArrayList ^ value)
+		{
+			KeyValuePair<String^, ArrayList^> ^ kvp = gcnew KeyValuePair<String^, ArrayList^>(key, value);
+
+			inputMap->Add(kvp);
+		}
+
 		void toolStripButtons_Click(System::Object ^  sender, System::EventArgs ^  e)
 		{
 			ToolStripButton ^ sen = safe_cast < ToolStripButton ^ > (sender);
