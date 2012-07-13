@@ -3,6 +3,8 @@
 
 TableMap::TableMap(void)
 {
+	this->keys = gcnew ArrayList();
+	this->values = gcnew ArrayList();
 }
 
 /**
