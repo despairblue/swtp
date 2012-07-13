@@ -633,6 +633,10 @@ namespace Logik_Simulator
 			}
 		}
 
+		/**
+			Starts the simulation.
+			@param deselectWidgets If true all widgets and buttons will be deselected
+		*/
 		void startSimulation(Boolean deselectWidgets)
 		{
 			Boolean simulated = false;
@@ -836,6 +840,11 @@ namespace Logik_Simulator
 			}
 	}
 
+		/**
+			Destructs all LogicWidget instances in logic_widgets and
+			all SignalWidget instances in signal_widgets and calls
+			repaint();
+		*/
 		void cleanCanvas()
 		{
 			for each (LogicWidget ^ lw in logic_widgets)
@@ -855,6 +864,11 @@ namespace Logik_Simulator
 			repaint();
 		}
 
+		/**
+			@return True if inputMap contains key.
+			@param inputMap Arraylist ^ of KeyValuePair ^ instances
+			@param key The Key as String ^
+		*/
 		Boolean containsKey(ArrayList ^ inputMap, String ^ key)
 		{
 			for each (KeyValuePair<String^, ArrayList^>^ kvp in inputMap)
@@ -868,6 +882,10 @@ namespace Logik_Simulator
 			return false;
 		}
 
+		/**
+			@return Array of all keys in inputMap
+			@param inputMap ArrayList^ of KeyValuePair^ instances 
+		*/
 		array<String^>^ getKeys(ArrayList ^ inputMap)
 		{
 			ArrayList ^ keys = gcnew ArrayList();
@@ -880,6 +898,11 @@ namespace Logik_Simulator
 			return (array<String^>^) keys->ToArray(String::typeid);
 		}
 
+		/**
+			@return Corresponding value of key in inputMap
+			@param inputMap ArrayList^ of KeyValuePair^ instances
+			@param key The key as String^
+		*/
 		ArrayList ^ getValue(ArrayList ^ inputMap, String ^ key)
 		{
 			for each (KeyValuePair<String^, ArrayList^>^ kvp in inputMap)
