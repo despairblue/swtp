@@ -442,7 +442,6 @@ namespace Logik_Simulator
 			this->inputGridView->TabIndex = 0;
 			this->inputGridView->CellValueChanged += gcnew System::Windows::Forms::DataGridViewCellEventHandler(this, &MainForm::inputGridView_CellValueChanged);
 			this->inputGridView->KeyDown += gcnew System::Windows::Forms::KeyEventHandler(this, &MainForm::splitContainer1_KeyDown);
-			this->inputGridView->RowHeaderMouseClick += gcnew System::Windows::Forms::DataGridViewCellMouseEventHandler(this, &MainForm::inputGridView_RowHeaderMouseClick);
 			this->inputGridView->KeyUp += gcnew System::Windows::Forms::KeyEventHandler(this, &MainForm::MainForm_KeyUp);
 			// 
 			// outputGridView
@@ -744,7 +743,12 @@ namespace Logik_Simulator
 							//this->inputGridView->CellContentClick += gcnew System::Windows::Forms::DataGridViewCellEventHandler(this, &MainForm::inputGridView_CellClick);
 											
 							//inputNames->Add(pair1->Key);
+							this->inputGridView->RowHeaderMouseClick -= gcnew System::Windows::Forms::DataGridViewCellMouseEventHandler(this, &MainForm::inputGridView_RowHeaderMouseClick);
+							this->inputGridView->RowHeaderMouseClick += gcnew System::Windows::Forms::DataGridViewCellMouseEventHandler(this, &MainForm::inputGridView_RowHeaderMouseClick);
+						
 
+
+							
 							
 							if(inputMaxLength < inputMap2->getValue(key)->Count)
 							{
@@ -1551,21 +1555,25 @@ void refreshRow()
 {
 	int rowIndex = this->inputGridView->CurrentCell->RowIndex;
 	int keyNumber = inputMap2->getKeys()->Count;
-	
-	
-		for each (LogicWidget ^ lw in logic_widgets)
+
+
+	for each (LogicWidget ^ lw in logic_widgets)
+	{
+
+		if(lw->GetType() == InputWidget::typeid)
 		{
 			for( int i = 0; i < keyNumber; i++)
-	{
-				if(lw->GetType() == InputWidget::typeid)
+			{
+				int ID = safe_cast<InputWidget^>(lw)->getID();
+				ArrayList^ temp = inputMap2->getValue("Input"+ID);
+				if(this->inputGridView->Columns[i]->HeaderText->Equals("Input"+ID))
 				{
-					int ID = safe_cast<InputWidget^>(lw)->getID();
-					ArrayList^ temp = inputMap2->getValue("Input"+ID);
-					bool b = safe_cast<bool>(temp->ToArray()[i]);
+					bool b = safe_cast<bool>(temp->ToArray()[rowIndex]);
 					safe_cast<InputWidget^>(lw)->getGate()->setInputValue(b);
 				}
+			}
 		}
-}
+	}
 
 }
 private: System::Void inputGridView_CellClick(System::Object^  sender, System::Windows::Forms::DataGridViewCellMouseEventArgs^  e) {
