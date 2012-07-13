@@ -50,7 +50,6 @@ namespace Logik_Simulator
 			this->logic_widgets = gcnew ArrayList();
 			this->signal_widgets = gcnew ArrayList();
 			this->toDelete = gcnew ArrayList();
-			this->inputMap2 = gcnew ArrayList();
 
 			this->mouse_down_location.X = 0;
 			this->mouse_down_location.Y = 0;
@@ -91,7 +90,6 @@ namespace Logik_Simulator
 		ArrayList ^ logic_widgets;
 		ArrayList ^ signal_widgets;
 		ArrayList ^ toDelete;
-		ArrayList ^ inputMap2;
 
 	public:
 		SortedDictionary < String ^ , ArrayList ^ > ^ inputMap;
@@ -678,7 +676,7 @@ namespace Logik_Simulator
 					//	{
 					//		this->inputGridView->Columns->Remove(key);
 					//	}
-						if (this->inputMap->ContainsKey(key) == false)
+						if (this->inputMap2->ContainsKey(key) == false)
 						{
 							ArrayList ^ tempList = gcnew ArrayList();
 							bool tempBool = lw->getGate()->getResult();
@@ -824,31 +822,6 @@ namespace Logik_Simulator
 			selected_widget = nullptr;
 
 			repaint();
-		}
-
-		array<String^>^ getKeys(ArrayList ^ inputMap)
-		{
-			ArrayList ^ keys = gcnew ArrayList();
-
-			for each (KeyValuePair<String^, ArrayList^> ^ kvp in inputMap)
-			{
-				keys->Add(kvp->Key);
-			}
-
-			return (array<String^>^) keys->ToArray(String::typeid);
-		}
-
-		ArrayList ^ getValue(ArrayList ^ inputMap, String ^ key)
-		{
-			for each (KeyValuePair<String^, ArrayList^>^ kvp in inputMap)
-			{
-				if (kvp->Key == key)
-				{
-					return kvp->Value;
-				}
-			}
-
-			return nullptr;
 		}
 
 		void toolStripButtons_Click(System::Object ^  sender, System::EventArgs ^  e)
