@@ -55,5 +55,22 @@
   Um Eine Schaltung zu Speichen, drücken Sie einfach den "Speicher"-Knopf neben dem "Play"-Knopf.
   Um Eine Schaltung zu Laden, drücken Sie einfach den "Lade"-Knopf neben dem "Play"-Knopf.
   
+  \section Editieren einer "Eingabe"-Datei:
+  Um mehrere verschiedene Eingangsbelegungen nacheinander berechnen zu können,
+  erstellen Sie sie eine Datei, nach folgendem Schema: 
+  
+  (Am Beispiel von 3 Eingangsgattern)
+  
+  True,False,True
+  False,True,True
+  False,True,False
+  
+  Jede Zeile steht dabei für einen extra Berechnungsschritt.
+  Speichern Sie nun die Datei unter einem von Ihnen gewählten Namen mit der 
+  Endung ".otto" ab.
+  Danach können Sie die Datei im Logik-Simulator über den Öffnen-Dialog öffnen.
+  
+  Um die Rechnung auszuführen klicken Sie nun auf den für mehrere Rechnungen vorgesehenen "Play"-Button.
+  Ihr Ergebnis wird nun in eine "*.ottoput" Datei, die dem gleichen Schema wie die "Otto"-Datei geschrieben. 
   
  */
