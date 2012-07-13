@@ -1547,7 +1547,27 @@ private: System::Void inputGridView_CellValueChanged(System::Object^  sender, Sy
 			 
 		 }
 
+void refreshRow()
+{
+	int rowIndex = this->inputGridView->CurrentCell->RowIndex;
+	int keyNumber = inputMap2->getKeys()->Count;
 	
+	
+		for each (LogicWidget ^ lw in logic_widgets)
+		{
+			for( int i = 0; i < keyNumber; i++)
+	{
+				if(lw->GetType() == InputWidget::typeid)
+				{
+					int ID = safe_cast<InputWidget^>(lw)->getID();
+					ArrayList^ temp = inputMap2->getValue("Input"+ID);
+					bool b = safe_cast<bool>(temp->ToArray()[i]);
+					safe_cast<InputWidget^>(lw)->getGate()->setInputValue(b);
+				}
+		}
+}
+
+}
 private: System::Void inputGridView_CellClick(System::Object^  sender, System::Windows::Forms::DataGridViewCellMouseEventArgs^  e) {
 			 if(this->inputGridView->CurrentCell->Value == nullptr)
 			 {
@@ -1581,7 +1601,7 @@ private: System::Void inputGridView_RowHeaderMouseClick(System::Object^  sender,
 						 if(safe_cast<InputWidget^>(lw)->getID() == widgetIndex)
 						 {
 							 safe_cast<InputWidget^>(lw)->getGate()->setInputValue(safe_cast<bool>(this->inputGridView->Rows[rowIndex]->Cells[i]->Value));
-							 refreshTable();
+							 refreshRow();
 							 repaint();
 						 }
 					 }
