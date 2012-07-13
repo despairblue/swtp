@@ -416,13 +416,14 @@ namespace Logik_Simulator
 			// 
 			// inputGridView
 			// 
-			this->inputGridView->AllowUserToOrderColumns = true;
+			this->inputGridView->AllowUserToDeleteRows = false;
 			this->inputGridView->AutoSizeColumnsMode = System::Windows::Forms::DataGridViewAutoSizeColumnsMode::AllCells;
 			this->inputGridView->BackgroundColor = System::Drawing::SystemColors::Window;
 			this->inputGridView->ColumnHeadersHeightSizeMode = System::Windows::Forms::DataGridViewColumnHeadersHeightSizeMode::AutoSize;
 			this->inputGridView->Dock = System::Windows::Forms::DockStyle::Fill;
 			this->inputGridView->Location = System::Drawing::Point(0, 0);
 			this->inputGridView->Name = L"inputGridView";
+			this->inputGridView->ReadOnly = true;
 			this->inputGridView->RightToLeft = System::Windows::Forms::RightToLeft::No;
 			dataGridViewCellStyle1->Alignment = System::Windows::Forms::DataGridViewContentAlignment::MiddleLeft;
 			dataGridViewCellStyle1->BackColor = System::Drawing::SystemColors::Control;
@@ -694,53 +695,7 @@ namespace Logik_Simulator
 							this->inputMap->Remove(key);
 							this->inputMap->Add(key,tempList2);
 						} 
-						
 
-					//	this->inputGridView->Columns->Clear();
-
-					
-
-					
-
-
-
-					//	inputRowSize = this->inputGridView->Rows->Count;
-
-						//if(inputRows->Count < inputRowSize)
-						//{
-						
-						//System::Console::WriteLine("{0} c{1} s{2}",key,inputRows->Count,inputRowSize);
-					/*	for(int i = 0 ; i <  inputMaxLength; i++)
-							{
-								ArrayList^ tempAL = gcnew ArrayList();
-								for (int j = 0; j < inputSize; j++)
-								{
-									String^ key = safe_cast<String^>(inputNames[j]);
-									ArrayList^ t = safe_cast<ArrayList^>(this->inputMap[key]);
-									bool b = safe_cast<bool>(t[i]);
-									tempAL->Add(b);
-								}
-								safe_cast<ArrayList^>(inputRows[i])->Remove(key);
-								safe_cast<ArrayList^>(inputRows[i])->Add(tempAL);
-							}
-
-						/*}else
-						{
-							inputRows->Clear();
-						System::Console::WriteLine("app {0} c{1} s{2}",key,inputRows->Count,inputRowSize);
-							for(int i = 0 ; i < inputRowSize ; i++)
-							{
-								ArrayList^ tempAL = gcnew ArrayList();
-								for (int j = 0; j < inputSize; j++)
-								{
-									String^ key = safe_cast<String^>(inputNames[j]);
-									ArrayList^ t = safe_cast<ArrayList^>(this->inputMap[key]);
-									bool b = safe_cast<bool>(t[i]);
-									tempAL->Add(b);
-								}
-								inputRows->Add(tempAL);
-							}
-						}*/
 					}
 				}
 
@@ -783,7 +738,7 @@ namespace Logik_Simulator
 						//	array<bool>^ tempArray = tempAL[k]->ToArray();
 							
 							this->inputGridView->Rows->Add(tempAL->ToArray());
-				}
+							}
 						
 			
 			for each (LogicWidget ^ lw in logic_widgets)
@@ -834,10 +789,10 @@ namespace Logik_Simulator
 
 						if(outputRows->Count < outputSize)
 						{
-							for(int i = outputRows->Count; i < outputRowSize ; i++)
+							for(int i = outputRows->Count; i < inputMaxLength ; i++)
 							{
 								ArrayList^ tempAL = gcnew ArrayList();
-								for (int i = 0; i < outputSize; i++)
+								for (int i = 0; i < inputMaxLength; i++)
 								{
 									tempAL->Add(false);
 								}
@@ -850,32 +805,7 @@ namespace Logik_Simulator
 
 				}
 			}
-
-
-	/*		for each (ArrayList^ inputRowsAL in inputRows)
-			{
-				this->inputGridView->Rows->Add(inputRowsAL->ToArray());
-			}
-
-			for each (KeyValuePair < String ^ , ArrayList ^ > ^ pair1 in this->outputMap)
-			{
-				int index = outputNames->IndexOf(pair1->Key);
-				int maxValues = this->outputMap[pair1->Key]->Count;
-
-				for(int i = 0; i < maxValues; i++)
-				{//TODO ARRAY LIST füllen
-					ArrayList^ tempAL = safe_cast<ArrayList^>(outputRows[i]);
-					//	tempAL[index] = pair1->Value
-				}
-
-			}
-
-			for each (ArrayList^ outputRowsAL in outputRows)
-			{
-				this->outputGridView->Rows->Add(outputRowsAL->ToArray());
-			}
-*/		
-		}
+	}
 
 		void cleanCanvas()
 		{
