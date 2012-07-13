@@ -56,8 +56,8 @@ void TableMap::addKeyValuePair (String ^ key, ArrayList ^ value)
     {
         //keys->Add(key);
         //values->Add(value);
-		keys->Insert(keys->Count - 1, key);
-		values->Insert(values->Count -1, value);
+		keys->Insert(keys->Count , key);
+		values->Insert(values->Count , value);
     }
 }
 

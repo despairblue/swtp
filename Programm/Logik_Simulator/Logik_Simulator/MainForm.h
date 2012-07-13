@@ -732,7 +732,7 @@ namespace Logik_Simulator
 
 					}
 				}
-				ArrayList^ keys = getKeys(inputMap2);
+				ArrayList^ keys = inputMap2->getKeys();
 				for each(String^ key in keys)
 						{
 							this->inputGridView->Columns->Add(key, key);
@@ -890,7 +890,7 @@ namespace Logik_Simulator
 			@return Array of all keys in inputMap
 			@param inputMap ArrayList^ of KeyValuePair^ instances 
 		*/
-		array<String^>^ getKeys(ArrayList ^ inputMap)
+		ArrayList^ getKeys(ArrayList ^ inputMap)
 		{
 			ArrayList ^ keys = gcnew ArrayList();
 
