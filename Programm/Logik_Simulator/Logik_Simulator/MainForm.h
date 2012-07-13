@@ -510,11 +510,20 @@ namespace Logik_Simulator
 #pragma endregion
 
 	private:
+		/**
+			Change status bar text.
+			@param text new status bar text
+		*/
 		void changeStatusBar(String ^ text)
 		{
 			this->toolStripStatusLabel1->Text = text;
 		}
 
+		/**
+			Iterate over logic_widgets and calls LogicWidget::widgetHit() 
+			for every LogicWidget.
+			@return the first LogicWidget that was hit by the mouse click.
+		*/
 		LogicWidget ^ checkWidgetHit(Point ^ location)
 		{
 			for each (LogicWidget ^ lw in this->logic_widgets)
@@ -529,6 +538,10 @@ namespace Logik_Simulator
 			return nullptr;
 		}
 
+		/**
+			Moves the selected_widget to the specified location.
+			@param location Location to move to
+		*/
 		void move_widget(Point ^ location)
 		{
 			if (grabbed_widget) {
@@ -543,12 +556,17 @@ namespace Logik_Simulator
 			}
 		}
 
+		/// Invalidates and Updates the form.
 		void repaint()
 		{
 			pictureBox1->Invalidate();
 			pictureBox1->Update();
 		}
 
+		/**
+			Returns an ID that is unique for the current circuit.
+			@return ID as Int32
+		*/
 		Int32 createID()
 		{
 			Int32 result = 0;
@@ -566,6 +584,11 @@ namespace Logik_Simulator
 			return result;
 		}
 
+		/**
+			Returns the LogicWidget with the given ID or nullptr.
+			@param id ID as Int32
+			@return LogicWidget with the corresponding ID.
+		*/
 		LogicWidget ^ getWidgetByID(Int32 id)
 		{
 			for each (LogicWidget ^ lw in logic_widgets)
@@ -579,6 +602,11 @@ namespace Logik_Simulator
 			return nullptr;
 		}
 
+		/**
+			Checks the given ToolStripButton and unchecks all others.
+			@param checkBtn ToolStripButton to check or nullptr to uncheck all
+			@return True if succeeded, otherwise false.
+		*/
 		Boolean checkButton(ToolStripButton ^ checkBtn)
 		{
 
@@ -867,9 +895,16 @@ namespace Logik_Simulator
 
 		void addKeyValuePair (ArrayList ^ inputMap, String ^ key, ArrayList ^ value)
 		{
-			KeyValuePair<String^, ArrayList^> ^ kvp = gcnew KeyValuePair<String^, ArrayList^>(key, value);
-
-			inputMap->Add(kvp);
+			if (containsKey(inputMap, key))
+			{
+				ArrayList ^ val = getValue(inputMap, key);
+				val->Clear();
+				val->AddRange(value);
+			}
+			else {
+				KeyValuePair<String^, ArrayList^> ^ kvp = gcnew KeyValuePair<String^, ArrayList^>(key, value);
+				inputMap->Add(kvp);
+			}
 		}
 
 		void toolStripButtons_Click(System::Object ^  sender, System::EventArgs ^  e)
