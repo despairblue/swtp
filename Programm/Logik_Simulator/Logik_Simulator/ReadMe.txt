@@ -46,10 +46,14 @@
   Um eine Verbindung zwischen 2 Gattern zu lösen, halten Sie die "STRG"-Taste auf der Tastatur und fahren mit gedrückter Maustaste über
   die entsprechende Verbindung.
   
-  Section Starten der Simulation:
+  \section Starten der Simulation:
   Wenn Sie ein "Input"-Gatter selektiert haben, können Sie über die Tasten "0" und "1" Werte zuweisen.
   Sie werden feststellen, das sich die Verbindungen zwischen den Gattern bei "1" rot und bei "0" schwarz färben.
   Haben Sie all ihre "Input"-Gatter eingestellt, können Sie entweder mittels der "ENTER"-Taste, oder dem "PLAY"-Knopf die Schaltung berechnen.
+  
+  \section Laden und Speichern:
+  Um Eine Schaltung zu Speichen, drücken Sie einfach den "Speicher"-Knopf neben dem "Play"-Knopf.
+  Um Eine Schaltung zu Laden, drücken Sie einfach den "Lade"-Knopf neben dem "Play"-Knopf.
   
   
  */
