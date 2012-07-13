@@ -713,14 +713,7 @@ namespace Logik_Simulator
 							this->inputGridView->Columns->Remove(key);
 						}
 						inputNames = this->inputMap2->getKeys();
-						if (inputNames->Contains(key) == false)
-						{
-							ArrayList ^ tempList = gcnew ArrayList();
-							bool tempBool = lw->getGate()->getResult();
-							tempList->Add(tempBool);
-							inputMap2->addKeyValuePair(key,tempList);
-							
-						}
+
 						if (inputNames->Contains(key) == true)					
 						{
 							ArrayList ^ tempList2 = gcnew ArrayList();
@@ -729,6 +722,15 @@ namespace Logik_Simulator
 							this->inputMap2->remove(key);
 							inputMap2->addKeyValuePair(key, tempList2);
 						} 
+						if (inputNames->Contains(key) == false)
+						{
+							ArrayList ^ tempList = gcnew ArrayList();
+							bool tempBool = lw->getGate()->getResult();
+							tempList->Add(tempBool);
+							inputMap2->addKeyValuePair(key,tempList);
+							
+						}
+					
 
 					}
 				}
