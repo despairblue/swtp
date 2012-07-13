@@ -356,12 +356,13 @@ LOOKUP_CACHE_SIZE      = 0
 # the EXTRACT_PRIVATE and EXTRACT_STATIC tags are set to YES
 
 ## changed
-EXTRACT_ALL            = YES
+EXTRACT_ALL            = NO
 
 # If the EXTRACT_PRIVATE tag is set to YES all private members of a class
 # will be included in the documentation.
 
-EXTRACT_PRIVATE        = NO
+## changed
+EXTRACT_PRIVATE        = YES
 
 # If the EXTRACT_PACKAGE tag is set to YES all members with package or internal scope will be included in the documentation.
 
