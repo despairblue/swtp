@@ -729,10 +729,10 @@ namespace Logik_Simulator
 							{	
 								String^ key = safe_cast<String^>(inputNames[j]);			
 								int l = safe_cast<ArrayList^>(this->inputMap[key])->Count;
-								if(k<l){
+								if((k<l)&&(tAL->Count >= k)){
 								tAL[k] = safe_cast<ArrayList^>(this->inputMap[key])->ToArray()[k];
 								}
-								bool b = safe_cast<bool>(tAL->ToArray()[k]);
+								bool b = safe_cast<bool>(tAL->ToArray()[j]);
 								tempAL->Add(b);
 							}
 						//	array<bool>^ tempArray = tempAL[k]->ToArray();
