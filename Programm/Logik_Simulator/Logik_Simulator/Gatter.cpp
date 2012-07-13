@@ -104,6 +104,9 @@ bool Gatter::getResult()
 	return this->output;
 }
 
+/**
+    Returns the Number of Inputs
+*/
 int Gatter::getLength()
 {
 	return this->length;

@@ -9,6 +9,10 @@
 #include "Exor.h"
 #include "Fork.h"
 
+// NOTE: Gatter
+/**
+    Constructs a new Signal.
+*/
 Signal::Signal()
 {
 	Signal::outputGates = gcnew ArrayList();
@@ -16,16 +20,27 @@ Signal::Signal()
 
 }
 
+/**
+    Returns the current Value of the Signal
+*/
 bool Signal::getValue(){
 	return this->inputGate->getResult(0);
 }
 
+/**
+    Destroy the Signal
+*/
 void Signal::destruct()
 {
 	this->inputGate = nullptr;
 	//this->outputGates = 
 }
 
+/**
+    Add a Gate at the Input from the Signal
+    @param gate The Gate 
+	@param position The Position of the Input
+*/
 void Signal::setInputGate(Gatter^ gate, int position)
 {
 	this->inputGate = gate;
@@ -34,6 +49,11 @@ void Signal::setInputGate(Gatter^ gate, int position)
 	
 }
 
+/**
+    Add a Gate at the Output from the Signal
+    @param gate The Gate 
+	@param position The Position of the Output
+*/
 void Signal::addOutputGate(Gatter^ gate, int position)
 {
 	this->outputGates->Add(gate);
@@ -41,6 +61,10 @@ void Signal::addOutputGate(Gatter^ gate, int position)
 }
 
 
+/**
+    Sends the Signal from the Input to 
+	the Output
+*/
 void Signal::transmit()
 {
 	bool input = this->inputGate->getResult(this->inputPosition);
