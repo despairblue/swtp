@@ -1290,10 +1290,13 @@ private: System::Void toolStripButton15_Click(System::Object ^  sender, System::
                         file->Append(",");
                     }
                 }
-				if (file->Length > 0)
-				{
-				file->Remove(file->Length - 1, 1);
-				}
+
+                // Remove last comma
+                if (file->Length > 0)
+                {
+                    file->Remove(file->Length - 1, 1);
+                }
+
                 file->Append("\n");
 
                 StreamWriter ^ fileWriter = gcnew StreamWriter(myStream);
