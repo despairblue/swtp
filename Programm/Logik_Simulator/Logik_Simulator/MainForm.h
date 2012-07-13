@@ -623,7 +623,10 @@ namespace Logik_Simulator
 
 			for each (SignalWidget ^ sw in signal_widgets)
 			{
-				simulated = sw->transmit();
+				if (sw->transmit())
+				{
+					simulated = true;
+				}
 			}
 
 			if (simulated)

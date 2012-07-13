@@ -72,6 +72,7 @@ public:
     virtual void click(ToolStripStatusLabel ^ statusBar);
     virtual Boolean keyUp(KeyEventArgs ^ e, ToolStripStatusLabel ^ statusBar);
     virtual Boolean widgetHit(Point ^ clickLocation);
+    virtual void switchOff();
 };
 
 /// Graphical representation of Signal.
@@ -109,6 +110,7 @@ public:
     void disconnectAll();
     Boolean transmit();
     Boolean signalCut(Point start, Point stop);
+    void switchOff();
 };
 
 /// Graphical representation of Input.
@@ -184,6 +186,8 @@ public:
     virtual Boolean connectOutputSignal(SignalWidget ^ sw) override;
     virtual void disconnectOutputSignal(SignalWidget ^ sw) override;
     virtual void paint(Graphics ^ canvas) override;
+    virtual void switchOff() override;
+    virtual void destruct() override;
 };
 
 /// Graphical representation of And.
