@@ -690,7 +690,7 @@ namespace Logik_Simulator
 			//refreshTable();
 			repaint();
 		}
-
+		///refreshes the Sidebar Table
 		void refreshTable()
 		{
 			int inputSize = 0;
@@ -865,60 +865,6 @@ namespace Logik_Simulator
 							}
 						}
 
-					/*	String ^ key = "Output" + safe_cast < OutputWidget ^ > (lw)->getID();
-						this->outputGridView->Columns->Clear();
-						this->outputGridView->DataSource = nullptr;
-
-						if ((this->outputGridView->Columns != nullptr) && (this->outputGridView->Columns->Contains(key)))
-						{
-							this->outputGridView->Columns->Remove(key);
-						}
-						if (this->outputMap->ContainsKey(key) == false)
-						{
-							ArrayList ^ tempList = gcnew ArrayList();
-							bool tempBool = lw->getGate()->getResult();
-							tempList->Add(tempBool);
-							this->outputMap->Add(key, tempList);
-						}
-					if (this->outputMap->ContainsKey(key) == true)					
-					{
-							ArrayList ^ tempList2 = gcnew ArrayList();
-							bool tempBool2 = lw->getGate()->getResult();
-							tempList2->Add(tempBool2);
-							this->outputMap->Remove(key);
-							this->outputMap->Add(key, tempList2);
-					}
-
-						this->outputGridView->Columns->Clear();
-
-						for each(KeyValuePair < String ^ , ArrayList ^ > ^ pair1 in this->outputMap)
-						{
-							this->outputGridView->Columns->Add(pair1->Key, pair1->Key);
-							//this->inputGridView->Columns[pair1->Key]->CellType = DataGridViewCheckBoxColumn;
-							outputNames->Add(pair1->Key);
-
-							if(outputNames->Count > outputSize)
-							{
-								outputSize = outputNames->Count;
-							}
-						}
-
-						outputRowSize = this->outputGridView->Rows->Count;
-
-						if(outputRows->Count < outputSize)
-						{
-							for(int i = outputRows->Count; i < inputMaxLength ; i++)
-							{
-								ArrayList^ tempAL = gcnew ArrayList();
-								for (int i = 0; i < inputMaxLength; i++)
-								{
-									tempAL->Add(false);
-								}
-								outputRows->Add(tempAL);
-
-
-							}
-						}*/
 					}	
 
 				}
@@ -948,73 +894,11 @@ namespace Logik_Simulator
 
 			repaint();
 		}
-
+		
 		/**
-			@return True if inputMap contains key.
-			@param inputMap Arraylist ^ of KeyValuePair ^ instances
-			@param key The Key as String ^
+			EventHandler for the Buttons in the Toolbar.
+			set which Type of Gate is selected
 		*/
-		Boolean containsKey(ArrayList ^ inputMap, String ^ key)
-		{
-			for each (KeyValuePair<String^, ArrayList^>^ kvp in inputMap)
-			{
-				if (kvp->Key == key)
-				{
-					return true;
-				}
-			}
-
-			return false;
-		}
-
-		/**
-			@return Array of all keys in inputMap
-			@param inputMap ArrayList^ of KeyValuePair^ instances 
-		*/
-		ArrayList^ getKeys(ArrayList ^ inputMap)
-		{
-			ArrayList ^ keys = gcnew ArrayList();
-
-			for each (KeyValuePair<String^, ArrayList^> ^ kvp in inputMap)
-			{
-				keys->Add(kvp->Key);
-			}
-
-			return keys;
-		}
-
-		/**
-			@return Corresponding value of key in inputMap
-			@param inputMap ArrayList^ of KeyValuePair^ instances
-			@param key The key as String^
-		*/
-		ArrayList ^ getValue(ArrayList ^ inputMap, String ^ key)
-		{
-			for each (KeyValuePair<String^, ArrayList^>^ kvp in inputMap)
-			{
-				if (kvp->Key == key)
-				{
-					return kvp->Value;
-				}
-			}
-
-			return nullptr;
-		}
-
-		void addKeyValuePair (ArrayList ^ inputMap, String ^ key, ArrayList ^ value)
-		{
-			if (containsKey(inputMap, key))
-			{
-				ArrayList ^ val = getValue(inputMap, key);
-				val->Clear();
-				val->AddRange(value);
-			}
-			else {
-				KeyValuePair<String^, ArrayList^> ^ kvp = gcnew KeyValuePair<String^, ArrayList^>(key, value);
-				inputMap->Add(kvp);
-			}
-		}
-
 		void toolStripButtons_Click(System::Object ^  sender, System::EventArgs ^  e)
 		{
 			ToolStripButton ^ sen = safe_cast < ToolStripButton ^ > (sender);
@@ -1032,6 +916,12 @@ namespace Logik_Simulator
 			}
 		}
 
+		/**
+			EventHandler for MouseUp Event
+			creates (depending on MouseDown) a new Widget,
+			or moves a Widget, 
+			or cutes a Signal
+		*/
 		void MainForm_MouseUp(System::Object ^  sender, System::Windows::Forms::MouseEventArgs ^  e)
 		{
 			Control ^ control = dynamic_cast<Control^>(sender);
@@ -1205,6 +1095,9 @@ namespace Logik_Simulator
 			repaint();
 		}
 
+
+		
+		///	Draws the Line for the Cut-Tool and Refreshes the Canvas
 		void MainForm_Paint(System::Object ^  sender, System::Windows::Forms::PaintEventArgs ^  e)
 		{
 			Control^ control = dynamic_cast<Control^>(sender);
@@ -1254,6 +1147,7 @@ namespace Logik_Simulator
 			}
 		}
 
+		///safes the current Position if the mouse was over a widget
 		void MainForm_MouseDown(System::Object ^  sender, System::Windows::Forms::MouseEventArgs ^  e)
 		{
 			this->mouse_down_location = e->Location;
@@ -1267,6 +1161,7 @@ namespace Logik_Simulator
 			}
 		}
 
+		///moves a Widget, if its not selected, or draw a SignalWidget
 		void MainForm_MouseMove(System::Object ^  sender, System::Windows::Forms::MouseEventArgs ^  e)
 		{
 			Boolean controlKeyDown = Control::ModifierKeys == Keys::Control;
@@ -1293,6 +1188,10 @@ namespace Logik_Simulator
 			}
 		}
 
+	/**
+		deletes a Widget on Delete Key Press
+		if Widget is selected
+	*/
 	private: System::Void MainForm_KeyUp(System::Object ^  sender, System::Windows::Forms::KeyEventArgs ^  e)
 			{
 				Boolean handled = false;
@@ -1347,10 +1246,13 @@ namespace Logik_Simulator
 				
 				 repaint();
 			 }
+
+	///starts the Single-Row Simulation
 	private: System::Void toolStripButton9_Click(System::Object ^  sender, System::EventArgs ^  e)
 			 {	 this->multiOutput = false;
 				 startSimulation(true);
 			 }
+	///opens a SafeFileDialog and Write the Circuit to the Harddisc
 	private: System::Void toolStripButton12_Click(System::Object ^  sender, System::EventArgs ^  e)
 			 {
 				 Stream ^ myStream;
@@ -1428,6 +1330,8 @@ namespace Logik_Simulator
 				 }
 
 			 }
+
+	///opens a OpenFileDialog and  the Circuit from the Harddisc
 	private: System::Void toolStripButton11_Click(System::Object^  sender, System::EventArgs^  e) {
 				 Stream ^ myStream;
 
@@ -1585,6 +1489,7 @@ namespace Logik_Simulator
 				 repaint();
 			 }
 
+	///Change Cursor if Control-Key is Pressed
 	private: System::Void splitContainer1_KeyDown(System::Object^  sender, System::Windows::Forms::KeyEventArgs^  e) {
 					if (Control::ModifierKeys == Keys::Control)
 					{
@@ -1593,6 +1498,7 @@ namespace Logik_Simulator
 					}
 			 }
 
+	///Set the Input-Gates, if a Value in the Sidebar Table changes
 private: System::Void inputGridView_CellValueChanged(System::Object^  sender, System::Windows::Forms::DataGridViewCellEventArgs^  e) {
 			 int columnIndex =  this->inputGridView->CurrentCell->ColumnIndex;
 			 int rowIndex = this->inputGridView->CurrentCell->RowIndex;
@@ -1625,12 +1531,12 @@ private: System::Void inputGridView_CellValueChanged(System::Object^  sender, Sy
 			 
 		 }
 
+		 ///refreshes the Sidebar Table
 void refreshRow()
 {
 	int rowIndex = this->inputGridView->CurrentCell->RowIndex;
 	int keyNumber = inputMap2->getKeys()->Count;
-
-	
+		
 	for each (LogicWidget ^ lw in logic_widgets)
 	{
 
@@ -1650,6 +1556,8 @@ void refreshRow()
 	}
 
 }
+
+///Changes the Value in the Sidebar Table at CellClick
 private: System::Void inputGridView_CellClick(System::Object^  sender, System::Windows::Forms::DataGridViewCellMouseEventArgs^  e) {
 			 if(e->Button == ::MouseButtons::Left)
 			 {
@@ -1669,7 +1577,7 @@ private: System::Void inputGridView_CellClick(System::Object^  sender, System::W
 			 }
 		 }
 
-
+///refreshes all Input-Gates if a Row in the Sidebar Table is Selected
 private: System::Void inputGridView_RowHeaderMouseClick(System::Object^  sender, System::Windows::Forms::DataGridViewCellMouseEventArgs^  e) {
 
 			 int columnMaxIndex =  this->inputGridView->Columns->Count;
@@ -1693,6 +1601,8 @@ private: System::Void inputGridView_RowHeaderMouseClick(System::Object^  sender,
 				 }
 			 }
 		 }
+
+///starts the Multi-Row Simulation
 private: System::Void toolStripButton13_Click(System::Object^  sender, System::EventArgs^  e) {
 			 int rowIndex = this->inputGridView->RowCount;
 			 for ( int j = 0; j< rowIndex;j++)
