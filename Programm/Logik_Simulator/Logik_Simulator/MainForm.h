@@ -840,6 +840,19 @@ namespace Logik_Simulator
 			return (array<String^>^) keys->ToArray(String::typeid);
 		}
 
+		ArrayList ^ getValue(ArrayList ^ inputMap, String ^ key)
+		{
+			for each (KeyValuePair<String^, ArrayList^>^ kvp in inputMap)
+			{
+				if (kvp->Key == key)
+				{
+					return kvp->Value;
+				}
+			}
+
+			return nullptr;
+		}
+
 		void toolStripButtons_Click(System::Object ^  sender, System::EventArgs ^  e)
 		{
 			ToolStripButton ^ sen = safe_cast < ToolStripButton ^ > (sender);
