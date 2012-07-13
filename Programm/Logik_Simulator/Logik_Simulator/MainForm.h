@@ -13,6 +13,7 @@
 #include "Nor.h"
 #include "Exor.h"
 #include "Fork.h"
+#include "TableMap.h"
 
 using namespace System;
 using namespace System::ComponentModel;
@@ -50,7 +51,7 @@ namespace Logik_Simulator
 			this->logic_widgets = gcnew ArrayList();
 			this->signal_widgets = gcnew ArrayList();
 			this->toDelete = gcnew ArrayList();
-			this->inputMap2 = gcnew ArrayList();
+			this->inputMap2 = gcnew TableMap();
 
 			this->mouse_down_location.X = 0;
 			this->mouse_down_location.Y = 0;
@@ -91,7 +92,7 @@ namespace Logik_Simulator
 		ArrayList ^ logic_widgets;
 		ArrayList ^ signal_widgets;
 		ArrayList ^ toDelete;
-		ArrayList ^ inputMap2;
+		TableMap ^ inputMap2;
 
 	public:
 		SortedDictionary < String ^ , ArrayList ^ > ^ inputMap;
@@ -711,21 +712,22 @@ namespace Logik_Simulator
 						{
 							this->inputGridView->Columns->Remove(key);
 						}
-						inputNames = getKeys(inputMap2);
+						inputNames = this->inputMap2->getKeys();
 						if (inputNames->Contains(key) == false)
 						{
 							ArrayList ^ tempList = gcnew ArrayList();
 							bool tempBool = lw->getGate()->getResult();
 							tempList->Add(tempBool);
-							addKeyValuePair(inputMap2,key,tempList);
+							inputMap2->addKeyValuePair(key,tempList);
+							
 						}
 						if (inputNames->Contains(key) == true)					
 						{
 							ArrayList ^ tempList2 = gcnew ArrayList();
 							bool tempBool2 = lw->getGate()->getResult();
-							tempList2 = getValue(inputMap2, key);
-							this->inputMap2->Remove(key);
-							addKeyValuePair(inputMap2,key,tempList2);
+							tempList2 = inputMap2->getValue(key);
+							this->inputMap2->remove(key);
+							inputMap2->addKeyValuePair(key, tempList2);
 						} 
 
 					}
@@ -740,9 +742,9 @@ namespace Logik_Simulator
 							//inputNames->Add(pair1->Key);
 
 							
-							if(inputMaxLength < getValue(inputMap2, key)->Count)
+							if(inputMaxLength < inputMap2->getValue(key)->Count)
 							{
-								inputMaxLength = getValue(inputMap2, key)->Count;
+								inputMaxLength =inputMap2->getValue(key)->Count;
 							}
 						}
 				
@@ -763,9 +765,9 @@ namespace Logik_Simulator
 							for(int j = 0; j < inputSize; j++)
 							{	
 								String^ key = safe_cast<String^>(inputNames[j]);			
-								int l = getValue(inputMap2,key)->Count;
+								int l = inputMap2->getValue(key)->Count;
 								if((k<l)&&(tAL->Count >= k)){
-								tAL[k] = getValue(inputMap2,key)->ToArray()[k];
+								tAL[k] = inputMap2->getValue(key)->ToArray()[k];
 								}
 								bool b = safe_cast<bool>(tAL->ToArray()[j]);
 								tempAL->Add(b);
@@ -1228,9 +1230,9 @@ namespace Logik_Simulator
 						 if (selected_widget->GetType() == InputWidget::typeid)
 						 {
 							 String ^ key = "Input" + safe_cast < InputWidget ^ > (selected_widget)->getID();
-							 if (getKeys(inputMap2)->Contains(key))
+							 if (inputMap2->getKeys()->Contains(key))
 							 {
-								this->inputMap2->Remove(key);
+								this->inputMap2->remove(key);
 							 }
 						 }
 						 if (selected_widget->GetType() == OutputWidget::typeid)
@@ -1520,7 +1522,7 @@ private: System::Void inputGridView_CellValueChanged(System::Object^  sender, Sy
 					if(safe_cast<InputWidget^>(lw)->getID() == widgetIndex)
 					{
 						safe_cast<InputWidget^>(lw)->getGate()->setInputValue(safe_cast<bool>(this->inputGridView->CurrentCell->Value));
-						ArrayList^ tempAL = getValue(inputMap2,key1);
+						ArrayList^ tempAL = inputMap2->getValue(key1);
 						if(tempAL->Count -1 < rowIndex)
 						{
 							for(int i = tempAL->Count -1; i < rowIndex ; i++)
@@ -1530,8 +1532,8 @@ private: System::Void inputGridView_CellValueChanged(System::Object^  sender, Sy
 						}
 
 						tempAL[rowIndex] = safe_cast<bool>(this->inputGridView->CurrentCell->Value);
-						this->inputMap2->Remove(key1);
-						addKeyValuePair(inputMap2,key1,tempAL);
+						this->inputMap2->remove(key1);
+						inputMap2->addKeyValuePair(key1, tempAL); 
 						repaint();
 					}
 				}
