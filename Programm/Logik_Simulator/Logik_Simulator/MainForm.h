@@ -670,7 +670,7 @@ namespace Logik_Simulator
 				changeStatusBar("No simulation started. Add some Inputs and connect them to Gates.");
 			}
 
-			refreshTable();
+			//refreshTable();
 			repaint();
 		}
 
@@ -719,7 +719,7 @@ namespace Logik_Simulator
 							ArrayList ^ tempList2 = gcnew ArrayList();
 							bool tempBool2 = lw->getGate()->getResult();
 							tempList2 = inputMap2->getValue(key);
-							this->inputMap2->remove(key);
+							//this->inputMap2->remove(key);
 							inputMap2->addKeyValuePair(key, tempList2);
 						} 
 						if (inputNames->Contains(key) == false)
@@ -738,7 +738,9 @@ namespace Logik_Simulator
 				for each(String^ key in keys)
 						{
 							this->inputGridView->Columns->Add(key, key);
+							this->inputGridView->CellClick -= gcnew System::Windows::Forms::DataGridViewCellEventHandler(this, &MainForm::inputGridView_CellClick);
 							this->inputGridView->CellClick += gcnew System::Windows::Forms::DataGridViewCellEventHandler(this, &MainForm::inputGridView_CellClick);
+							this->inputGridView->CellContentClick -= gcnew System::Windows::Forms::DataGridViewCellEventHandler(this, &MainForm::inputGridView_CellClick);
 							this->inputGridView->CellContentClick += gcnew System::Windows::Forms::DataGridViewCellEventHandler(this, &MainForm::inputGridView_CellClick);
 											
 							//inputNames->Add(pair1->Key);
@@ -1100,6 +1102,7 @@ namespace Logik_Simulator
 							lw = gcnew ForkWidget(gcnew Point(e->X, e->Y), createID());
 						}
 						this->logic_widgets->Insert(0, lw);
+
 						refreshTable();
 					}
 				}
@@ -1261,8 +1264,9 @@ namespace Logik_Simulator
         else if (e->KeyCode == Keys::Delete)
         {
 					changeStatusBar("No Gate selected. Select the Gate you want to remove.");
+					 refreshTable();
         }
-				 refreshTable();
+				
 				 repaint();
 			 }
 	private: System::Void toolStripButton9_Click(System::Object ^  sender, System::EventArgs ^  e)

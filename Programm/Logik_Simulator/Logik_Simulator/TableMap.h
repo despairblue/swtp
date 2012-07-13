@@ -16,4 +16,5 @@ public:
 	ArrayList ^ getValue(String ^ key);
 	void addKeyValuePair(String ^ key, ArrayList ^ value);
 	void remove(String ^ key);
+	void removeAll();
 };

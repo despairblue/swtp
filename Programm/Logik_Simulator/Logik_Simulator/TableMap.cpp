@@ -49,8 +49,7 @@ void TableMap::addKeyValuePair (String ^ key, ArrayList ^ value)
     if (contains(key))
     {
         ArrayList ^ val = getValue(key);
-        val->Clear();
-        val->AddRange(value);
+        val = value;
     }
     else
     {
@@ -74,4 +73,10 @@ void TableMap::remove(String ^ key)
 		keys->RemoveAt(index);
 		values->RemoveAt(index);
 	}
+}
+
+void TableMap::removeAll()
+{
+	keys->Clear();
+	values->Clear();
 }
