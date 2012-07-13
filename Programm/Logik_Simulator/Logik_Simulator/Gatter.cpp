@@ -87,11 +87,18 @@ void Gatter::calculate(){
 }
 
 
+/**
+    Returns the Output Value
+    @param number The Position of the Output
+*/
 bool Gatter::getResult(int number)
 {
 	return this->output;
 }
 
+/**
+    Returns the Output Value
+*/
 bool Gatter::getResult()
 {
 	return this->output;
