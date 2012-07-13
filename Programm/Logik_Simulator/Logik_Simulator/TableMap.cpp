@@ -3,18 +3,18 @@
 
 TableMap::TableMap(void)
 {
-	this->keys = gcnew ArrayList();
-	this->values = gcnew ArrayList();
+    this->keys = gcnew ArrayList();
+    this->values = gcnew ArrayList();
 }
 
 /**
   @return True if inputMap contains key.
-	@param inputMap Arraylist ^ of KeyValuePair ^ instances
- 	@param key The Key as String ^
+    @param inputMap Arraylist ^ of KeyValuePair ^ instances
+    @param key The Key as String ^
 */
 Boolean TableMap::contains(String ^ key)
 {
-	return keys->Contains(key);
+    return keys->Contains(key);
 }
 
 /**
@@ -23,7 +23,7 @@ Boolean TableMap::contains(String ^ key)
 */
 ArrayList ^ TableMap::getKeys()
 {
-  return keys;
+    return keys;
 }
 
 /**
@@ -33,15 +33,15 @@ ArrayList ^ TableMap::getKeys()
 */
 ArrayList ^ TableMap::getValue(String ^ key)
 {
-	Int32 index = keys->IndexOf(key);
-	if (index == -1)
-	{
-    return nullptr;
-	}
-	else
-	{
-		return (ArrayList^) values[index];
-	}
+    Int32 index = keys->IndexOf(key);
+    if (index == -1)
+    {
+        return nullptr;
+    }
+    else
+    {
+        return (ArrayList ^ ) values[index];
+    }
 }
 
 void TableMap::addKeyValuePair (String ^ key, ArrayList ^ value)
@@ -55,6 +55,21 @@ void TableMap::addKeyValuePair (String ^ key, ArrayList ^ value)
     else
     {
         keys->Add(key);
-		values->Add(value);
+        values->Add(value);
     }
+}
+
+void TableMap::remove(String ^ key)
+{
+	Int32 index = keys->IndexOf(key);
+
+	if (index -1)
+	{
+		// do nothing
+	}
+	else
+	{
+		keys->RemoveAt(index);
+		values->RemoveAt(index);
+	}
 }
