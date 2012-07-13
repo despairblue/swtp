@@ -280,6 +280,18 @@ Boolean LogicWidget::widgetHit(Point ^ clickLocation)
     return false;
 }
 
+void LogicWidget::switchOff()
+{
+    gate->setResult(false);
+
+    if (outputSignal)
+    {
+        outputSignal->switchOff();
+        outputSignal->switchOff();
+        outputSignal->getSignal()->transmit();
+    }
+}
+
 // NOTE: SignalWidget
 /// Constructs new SignalWidget
 SignalWidget::SignalWidget()
@@ -297,6 +309,9 @@ SignalWidget::SignalWidget()
 void SignalWidget::destruct()
 {
     this->destructed = true;
+
+    switchOff();
+
     this->disconnectAll();
 
     signal = nullptr;
@@ -427,30 +442,121 @@ Boolean SignalWidget::transmit()
 
 Boolean SignalWidget::signalCut(Point start, Point stop)
 {
-	Single slope1 = (start.Y - stop.Y) / (Single) (start.X - stop.X);
-    Single slope2 = (inputGate->getLocation()->Y - outputGate->getLocation()->Y) / 
-    (Single) (inputGate->getLocation()->X - outputGate->getLocation()->X);
-    Point ^ inputLocation = inputGate->getLocation();
-    Point ^ outputLocation = outputGate->getLocation();
-
-    array<Int32>^ v1 = {start.X, start.Y, 1};
-    array<Int32>^ v2 = {stop.X, stop.Y, 1};
-    array<Int32>^ v3 = {inputLocation->X, inputLocation->Y, 1};
-	array<Int32>^ v4 = {outputLocation->X, outputLocation->Y, 1};
+    Point inputLocation;
+    Point outputLocation;
+    array<Int32> ^ l1;
+    array<Int32> ^ l2;
+    array<Int32> ^ s;
+    Point sp;
 
 
+    Boolean onLineSegmentOne = false;
+    Boolean onLineSegmentTwo = false;
 
-    return false;
+    inputLocation.X = (int) inputGate->outputSignalLocation.X;
+    inputLocation.Y = (int) inputGate->outputSignalLocation.Y;
+
+    if (connectedToInput == 1)
+    {
+        outputLocation.X = (int) outputGate->inputSignalOneLocation.X;
+        outputLocation.Y = (int) outputGate->inputSignalOneLocation.Y;
+    }
+    else
+    {
+        outputLocation.X = (int) outputGate->inputSignalTwoLocation.X;
+        outputLocation.Y = (int) outputGate->inputSignalTwoLocation.Y;
+    }
+
+    array<Int32> ^ v1 = {start.X, start.Y, 1};
+    array<Int32> ^ v2 = {stop.X, stop.Y, 1};
+    array<Int32> ^ v3 = {inputLocation.X, inputLocation.Y, 1};
+    array<Int32> ^ v4 = {outputLocation.X, outputLocation.Y, 1};
+
+    l1 = cross(v1, v2);
+    l2 = cross(v3, v4);
+
+    s = cross(l1, l2);
+
+
+    sp.X = (Int32) ( (Single) s[0] / (Single) s[2] );
+    sp.Y = (Int32) ( (Single) s[1] / (Single) s[2] );
+
+    // Check wether sp is on line segment one.
+    if ( ( sp.X >= start.X) && ( sp.X <= stop.X ) )
+    {
+        if ( ( sp.Y >= start.Y) && ( sp.Y <= stop.Y) )
+        {
+            onLineSegmentOne = true;
+        }
+        else if ( ( sp.Y >= stop.Y ) && ( sp.Y <= start.Y ) )
+        {
+            onLineSegmentOne = true;
+        }
+    }
+    else if ( (sp.X >= stop.X ) && (sp.X <= start.X ) )
+    {
+        if ( ( sp.Y >= start.Y) && ( sp.Y <= stop.Y) )
+        {
+            onLineSegmentOne = true;
+        }
+        else if ( ( sp.Y >= stop.Y ) && ( sp.Y <= start.Y ) )
+        {
+            onLineSegmentOne = true;
+        }
+    }
+
+    // Check wether sp is on line segment two.
+    if ( ( sp.X >= inputLocation.X) && ( sp.X <= outputLocation.X ) )
+    {
+        if ( ( sp.Y >= inputLocation.Y) && ( sp.Y <= outputLocation.Y) )
+        {
+            onLineSegmentTwo = true;
+        }
+        else if ( ( sp.Y >= outputLocation.Y ) && ( sp.Y <= inputLocation.Y ) )
+        {
+            onLineSegmentTwo = true;
+        }
+    }
+    else if ( (sp.X >= outputLocation.X ) && (sp.X <= inputLocation.X ) )
+    {
+        if ( ( sp.Y >= inputLocation.Y) && ( sp.Y <= outputLocation.Y) )
+        {
+            onLineSegmentTwo = true;
+        }
+        else if ( ( sp.Y >= outputLocation.Y ) && ( sp.Y <= inputLocation.Y ) )
+        {
+            onLineSegmentTwo = true;
+        }
+    }
+
+    if ( onLineSegmentOne && onLineSegmentTwo )
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
 }
 
-// array<Int32> ^ SignalWidget::cross(array<Int32> ^ v1, array<Int32> ^ v2)
-// {
-//     array<Int32> ^ result = array<Int32>(3);
+array<Int32> ^ SignalWidget::cross(array<Int32> ^ v1, array<Int32> ^ v2)
+{
+    array<Int32> ^ result = gcnew array<Int32>(3);
 
-//     result[0] = v1[1] * v2[2] - v1[2] * v2[1];
-//     result[1] = v1[0] * v2[2] - v1[2] * v2[1];
-//     result[2] = v1[1] * v2[2] - v1[2] * v2[1];
-// }
+    result[0] = v1[1] * v2[2] - v1[2] * v2[1];
+    result[1] = v1[0] * v2[2] - v1[2] * v2[0];
+    result[2] = v1[0] * v2[1] - v1[1] * v2[0];
+
+    return result;
+}
+
+void SignalWidget::switchOff()
+{
+    if (outputGate)
+    {
+        outputGate->switchOff();
+    }
+}
 
 // NOTE: InputWidget
 /**
@@ -552,13 +658,14 @@ void InputWidget::click(ToolStripStatusLabel ^ statusBar)
 OutputWidget::OutputWidget(Point ^ location, Int32 id):
     LogicWidget(location, id, "Out:\n")
 {
+    this->gate = gcnew Output();
     this->setLocation(location);
 }
 
 void OutputWidget::setLocation(Point ^ location)
 {
     LogicWidget::setLocation(location);
-    
+
     this->inputSignalOneLocation.X = (float) this->location->X ;
     this->inputSignalOneLocation.Y = (float) (this->location->Y + (this->size->Height / 2));
 }
@@ -828,7 +935,40 @@ void ForkWidget::paint(Graphics ^ canvas)
         Font ^ font = gcnew Font(FontFamily::GenericMonospace, 10);
         SolidBrush ^ sb = gcnew SolidBrush(color);
 
-		canvas->FillEllipse(sb, location->X, location->Y, this->size->Width, this->size->Height);
+        canvas->FillEllipse(sb, location->X, location->Y, this->size->Width, this->size->Height);
+    }
+}
+
+void ForkWidget::switchOff()
+{
+    gate->setResult(false);
+
+    if (outputSignals[0])
+    {
+        outputSignals[0]->switchOff();
+        outputSignals[0]->getSignal()->transmit();
+        outputSignals[0]->switchOff();
+    }
+    if (outputSignals[1])
+    {
+        outputSignals[1]->switchOff();
+        outputSignals[1]->getSignal()->transmit();
+        outputSignals[1]->switchOff();
+    }
+}
+
+void ForkWidget::destruct()
+{
+    LogicWidget::destruct();
+
+    if (outputSignals[0])
+    {
+        outputSignals[0]->destruct();
+    }
+
+    if (outputSignals[1])
+    {
+        outputSignals[1]->destruct();
     }
 }
 
