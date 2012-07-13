@@ -650,7 +650,7 @@ namespace Logik_Simulator
 
 			ArrayList^ inputRows = gcnew ArrayList();
 			ArrayList^ outputRows = gcnew ArrayList();
-			ArrayList^ inputNames = gcnew ArrayList();
+			ArrayList^ inputNames;
 			ArrayList^ outputNames = gcnew ArrayList();
 
 			if (logic_widgets->Contains("Input") == false)
@@ -674,43 +674,45 @@ namespace Logik_Simulator
 						this->inputGridView->Columns->Clear();
 						this->inputGridView->DataSource = nullptr;
 
-					//	if ((this->inputGridView->Columns != nullptr) && (this->inputGridView->Columns->Contains(key)))
-					//	{
-					//		this->inputGridView->Columns->Remove(key);
-					//	}
-						if (this->inputMap->ContainsKey(key) == false)
+						if ((this->inputGridView->Columns != nullptr) && (this->inputGridView->Columns->Contains(key)))
+						{
+							this->inputGridView->Columns->Remove(key);
+						}
+						inputNames = getKeys(inputMap2);
+						if (inputNames->Contains(key) == false)
 						{
 							ArrayList ^ tempList = gcnew ArrayList();
 							bool tempBool = lw->getGate()->getResult();
 							tempList->Add(tempBool);
-							this->inputMap->Add(key, tempList);
+							addKeyValuePair(inputMap2,key,tempList);
 						}
-						if (this->inputMap->ContainsKey(key) == true)					
+						if (inputNames->Contains(key) == true)					
 						{
 							ArrayList ^ tempList2 = gcnew ArrayList();
 							bool tempBool2 = lw->getGate()->getResult();
-							tempList2 = safe_cast<ArrayList^>(this->inputMap[key]);
-							this->inputMap->Remove(key);
-							this->inputMap->Add(key,tempList2);
+							tempList2 = getValue(inputMap2, key);
+							this->inputMap2->Remove(key);
+							addKeyValuePair(inputMap2,key,tempList2);
 						} 
 
 					}
 				}
-
-				for each(KeyValuePair < String ^ , ArrayList ^ > ^ pair1 in this->inputMap)
+				ArrayList^ keys = getKeys(inputMap2);
+				for each(String^ key in keys)
 						{
-							this->inputGridView->Columns->Add(pair1->Key, pair1->Key);
+							this->inputGridView->Columns->Add(key, key);
 							this->inputGridView->CellClick += gcnew System::Windows::Forms::DataGridViewCellEventHandler(this, &MainForm::inputGridView_CellClick);
 							this->inputGridView->CellContentClick += gcnew System::Windows::Forms::DataGridViewCellEventHandler(this, &MainForm::inputGridView_CellClick);
-														
-							inputNames->Add(pair1->Key);
+											
+							//inputNames->Add(pair1->Key);
 
 							
-							if(inputMaxLength < pair1->Value->Count)
+							if(inputMaxLength < getValue(inputMap2, key)->Count)
 							{
-								inputMaxLength = pair1->Value->Count;
+								inputMaxLength = getValue(inputMap2, key)->Count;
 							}
 						}
+				
 				if(inputNames->Count > inputSize)
 							{
 								inputSize = inputNames->Count;
@@ -728,9 +730,9 @@ namespace Logik_Simulator
 							for(int j = 0; j < inputSize; j++)
 							{	
 								String^ key = safe_cast<String^>(inputNames[j]);			
-								int l = safe_cast<ArrayList^>(this->inputMap[key])->Count;
+								int l = getValue(inputMap2,key)->Count;
 								if((k<l)&&(tAL->Count >= k)){
-								tAL[k] = safe_cast<ArrayList^>(this->inputMap[key])->ToArray()[k];
+								tAL[k] = getValue(inputMap2,key)->ToArray()[k];
 								}
 								bool b = safe_cast<bool>(tAL->ToArray()[j]);
 								tempAL->Add(b);
@@ -762,7 +764,7 @@ namespace Logik_Simulator
 							tempList->Add(tempBool);
 							this->outputMap->Add(key, tempList);
 						}
-					if (this->inputMap->ContainsKey(key) == true)					
+					if (this->outputMap->ContainsKey(key) == true)					
 					{
 							ArrayList ^ tempList2 = gcnew ArrayList();
 							bool tempBool2 = lw->getGate()->getResult();
@@ -826,7 +828,7 @@ namespace Logik_Simulator
 			repaint();
 		}
 
-		array<String^>^ getKeys(ArrayList ^ inputMap)
+		ArrayList^ getKeys(ArrayList ^ inputMap)
 		{
 			ArrayList ^ keys = gcnew ArrayList();
 
@@ -835,7 +837,7 @@ namespace Logik_Simulator
 				keys->Add(kvp->Key);
 			}
 
-			return (array<String^>^) keys->ToArray(String::typeid);
+			return keys;
 		}
 
 		ArrayList ^ getValue(ArrayList ^ inputMap, String ^ key)
@@ -1154,9 +1156,9 @@ namespace Logik_Simulator
 						 if (selected_widget->GetType() == InputWidget::typeid)
 						 {
 							 String ^ key = "Input" + safe_cast < InputWidget ^ > (selected_widget)->getID();
-							 if (this->inputMap->ContainsKey(key))
+							 if (getKeys(inputMap2)->Contains(key))
 							 {
-								 this->inputMap->Remove(key);
+								this->inputMap2->Remove(key);
 							 }
 						 }
 						 if (selected_widget->GetType() == OutputWidget::typeid)
@@ -1446,7 +1448,7 @@ private: System::Void inputGridView_CellValueChanged(System::Object^  sender, Sy
 					if(safe_cast<InputWidget^>(lw)->getID() == widgetIndex)
 					{
 						safe_cast<InputWidget^>(lw)->getGate()->setInputValue(safe_cast<bool>(this->inputGridView->CurrentCell->Value));
-						ArrayList^ tempAL = this->inputMap[key1];
+						ArrayList^ tempAL = getValue(inputMap2,key1);
 						if(tempAL->Count -1 < rowIndex)
 						{
 							for(int i = tempAL->Count -1; i < rowIndex ; i++)
@@ -1456,8 +1458,8 @@ private: System::Void inputGridView_CellValueChanged(System::Object^  sender, Sy
 						}
 
 						tempAL[rowIndex] = safe_cast<bool>(this->inputGridView->CurrentCell->Value);
-						this->inputMap->Remove(key1);
-						this->inputMap->Add(key1, tempAL);
+						this->inputMap2->Remove(key1);
+						addKeyValuePair(inputMap2,key1,tempAL);
 						repaint();
 					}
 				}
