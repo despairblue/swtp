@@ -51,19 +51,11 @@ public:
         this->logic_widgets = gcnew ArrayList();
         this->signal_widgets = gcnew ArrayList();
         this->toDelete = gcnew ArrayList();
-        this->inputMap2 = gcnew TableMap();
-        this->inputMap2->addRow();
+        this->inputMap = gcnew ArrayList();
+        this->outputMap = gcnew ArrayList();
 
         this->mouse_down_location.X = 0;
         this->mouse_down_location.Y = 0;
-
-        this->inputMap = gcnew SortedDictionary < String ^ , ArrayList ^ > ();
-        this->outputMap = gcnew SortedDictionary < String ^ , ArrayList ^ > ();
-
-        this->multiOutput = false;
-
-        this->selectedInputRow = 0;
-        this->selectedOutputRow = 0;
 
         for each (Object ^ obj in this->toolStrip1->Items)
         {
@@ -95,14 +87,10 @@ protected:
     ArrayList ^ logic_widgets;
     ArrayList ^ signal_widgets;
     ArrayList ^ toDelete;
-    TableMap ^ inputMap2;
-    bool multiOutput;
+    ArrayList ^ inputMap;
+    ArrayList ^ outputMap;
 
 public:
-    SortedDictionary < String ^ , ArrayList ^ > ^ inputMap;
-    SortedDictionary < String ^ , ArrayList ^ > ^ outputMap;
-    int selectedInputRow;
-    int selectedOutputRow;
 
 private: System::Windows::Forms::ToolStrip ^  toolStrip1;
 private: System::Windows::Forms::ToolStripButton ^  toolStripButton1;
@@ -140,6 +128,7 @@ private: System::Windows::Forms::ToolStripButton ^  toolStripButton14;
 private: System::Windows::Forms::ToolStripButton ^  toolStripButton15;
 private: System::Windows::Forms::SaveFileDialog ^  saveFileDialog2;
 private: System::Windows::Forms::OpenFileDialog ^  openFileDialog2;
+private: System::Windows::Forms::SaveFileDialog ^  saveFileDialog3;
 
 
 
@@ -164,315 +153,318 @@ private:
     /// </summary>
     void InitializeComponent(void)
     {
-        System::ComponentModel::ComponentResourceManager ^  resources = (gcnew System::ComponentModel::ComponentResourceManager(MainForm::typeid));
-        this->toolStrip1 = (gcnew System::Windows::Forms::ToolStrip());
-        this->toolStripButton1 = (gcnew System::Windows::Forms::ToolStripButton());
-        this->toolStripButton2 = (gcnew System::Windows::Forms::ToolStripButton());
-        this->toolStripButton3 = (gcnew System::Windows::Forms::ToolStripButton());
-        this->toolStripButton4 = (gcnew System::Windows::Forms::ToolStripButton());
-        this->toolStripButton5 = (gcnew System::Windows::Forms::ToolStripButton());
-        this->toolStripButton6 = (gcnew System::Windows::Forms::ToolStripButton());
-        this->toolStripButton10 = (gcnew System::Windows::Forms::ToolStripButton());
-        this->toolStripSeparator1 = (gcnew System::Windows::Forms::ToolStripSeparator());
-        this->toolStripButton7 = (gcnew System::Windows::Forms::ToolStripButton());
-        this->toolStripButton8 = (gcnew System::Windows::Forms::ToolStripButton());
-        this->toolStripSeparator2 = (gcnew System::Windows::Forms::ToolStripSeparator());
-        this->toolStripButton9 = (gcnew System::Windows::Forms::ToolStripButton());
-        this->toolStripButton11 = (gcnew System::Windows::Forms::ToolStripButton());
-        this->toolStripButton12 = (gcnew System::Windows::Forms::ToolStripButton());
-        this->toolStripSeparator4 = (gcnew System::Windows::Forms::ToolStripSeparator());
-        this->toolStripButton13 = (gcnew System::Windows::Forms::ToolStripButton());
-        this->toolStripButton14 = (gcnew System::Windows::Forms::ToolStripButton());
-        this->toolStripButton15 = (gcnew System::Windows::Forms::ToolStripButton());
-        this->statusStrip1 = (gcnew System::Windows::Forms::StatusStrip());
-        this->toolStripStatusLabel1 = (gcnew System::Windows::Forms::ToolStripStatusLabel());
-        this->pictureBox1 = (gcnew System::Windows::Forms::PictureBox());
-        this->Header = (gcnew System::Windows::Forms::DataGridViewCheckBoxColumn());
-        this->openFileDialog1 = (gcnew System::Windows::Forms::OpenFileDialog());
-        this->saveFileDialog1 = (gcnew System::Windows::Forms::SaveFileDialog());
-        this->saveFileDialog2 = (gcnew System::Windows::Forms::SaveFileDialog());
-        this->openFileDialog2 = (gcnew System::Windows::Forms::OpenFileDialog());
-        this->toolStrip1->SuspendLayout();
-        this->statusStrip1->SuspendLayout();
-        (cli::safe_cast < System::ComponentModel::ISupportInitialize ^  > (this->pictureBox1))->BeginInit();
-        this->SuspendLayout();
-        //
-        // toolStrip1
-        //
-        this->toolStrip1->ImageScalingSize = System::Drawing::Size(24, 24);
-        this->toolStrip1->Items->AddRange(gcnew cli::array < System::Windows::Forms::ToolStripItem ^  > (18)
-        {
-            this->toolStripButton1,
-                 this->toolStripButton2, this->toolStripButton3, this->toolStripButton4, this->toolStripButton5, this->toolStripButton6, this->toolStripButton10,
-                 this->toolStripSeparator1, this->toolStripButton7, this->toolStripButton8, this->toolStripSeparator2, this->toolStripButton9,
-                 this->toolStripButton11, this->toolStripButton12, this->toolStripSeparator4, this->toolStripButton13, this->toolStripButton14,
-                 this->toolStripButton15
-        });
-        this->toolStrip1->Location = System::Drawing::Point(0, 0);
-        this->toolStrip1->Name = L"toolStrip1";
-        this->toolStrip1->Size = System::Drawing::Size(681, 31);
-        this->toolStrip1->TabIndex = 2;
-        this->toolStrip1->Text = L"toolStrip1";
-        //
-        // toolStripButton1
-        //
-        this->toolStripButton1->DisplayStyle = System::Windows::Forms::ToolStripItemDisplayStyle::Text;
-        this->toolStripButton1->ImageTransparentColor = System::Drawing::Color::Magenta;
-        this->toolStripButton1->Name = L"toolStripButton1";
-        this->toolStripButton1->Size = System::Drawing::Size(36, 28);
-        this->toolStripButton1->Tag = L"1";
-        this->toolStripButton1->Text = L"AND";
-        this->toolStripButton1->Click += gcnew System::EventHandler(this, &MainForm::toolStripButtons_Click);
-        //
-        // toolStripButton2
-        //
-        this->toolStripButton2->DisplayStyle = System::Windows::Forms::ToolStripItemDisplayStyle::Text;
-        this->toolStripButton2->ImageTransparentColor = System::Drawing::Color::Magenta;
-        this->toolStripButton2->Name = L"toolStripButton2";
-        this->toolStripButton2->Size = System::Drawing::Size(27, 28);
-        this->toolStripButton2->Tag = L"2";
-        this->toolStripButton2->Text = L"OR";
-        this->toolStripButton2->Click += gcnew System::EventHandler(this, &MainForm::toolStripButtons_Click);
-        //
-        // toolStripButton3
-        //
-        this->toolStripButton3->DisplayStyle = System::Windows::Forms::ToolStripItemDisplayStyle::Text;
-        this->toolStripButton3->ImageTransparentColor = System::Drawing::Color::Magenta;
-        this->toolStripButton3->Name = L"toolStripButton3";
-        this->toolStripButton3->Size = System::Drawing::Size(36, 28);
-        this->toolStripButton3->Tag = L"3";
-        this->toolStripButton3->Text = L"NOT";
-        this->toolStripButton3->Click += gcnew System::EventHandler(this, &MainForm::toolStripButtons_Click);
-        //
-        // toolStripButton4
-        //
-        this->toolStripButton4->DisplayStyle = System::Windows::Forms::ToolStripItemDisplayStyle::Text;
-        this->toolStripButton4->Image = (cli::safe_cast < System::Drawing::Image ^  > (resources->GetObject(L"toolStripButton4.Image")));
-        this->toolStripButton4->ImageTransparentColor = System::Drawing::Color::Magenta;
-        this->toolStripButton4->Name = L"toolStripButton4";
-        this->toolStripButton4->Size = System::Drawing::Size(34, 28);
-        this->toolStripButton4->Tag = L"4";
-        this->toolStripButton4->Text = L"XOR";
-        this->toolStripButton4->Click += gcnew System::EventHandler(this, &MainForm::toolStripButtons_Click);
-        //
-        // toolStripButton5
-        //
-        this->toolStripButton5->DisplayStyle = System::Windows::Forms::ToolStripItemDisplayStyle::Text;
-        this->toolStripButton5->ImageTransparentColor = System::Drawing::Color::Magenta;
-        this->toolStripButton5->Name = L"toolStripButton5";
-        this->toolStripButton5->Size = System::Drawing::Size(36, 28);
-        this->toolStripButton5->Tag = L"5";
-        this->toolStripButton5->Text = L"NOR";
-        this->toolStripButton5->Click += gcnew System::EventHandler(this, &MainForm::toolStripButtons_Click);
-        //
-        // toolStripButton6
-        //
-        this->toolStripButton6->DisplayStyle = System::Windows::Forms::ToolStripItemDisplayStyle::Text;
-        this->toolStripButton6->ImageTransparentColor = System::Drawing::Color::Magenta;
-        this->toolStripButton6->Name = L"toolStripButton6";
-        this->toolStripButton6->Size = System::Drawing::Size(45, 28);
-        this->toolStripButton6->Tag = L"6";
-        this->toolStripButton6->Text = L"NAND";
-        this->toolStripButton6->Click += gcnew System::EventHandler(this, &MainForm::toolStripButtons_Click);
-        //
-        // toolStripButton10
-        //
-        this->toolStripButton10->DisplayStyle = System::Windows::Forms::ToolStripItemDisplayStyle::Text;
-        this->toolStripButton10->ImageTransparentColor = System::Drawing::Color::Magenta;
-        this->toolStripButton10->Name = L"toolStripButton10";
-        this->toolStripButton10->Size = System::Drawing::Size(34, 28);
-        this->toolStripButton10->Tag = L"9";
-        this->toolStripButton10->Text = L"Fork";
-        this->toolStripButton10->Click += gcnew System::EventHandler(this, &MainForm::toolStripButtons_Click);
-        //
-        // toolStripSeparator1
-        //
-        this->toolStripSeparator1->Name = L"toolStripSeparator1";
-        this->toolStripSeparator1->Size = System::Drawing::Size(6, 31);
-        //
-        // toolStripButton7
-        //
-        this->toolStripButton7->DisplayStyle = System::Windows::Forms::ToolStripItemDisplayStyle::Text;
-        this->toolStripButton7->ImageTransparentColor = System::Drawing::Color::Magenta;
-        this->toolStripButton7->Name = L"toolStripButton7";
-        this->toolStripButton7->Size = System::Drawing::Size(39, 28);
-        this->toolStripButton7->Tag = L"7";
-        this->toolStripButton7->Text = L"Input";
-        this->toolStripButton7->Click += gcnew System::EventHandler(this, &MainForm::toolStripButtons_Click);
-        //
-        // toolStripButton8
-        //
-        this->toolStripButton8->DisplayStyle = System::Windows::Forms::ToolStripItemDisplayStyle::Text;
-        this->toolStripButton8->ImageTransparentColor = System::Drawing::Color::Magenta;
-        this->toolStripButton8->Name = L"toolStripButton8";
-        this->toolStripButton8->Size = System::Drawing::Size(49, 28);
-        this->toolStripButton8->Tag = L"8";
-        this->toolStripButton8->Text = L"Output";
-        this->toolStripButton8->Click += gcnew System::EventHandler(this, &MainForm::toolStripButtons_Click);
-        //
-        // toolStripSeparator2
-        //
-        this->toolStripSeparator2->Name = L"toolStripSeparator2";
-        this->toolStripSeparator2->Size = System::Drawing::Size(6, 31);
-        //
-        // toolStripButton9
-        //
-        this->toolStripButton9->DisplayStyle = System::Windows::Forms::ToolStripItemDisplayStyle::Image;
-        this->toolStripButton9->Image = (cli::safe_cast < System::Drawing::Image ^  > (resources->GetObject(L"toolStripButton9.Image")));
-        this->toolStripButton9->ImageTransparentColor = System::Drawing::Color::Magenta;
-        this->toolStripButton9->Name = L"toolStripButton9";
-        this->toolStripButton9->Size = System::Drawing::Size(28, 28);
-        this->toolStripButton9->Tag = L"9";
-        this->toolStripButton9->Text = L"Start Simulation";
-        this->toolStripButton9->Click += gcnew System::EventHandler(this, &MainForm::toolStripButton9_Click);
-        //
-        // toolStripButton11
-        //
-        this->toolStripButton11->DisplayStyle = System::Windows::Forms::ToolStripItemDisplayStyle::Image;
-        this->toolStripButton11->Image = (cli::safe_cast < System::Drawing::Image ^  > (resources->GetObject(L"toolStripButton11.Image")));
-        this->toolStripButton11->ImageTransparentColor = System::Drawing::Color::Magenta;
-        this->toolStripButton11->Name = L"toolStripButton11";
-        this->toolStripButton11->Size = System::Drawing::Size(28, 28);
-        this->toolStripButton11->Text = L"Open";
-        this->toolStripButton11->ToolTipText = L"Open Circiut";
-        this->toolStripButton11->Click += gcnew System::EventHandler(this, &MainForm::toolStripButton11_Click);
-        //
-        // toolStripButton12
-        //
-        this->toolStripButton12->DisplayStyle = System::Windows::Forms::ToolStripItemDisplayStyle::Image;
-        this->toolStripButton12->Image = (cli::safe_cast < System::Drawing::Image ^  > (resources->GetObject(L"toolStripButton12.Image")));
-        this->toolStripButton12->ImageTransparentColor = System::Drawing::Color::Magenta;
-        this->toolStripButton12->Name = L"toolStripButton12";
-        this->toolStripButton12->Size = System::Drawing::Size(28, 28);
-        this->toolStripButton12->Text = L"Save";
-        this->toolStripButton12->ToolTipText = L"Save Circiut";
-        this->toolStripButton12->Click += gcnew System::EventHandler(this, &MainForm::toolStripButton12_Click);
-        //
-        // toolStripSeparator4
-        //
-        this->toolStripSeparator4->Name = L"toolStripSeparator4";
-        this->toolStripSeparator4->Size = System::Drawing::Size(6, 31);
-        //
-        // toolStripButton13
-        //
-        this->toolStripButton13->DisplayStyle = System::Windows::Forms::ToolStripItemDisplayStyle::Image;
-        this->toolStripButton13->Image = (cli::safe_cast < System::Drawing::Image ^  > (resources->GetObject(L"toolStripButton13.Image")));
-        this->toolStripButton13->ImageTransparentColor = System::Drawing::Color::Magenta;
-        this->toolStripButton13->Name = L"toolStripButton13";
-        this->toolStripButton13->Size = System::Drawing::Size(28, 28);
-        this->toolStripButton13->Text = L"toolStripButton13";
-        this->toolStripButton13->ToolTipText = L"Input Table Simulation";
-        //
-        // toolStripButton14
-        //
-        this->toolStripButton14->DisplayStyle = System::Windows::Forms::ToolStripItemDisplayStyle::Image;
-        this->toolStripButton14->Image = (cli::safe_cast < System::Drawing::Image ^  > (resources->GetObject(L"toolStripButton14.Image")));
-        this->toolStripButton14->ImageTransparentColor = System::Drawing::Color::Magenta;
-        this->toolStripButton14->Name = L"toolStripButton14";
-        this->toolStripButton14->Size = System::Drawing::Size(28, 28);
-        this->toolStripButton14->Text = L"toolStripButton14";
-        this->toolStripButton14->ToolTipText = L"Load Input Table";
-        //
-        // toolStripButton15
-        //
-        this->toolStripButton15->DisplayStyle = System::Windows::Forms::ToolStripItemDisplayStyle::Image;
-        this->toolStripButton15->Image = (cli::safe_cast < System::Drawing::Image ^  > (resources->GetObject(L"toolStripButton15.Image")));
-        this->toolStripButton15->ImageTransparentColor = System::Drawing::Color::Magenta;
-        this->toolStripButton15->Name = L"toolStripButton15";
-        this->toolStripButton15->Size = System::Drawing::Size(28, 28);
-        this->toolStripButton15->Text = L"toolStripButton15";
-        this->toolStripButton15->ToolTipText = L"Save Input Table";
-        this->toolStripButton15->Click += gcnew System::EventHandler(this, &MainForm::toolStripButton15_Click);
-        //
-        // statusStrip1
-        //
-        this->statusStrip1->Items->AddRange(gcnew cli::array < System::Windows::Forms::ToolStripItem ^  > (1)
-        {
-            this->toolStripStatusLabel1
-        });
-        this->statusStrip1->Location = System::Drawing::Point(0, 350);
-        this->statusStrip1->Name = L"statusStrip1";
-        this->statusStrip1->Size = System::Drawing::Size(681, 22);
-        this->statusStrip1->TabIndex = 3;
-        this->statusStrip1->Text = L"statusStrip1";
-        //
-        // toolStripStatusLabel1
-        //
-        this->toolStripStatusLabel1->AutoToolTip = true;
-        this->toolStripStatusLabel1->DisplayStyle = System::Windows::Forms::ToolStripItemDisplayStyle::Text;
-        this->toolStripStatusLabel1->Name = L"toolStripStatusLabel1";
-        this->toolStripStatusLabel1->Size = System::Drawing::Size(666, 17);
-        this->toolStripStatusLabel1->Spring = true;
-        this->toolStripStatusLabel1->Text = L"Select a Gate from the tool bar.";
-        this->toolStripStatusLabel1->TextAlign = System::Drawing::ContentAlignment::MiddleLeft;
-        //
-        // pictureBox1
-        //
-        this->pictureBox1->BackColor = System::Drawing::SystemColors::Window;
-        this->pictureBox1->Dock = System::Windows::Forms::DockStyle::Fill;
-        this->pictureBox1->Location = System::Drawing::Point(0, 31);
-        this->pictureBox1->Name = L"pictureBox1";
-        this->pictureBox1->Size = System::Drawing::Size(681, 319);
-        this->pictureBox1->TabIndex = 0;
-        this->pictureBox1->TabStop = false;
-        this->pictureBox1->MouseMove += gcnew System::Windows::Forms::MouseEventHandler(this, &MainForm::MainForm_MouseMove);
-        this->pictureBox1->Click += gcnew System::EventHandler(this, &MainForm::pictureBox1_Click);
-        this->pictureBox1->MouseDown += gcnew System::Windows::Forms::MouseEventHandler(this, &MainForm::MainForm_MouseDown);
-        this->pictureBox1->Paint += gcnew System::Windows::Forms::PaintEventHandler(this, &MainForm::MainForm_Paint);
-        this->pictureBox1->MouseUp += gcnew System::Windows::Forms::MouseEventHandler(this, &MainForm::MainForm_MouseUp);
-        //
-        // Header
-        //
-        this->Header->Name = L"Header";
-        //
-        // openFileDialog1
-        //
-        this->openFileDialog1->DefaultExt = L"knorkator";
-        this->openFileDialog1->FileName = L"openFileDialog1";
-        this->openFileDialog1->Filter = L"Logik Simulator files|*.knorkator";
-        this->openFileDialog1->Title = L"What u want open\?";
-        //
-        // saveFileDialog1
-        //
-        this->saveFileDialog1->DefaultExt = L"knorkator";
-        this->saveFileDialog1->Filter = L"\"Logik Simulator files|*.knorkator";
-        this->saveFileDialog1->Title = L"Where u want save\?";
-        //
-        // saveFileDialog2
-        //
-        this->saveFileDialog2->DefaultExt = L"otto";
-        this->saveFileDialog2->Filter = L"Input Table files|*.otto";
-        this->saveFileDialog2->Title = L"Where u want save\?";
-        //
-        // openFileDialog2
-        //
-        this->openFileDialog2->DefaultExt = L"otto";
-        this->openFileDialog2->FileName = L"openFileDialog2";
-        this->openFileDialog2->Filter = L"Input Table files|*.otto";
-        this->openFileDialog2->Title = L"What u want open\?";
-        //
-        // MainForm
-        //
-        this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
-        this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
-        this->ClientSize = System::Drawing::Size(681, 372);
-        this->Controls->Add(this->pictureBox1);
-        this->Controls->Add(this->statusStrip1);
-        this->Controls->Add(this->toolStrip1);
-        this->DoubleBuffered = true;
-        this->Name = L"MainForm";
-        this->Text = L"MainForm";
-        this->KeyUp += gcnew System::Windows::Forms::KeyEventHandler(this, &MainForm::MainForm_KeyUp);
-        this->KeyDown += gcnew System::Windows::Forms::KeyEventHandler(this, &MainForm::splitContainer1_KeyDown);
-        this->toolStrip1->ResumeLayout(false);
-        this->toolStrip1->PerformLayout();
-        this->statusStrip1->ResumeLayout(false);
-        this->statusStrip1->PerformLayout();
-        (cli::safe_cast < System::ComponentModel::ISupportInitialize ^  > (this->pictureBox1))->EndInit();
-        this->ResumeLayout(false);
-        this->PerformLayout();
+		System::ComponentModel::ComponentResourceManager^  resources = (gcnew System::ComponentModel::ComponentResourceManager(MainForm::typeid));
+		this->toolStrip1 = (gcnew System::Windows::Forms::ToolStrip());
+		this->toolStripButton1 = (gcnew System::Windows::Forms::ToolStripButton());
+		this->toolStripButton2 = (gcnew System::Windows::Forms::ToolStripButton());
+		this->toolStripButton3 = (gcnew System::Windows::Forms::ToolStripButton());
+		this->toolStripButton4 = (gcnew System::Windows::Forms::ToolStripButton());
+		this->toolStripButton5 = (gcnew System::Windows::Forms::ToolStripButton());
+		this->toolStripButton6 = (gcnew System::Windows::Forms::ToolStripButton());
+		this->toolStripButton10 = (gcnew System::Windows::Forms::ToolStripButton());
+		this->toolStripSeparator1 = (gcnew System::Windows::Forms::ToolStripSeparator());
+		this->toolStripButton7 = (gcnew System::Windows::Forms::ToolStripButton());
+		this->toolStripButton8 = (gcnew System::Windows::Forms::ToolStripButton());
+		this->toolStripSeparator2 = (gcnew System::Windows::Forms::ToolStripSeparator());
+		this->toolStripButton9 = (gcnew System::Windows::Forms::ToolStripButton());
+		this->toolStripButton11 = (gcnew System::Windows::Forms::ToolStripButton());
+		this->toolStripButton12 = (gcnew System::Windows::Forms::ToolStripButton());
+		this->toolStripSeparator4 = (gcnew System::Windows::Forms::ToolStripSeparator());
+		this->toolStripButton13 = (gcnew System::Windows::Forms::ToolStripButton());
+		this->toolStripButton14 = (gcnew System::Windows::Forms::ToolStripButton());
+		this->toolStripButton15 = (gcnew System::Windows::Forms::ToolStripButton());
+		this->statusStrip1 = (gcnew System::Windows::Forms::StatusStrip());
+		this->toolStripStatusLabel1 = (gcnew System::Windows::Forms::ToolStripStatusLabel());
+		this->pictureBox1 = (gcnew System::Windows::Forms::PictureBox());
+		this->Header = (gcnew System::Windows::Forms::DataGridViewCheckBoxColumn());
+		this->openFileDialog1 = (gcnew System::Windows::Forms::OpenFileDialog());
+		this->saveFileDialog1 = (gcnew System::Windows::Forms::SaveFileDialog());
+		this->saveFileDialog2 = (gcnew System::Windows::Forms::SaveFileDialog());
+		this->openFileDialog2 = (gcnew System::Windows::Forms::OpenFileDialog());
+		this->saveFileDialog3 = (gcnew System::Windows::Forms::SaveFileDialog());
+		this->toolStrip1->SuspendLayout();
+		this->statusStrip1->SuspendLayout();
+		(cli::safe_cast<System::ComponentModel::ISupportInitialize^  >(this->pictureBox1))->BeginInit();
+		this->SuspendLayout();
+		// 
+		// toolStrip1
+		// 
+		this->toolStrip1->ImageScalingSize = System::Drawing::Size(24, 24);
+		this->toolStrip1->Items->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(18) {this->toolStripButton1, 
+			this->toolStripButton2, this->toolStripButton3, this->toolStripButton4, this->toolStripButton5, this->toolStripButton6, this->toolStripButton10, 
+			this->toolStripSeparator1, this->toolStripButton7, this->toolStripButton8, this->toolStripSeparator2, this->toolStripButton9, 
+			this->toolStripButton11, this->toolStripButton12, this->toolStripSeparator4, this->toolStripButton13, this->toolStripButton14, 
+			this->toolStripButton15});
+		this->toolStrip1->Location = System::Drawing::Point(0, 0);
+		this->toolStrip1->Name = L"toolStrip1";
+		this->toolStrip1->Size = System::Drawing::Size(681, 31);
+		this->toolStrip1->TabIndex = 2;
+		this->toolStrip1->Text = L"toolStrip1";
+		// 
+		// toolStripButton1
+		// 
+		this->toolStripButton1->DisplayStyle = System::Windows::Forms::ToolStripItemDisplayStyle::Text;
+		this->toolStripButton1->ImageTransparentColor = System::Drawing::Color::Magenta;
+		this->toolStripButton1->Name = L"toolStripButton1";
+		this->toolStripButton1->Size = System::Drawing::Size(36, 28);
+		this->toolStripButton1->Tag = L"1";
+		this->toolStripButton1->Text = L"AND";
+		this->toolStripButton1->Click += gcnew System::EventHandler(this, &MainForm::toolStripButtons_Click);
+		// 
+		// toolStripButton2
+		// 
+		this->toolStripButton2->DisplayStyle = System::Windows::Forms::ToolStripItemDisplayStyle::Text;
+		this->toolStripButton2->ImageTransparentColor = System::Drawing::Color::Magenta;
+		this->toolStripButton2->Name = L"toolStripButton2";
+		this->toolStripButton2->Size = System::Drawing::Size(27, 28);
+		this->toolStripButton2->Tag = L"2";
+		this->toolStripButton2->Text = L"OR";
+		this->toolStripButton2->Click += gcnew System::EventHandler(this, &MainForm::toolStripButtons_Click);
+		// 
+		// toolStripButton3
+		// 
+		this->toolStripButton3->DisplayStyle = System::Windows::Forms::ToolStripItemDisplayStyle::Text;
+		this->toolStripButton3->ImageTransparentColor = System::Drawing::Color::Magenta;
+		this->toolStripButton3->Name = L"toolStripButton3";
+		this->toolStripButton3->Size = System::Drawing::Size(36, 28);
+		this->toolStripButton3->Tag = L"3";
+		this->toolStripButton3->Text = L"NOT";
+		this->toolStripButton3->Click += gcnew System::EventHandler(this, &MainForm::toolStripButtons_Click);
+		// 
+		// toolStripButton4
+		// 
+		this->toolStripButton4->DisplayStyle = System::Windows::Forms::ToolStripItemDisplayStyle::Text;
+		this->toolStripButton4->Image = (cli::safe_cast<System::Drawing::Image^  >(resources->GetObject(L"toolStripButton4.Image")));
+		this->toolStripButton4->ImageTransparentColor = System::Drawing::Color::Magenta;
+		this->toolStripButton4->Name = L"toolStripButton4";
+		this->toolStripButton4->Size = System::Drawing::Size(34, 28);
+		this->toolStripButton4->Tag = L"4";
+		this->toolStripButton4->Text = L"XOR";
+		this->toolStripButton4->Click += gcnew System::EventHandler(this, &MainForm::toolStripButtons_Click);
+		// 
+		// toolStripButton5
+		// 
+		this->toolStripButton5->DisplayStyle = System::Windows::Forms::ToolStripItemDisplayStyle::Text;
+		this->toolStripButton5->ImageTransparentColor = System::Drawing::Color::Magenta;
+		this->toolStripButton5->Name = L"toolStripButton5";
+		this->toolStripButton5->Size = System::Drawing::Size(36, 28);
+		this->toolStripButton5->Tag = L"5";
+		this->toolStripButton5->Text = L"NOR";
+		this->toolStripButton5->Click += gcnew System::EventHandler(this, &MainForm::toolStripButtons_Click);
+		// 
+		// toolStripButton6
+		// 
+		this->toolStripButton6->DisplayStyle = System::Windows::Forms::ToolStripItemDisplayStyle::Text;
+		this->toolStripButton6->ImageTransparentColor = System::Drawing::Color::Magenta;
+		this->toolStripButton6->Name = L"toolStripButton6";
+		this->toolStripButton6->Size = System::Drawing::Size(45, 28);
+		this->toolStripButton6->Tag = L"6";
+		this->toolStripButton6->Text = L"NAND";
+		this->toolStripButton6->Click += gcnew System::EventHandler(this, &MainForm::toolStripButtons_Click);
+		// 
+		// toolStripButton10
+		// 
+		this->toolStripButton10->DisplayStyle = System::Windows::Forms::ToolStripItemDisplayStyle::Text;
+		this->toolStripButton10->ImageTransparentColor = System::Drawing::Color::Magenta;
+		this->toolStripButton10->Name = L"toolStripButton10";
+		this->toolStripButton10->Size = System::Drawing::Size(34, 28);
+		this->toolStripButton10->Tag = L"9";
+		this->toolStripButton10->Text = L"Fork";
+		this->toolStripButton10->Click += gcnew System::EventHandler(this, &MainForm::toolStripButtons_Click);
+		// 
+		// toolStripSeparator1
+		// 
+		this->toolStripSeparator1->Name = L"toolStripSeparator1";
+		this->toolStripSeparator1->Size = System::Drawing::Size(6, 31);
+		// 
+		// toolStripButton7
+		// 
+		this->toolStripButton7->DisplayStyle = System::Windows::Forms::ToolStripItemDisplayStyle::Text;
+		this->toolStripButton7->ImageTransparentColor = System::Drawing::Color::Magenta;
+		this->toolStripButton7->Name = L"toolStripButton7";
+		this->toolStripButton7->Size = System::Drawing::Size(39, 28);
+		this->toolStripButton7->Tag = L"7";
+		this->toolStripButton7->Text = L"Input";
+		this->toolStripButton7->Click += gcnew System::EventHandler(this, &MainForm::toolStripButtons_Click);
+		// 
+		// toolStripButton8
+		// 
+		this->toolStripButton8->DisplayStyle = System::Windows::Forms::ToolStripItemDisplayStyle::Text;
+		this->toolStripButton8->ImageTransparentColor = System::Drawing::Color::Magenta;
+		this->toolStripButton8->Name = L"toolStripButton8";
+		this->toolStripButton8->Size = System::Drawing::Size(49, 28);
+		this->toolStripButton8->Tag = L"8";
+		this->toolStripButton8->Text = L"Output";
+		this->toolStripButton8->Click += gcnew System::EventHandler(this, &MainForm::toolStripButtons_Click);
+		// 
+		// toolStripSeparator2
+		// 
+		this->toolStripSeparator2->Name = L"toolStripSeparator2";
+		this->toolStripSeparator2->Size = System::Drawing::Size(6, 31);
+		// 
+		// toolStripButton9
+		// 
+		this->toolStripButton9->DisplayStyle = System::Windows::Forms::ToolStripItemDisplayStyle::Image;
+		this->toolStripButton9->Image = (cli::safe_cast<System::Drawing::Image^  >(resources->GetObject(L"toolStripButton9.Image")));
+		this->toolStripButton9->ImageTransparentColor = System::Drawing::Color::Magenta;
+		this->toolStripButton9->Name = L"toolStripButton9";
+		this->toolStripButton9->Size = System::Drawing::Size(28, 28);
+		this->toolStripButton9->Tag = L"9";
+		this->toolStripButton9->Text = L"Start Simulation";
+		this->toolStripButton9->Click += gcnew System::EventHandler(this, &MainForm::toolStripButton9_Click);
+		// 
+		// toolStripButton11
+		// 
+		this->toolStripButton11->DisplayStyle = System::Windows::Forms::ToolStripItemDisplayStyle::Image;
+		this->toolStripButton11->Image = (cli::safe_cast<System::Drawing::Image^  >(resources->GetObject(L"toolStripButton11.Image")));
+		this->toolStripButton11->ImageTransparentColor = System::Drawing::Color::Magenta;
+		this->toolStripButton11->Name = L"toolStripButton11";
+		this->toolStripButton11->Size = System::Drawing::Size(28, 28);
+		this->toolStripButton11->Text = L"Open";
+		this->toolStripButton11->ToolTipText = L"Open Circiut";
+		this->toolStripButton11->Click += gcnew System::EventHandler(this, &MainForm::toolStripButton11_Click);
+		// 
+		// toolStripButton12
+		// 
+		this->toolStripButton12->DisplayStyle = System::Windows::Forms::ToolStripItemDisplayStyle::Image;
+		this->toolStripButton12->Image = (cli::safe_cast<System::Drawing::Image^  >(resources->GetObject(L"toolStripButton12.Image")));
+		this->toolStripButton12->ImageTransparentColor = System::Drawing::Color::Magenta;
+		this->toolStripButton12->Name = L"toolStripButton12";
+		this->toolStripButton12->Size = System::Drawing::Size(28, 28);
+		this->toolStripButton12->Text = L"Save";
+		this->toolStripButton12->ToolTipText = L"Save Circiut";
+		this->toolStripButton12->Click += gcnew System::EventHandler(this, &MainForm::toolStripButton12_Click);
+		// 
+		// toolStripSeparator4
+		// 
+		this->toolStripSeparator4->Name = L"toolStripSeparator4";
+		this->toolStripSeparator4->Size = System::Drawing::Size(6, 31);
+		// 
+		// toolStripButton13
+		// 
+		this->toolStripButton13->DisplayStyle = System::Windows::Forms::ToolStripItemDisplayStyle::Image;
+		this->toolStripButton13->Image = (cli::safe_cast<System::Drawing::Image^  >(resources->GetObject(L"toolStripButton13.Image")));
+		this->toolStripButton13->ImageTransparentColor = System::Drawing::Color::Magenta;
+		this->toolStripButton13->Name = L"toolStripButton13";
+		this->toolStripButton13->Size = System::Drawing::Size(28, 28);
+		this->toolStripButton13->Text = L"toolStripButton13";
+		this->toolStripButton13->ToolTipText = L"Input Table Simulation";
+		this->toolStripButton13->Click += gcnew System::EventHandler(this, &MainForm::toolStripButton13_Click);
+		// 
+		// toolStripButton14
+		// 
+		this->toolStripButton14->DisplayStyle = System::Windows::Forms::ToolStripItemDisplayStyle::Image;
+		this->toolStripButton14->Image = (cli::safe_cast<System::Drawing::Image^  >(resources->GetObject(L"toolStripButton14.Image")));
+		this->toolStripButton14->ImageTransparentColor = System::Drawing::Color::Magenta;
+		this->toolStripButton14->Name = L"toolStripButton14";
+		this->toolStripButton14->Size = System::Drawing::Size(28, 28);
+		this->toolStripButton14->Text = L"toolStripButton14";
+		this->toolStripButton14->ToolTipText = L"Load Input Table";
+		this->toolStripButton14->Click += gcnew System::EventHandler(this, &MainForm::toolStripButton14_Click);
+		// 
+		// toolStripButton15
+		// 
+		this->toolStripButton15->DisplayStyle = System::Windows::Forms::ToolStripItemDisplayStyle::Image;
+		this->toolStripButton15->Image = (cli::safe_cast<System::Drawing::Image^  >(resources->GetObject(L"toolStripButton15.Image")));
+		this->toolStripButton15->ImageTransparentColor = System::Drawing::Color::Magenta;
+		this->toolStripButton15->Name = L"toolStripButton15";
+		this->toolStripButton15->Size = System::Drawing::Size(28, 28);
+		this->toolStripButton15->Text = L"toolStripButton15";
+		this->toolStripButton15->ToolTipText = L"Save Input Table";
+		this->toolStripButton15->Click += gcnew System::EventHandler(this, &MainForm::toolStripButton15_Click);
+		// 
+		// statusStrip1
+		// 
+		this->statusStrip1->Items->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(1) {this->toolStripStatusLabel1});
+		this->statusStrip1->Location = System::Drawing::Point(0, 350);
+		this->statusStrip1->Name = L"statusStrip1";
+		this->statusStrip1->Size = System::Drawing::Size(681, 22);
+		this->statusStrip1->TabIndex = 3;
+		this->statusStrip1->Text = L"statusStrip1";
+		// 
+		// toolStripStatusLabel1
+		// 
+		this->toolStripStatusLabel1->AutoToolTip = true;
+		this->toolStripStatusLabel1->DisplayStyle = System::Windows::Forms::ToolStripItemDisplayStyle::Text;
+		this->toolStripStatusLabel1->Name = L"toolStripStatusLabel1";
+		this->toolStripStatusLabel1->Size = System::Drawing::Size(666, 17);
+		this->toolStripStatusLabel1->Spring = true;
+		this->toolStripStatusLabel1->Text = L"Select a Gate from the tool bar.";
+		this->toolStripStatusLabel1->TextAlign = System::Drawing::ContentAlignment::MiddleLeft;
+		// 
+		// pictureBox1
+		// 
+		this->pictureBox1->BackColor = System::Drawing::SystemColors::Window;
+		this->pictureBox1->Dock = System::Windows::Forms::DockStyle::Fill;
+		this->pictureBox1->Location = System::Drawing::Point(0, 31);
+		this->pictureBox1->Name = L"pictureBox1";
+		this->pictureBox1->Size = System::Drawing::Size(681, 319);
+		this->pictureBox1->TabIndex = 0;
+		this->pictureBox1->TabStop = false;
+		this->pictureBox1->MouseMove += gcnew System::Windows::Forms::MouseEventHandler(this, &MainForm::MainForm_MouseMove);
+		this->pictureBox1->Click += gcnew System::EventHandler(this, &MainForm::pictureBox1_Click);
+		this->pictureBox1->MouseDown += gcnew System::Windows::Forms::MouseEventHandler(this, &MainForm::MainForm_MouseDown);
+		this->pictureBox1->Paint += gcnew System::Windows::Forms::PaintEventHandler(this, &MainForm::MainForm_Paint);
+		this->pictureBox1->MouseUp += gcnew System::Windows::Forms::MouseEventHandler(this, &MainForm::MainForm_MouseUp);
+		// 
+		// Header
+		// 
+		this->Header->Name = L"Header";
+		// 
+		// openFileDialog1
+		// 
+		this->openFileDialog1->DefaultExt = L"knorkator";
+		this->openFileDialog1->FileName = L"openFileDialog1";
+		this->openFileDialog1->Filter = L"Logik Simulator files|*.knorkator";
+		this->openFileDialog1->Title = L"What u want open\?";
+		// 
+		// saveFileDialog1
+		// 
+		this->saveFileDialog1->DefaultExt = L"knorkator";
+		this->saveFileDialog1->Filter = L"\"Logik Simulator files|*.knorkator";
+		this->saveFileDialog1->Title = L"Where u want save\?";
+		// 
+		// saveFileDialog2
+		// 
+		this->saveFileDialog2->DefaultExt = L"otto";
+		this->saveFileDialog2->Filter = L"Input Table files|*.otto";
+		this->saveFileDialog2->Title = L"Where u want save\?";
+		// 
+		// openFileDialog2
+		// 
+		this->openFileDialog2->DefaultExt = L"otto";
+		this->openFileDialog2->FileName = L"openFileDialog2";
+		this->openFileDialog2->Filter = L"Input Table files|*.otto";
+		this->openFileDialog2->Title = L"What u want open\?";
+		// 
+		// saveFileDialog3
+		// 
+		this->saveFileDialog3->DefaultExt = L"ottoput";
+		this->saveFileDialog3->Filter = L"Output Table files|*.ottoput";
+		this->saveFileDialog3->Title = L"Where u want save\?";
+		// 
+		// MainForm
+		// 
+		this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
+		this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
+		this->ClientSize = System::Drawing::Size(681, 372);
+		this->Controls->Add(this->pictureBox1);
+		this->Controls->Add(this->statusStrip1);
+		this->Controls->Add(this->toolStrip1);
+		this->DoubleBuffered = true;
+		this->Name = L"MainForm";
+		this->Text = L"MainForm";
+		this->KeyUp += gcnew System::Windows::Forms::KeyEventHandler(this, &MainForm::MainForm_KeyUp);
+		this->KeyDown += gcnew System::Windows::Forms::KeyEventHandler(this, &MainForm::splitContainer1_KeyDown);
+		this->toolStrip1->ResumeLayout(false);
+		this->toolStrip1->PerformLayout();
+		this->statusStrip1->ResumeLayout(false);
+		this->statusStrip1->PerformLayout();
+		(cli::safe_cast<System::ComponentModel::ISupportInitialize^  >(this->pictureBox1))->EndInit();
+		this->ResumeLayout(false);
+		this->PerformLayout();
 
-    }
+	}
     #pragma endregion
 
 private:
@@ -827,7 +819,6 @@ private:
                     case 7:
                         gate = gcnew Input();
                         lw = gcnew InputWidget(gcnew Point(e->X, e->Y), createID());
-                        inputMap2->addKey(lw->getID().ToString());
                         break;
                     case 8:
                         gate = gcnew Output();
@@ -963,7 +954,6 @@ private:
 private: System::Void MainForm_KeyUp(System::Object ^  sender, System::Windows::Forms::KeyEventArgs ^  e)
     {
         Boolean handled = false;
-        this->multiOutput = false;
 
         if (Control::ModifierKeys != Keys::Control)
         {
@@ -976,24 +966,8 @@ private: System::Void MainForm_KeyUp(System::Object ^  sender, System::Windows::
 
             if (selected_widget->isDestructed())
             {
-                if (selected_widget->GetType() == InputWidget::typeid)
-                {
-                    String ^ key = "Input" + safe_cast < InputWidget ^ > (selected_widget)->getID();
-                    if (inputMap2->getKeys()->Contains(key))
-                    {
-                        this->inputMap2->remove(key);
-                    }
-                }
-                if (selected_widget->GetType() == OutputWidget::typeid)
-                {
-                    String ^ key = "Output" + safe_cast < OutputWidget ^ > (selected_widget)->getID();
-                    if (this->outputMap->ContainsKey(key))
-                    {
-                        this->outputMap->Remove(key);
-                    }
-                }
+
                 logic_widgets->Remove(selected_widget);
-                inputMap2->remove(selected_widget->getID().ToString());
 
                 selected_widget = nullptr;
 
@@ -1018,7 +992,7 @@ private: System::Void MainForm_KeyUp(System::Object ^  sender, System::Windows::
     ///starts the Single-Row Simulation
 private: System::Void toolStripButton9_Click(System::Object ^  sender, System::EventArgs ^  e)
     {
-        this->multiOutput = false;
+        // TODO: multi output implemt
         startSimulation(true);
     }
     ///opens a SafeFileDialog and Write the Circuit to the Harddisc
@@ -1070,31 +1044,6 @@ private: System::Void toolStripButton12_Click(System::Object ^  sender, System::
 
                 fileWriter->Close();
                 myStream->Close();
-
-                // Input Table
-                file = gcnew StringBuilder();
-
-                for each (String ^ key in inputMap2->getKeys())
-                {
-                    StringBuilder ^ line = gcnew StringBuilder();
-
-                    line->Append(key);
-
-                    for each (Boolean ^ boo in inputMap2->getValue(key))
-                    {
-                        line->Append(",");
-                        line->Append(boo->ToString());
-                    }
-
-                    file->Append(line->ToString());
-                    file->Append("\n");
-                }
-
-                fileWriter = gcnew StreamWriter(Path::ChangeExtension(saveFileDialog1->FileName, "otto"));
-
-                fileWriter->Write(file->ToString());
-
-                fileWriter->Close();
             }
         }
 
@@ -1208,56 +1157,15 @@ private: System::Void toolStripButton11_Click(System::Object ^  sender, System::
 
                 fileReader->Close();
                 myStream->Close();
-
-                // Input Table
-
-                String ^ otto = Path::ChangeExtension(openFileDialog1->FileName, "otto");
-
-                if (File::Exists(otto))
-                {
-                    fileReader = gcnew StreamReader(otto);
-
-                    fileContent = fileReader->ReadToEnd();
-
-                    inputMap->Clear();
-
-                    for each (String ^ line in fileContent->Split('\n'))
-                    {
-                        ArrayList ^ inputCol = gcnew ArrayList();
-
-                        for each (String ^ row in line->Split(','))
-                        {
-                            if (row == "False")
-                            {
-                                inputCol->Add(false);
-                            }
-                            else if (row == "True")
-                            {
-                                inputCol->Add(true);
-                            }
-                            else
-                            {
-                                inputCol->Add(row);
-                            }
-                        }
-
-                        if (inputCol[0]->ToString()->Contains("Input"))
-                        {
-                            inputMap->Add(inputCol[0]->ToString(), inputCol->GetRange(1, inputCol->Count - 1));
-                        }
-                    }
-
-                    fileReader->Close();
-                }
             }
         }
-
         // finish workaround
         Application::DoEvents();
         this->pictureBox1->MouseUp += gcnew System::Windows::Forms::MouseEventHandler(this, &MainForm::MainForm_MouseUp);
 
         repaint();
     }
+
 
     ///Change Cursor if Control-Key is Pressed
 private: System::Void splitContainer1_KeyDown(System::Object ^  sender, System::Windows::Forms::KeyEventArgs ^  e)
@@ -1307,6 +1215,133 @@ private: System::Void toolStripButton15_Click(System::Object ^  sender, System::
                 myStream->Close();
             }
         }
+    }
+private: System::Void toolStripButton14_Click(System::Object ^  sender, System::EventArgs ^  e)
+    {
+        inputMap->Clear();
+
+        Stream ^ myStream;
+
+        // workaround for the weird doubleclick behaviour of the OpenFileDialog
+        this->pictureBox1->MouseUp -= gcnew System::Windows::Forms::MouseEventHandler(this, &MainForm::MainForm_MouseUp);
+
+        if ( openFileDialog2->ShowDialog() == ::DialogResult::OK )
+        {
+            if ( (myStream = openFileDialog2->OpenFile()) != nullptr )
+            {
+                StreamReader ^ fileReader = gcnew StreamReader(myStream);
+                //String ^ fileContent = fileReader->ReadToEnd();
+                String ^ line;
+
+                inputMap = gcnew ArrayList();
+
+                while (line = fileReader->ReadLine())
+                {
+                    array < String ^ > ^ seperatedLine = line->Split(',');
+
+                    if (seperatedLine->GetLength(0) > 0)
+                    {
+                        ArrayList ^ temp = gcnew ArrayList();
+
+                        for each (String ^ part in seperatedLine)
+                        {
+                            temp->Add(Convert::ToBoolean( part));
+                        }
+
+                        inputMap->Add(temp);
+                    }
+                }
+
+                fileReader->Close();
+                myStream->Close();
+
+            }
+        }
+        // finish workaround
+        Application::DoEvents();
+        this->pictureBox1->MouseUp += gcnew System::Windows::Forms::MouseEventHandler(this, &MainForm::MainForm_MouseUp);
+
+        repaint();
+    }
+
+private: System::Void toolStripButton13_Click(System::Object ^  sender, System::EventArgs ^  e)
+    {
+        ArrayList ^ inputs = gcnew ArrayList();
+        ArrayList ^ outputs = gcnew ArrayList();
+
+        for each (LogicWidget ^ lw in logic_widgets)
+        {
+            if (lw->GetType() == InputWidget::typeid)
+            {
+                inputs->Add(lw);
+            }
+            else if (lw->GetType() == OutputWidget::typeid)
+            {
+                outputs->Add(lw);
+            }
+        }
+
+        outputMap->Clear();
+
+        for ( int h = 0; h < inputMap->Count; h++)
+        {
+            for (int i = 0; i < inputs->Count; i++)
+            {
+                if ( ((ArrayList ^ ) inputMap[h])->Count > i)
+                {
+                    ((LogicWidget ^ )inputs[i])->getGate()->setResult( (bool) ((ArrayList ^ )inputMap[h])[i]);
+                }
+                else
+                {
+                    ((LogicWidget ^ )inputs[i])->getGate()->setResult(false);
+                }
+            }
+
+            startSimulation(true);
+
+            ArrayList ^ temp = gcnew ArrayList();
+
+            for each (LogicWidget ^ lw in outputs)
+            {
+                temp->Add(lw->getGate()->getResult());
+            }
+
+            outputMap->Add(temp);
+        }
+        Stream ^ myStream;
+
+        if ( saveFileDialog3->ShowDialog() == ::DialogResult::OK )
+        {
+            if ( (myStream = saveFileDialog3->OpenFile()) != nullptr )
+            {
+                StringBuilder ^ file = gcnew StringBuilder();
+
+                for each (ArrayList ^ al in outputMap)
+                {
+                    for each (Boolean boo in al)
+                    {
+                        file->Append(boo);
+                        file->Append(",");
+                    }
+
+                    // Remove last comma
+                    if (file->Length > 0)
+                    {
+                        file->Remove(file->Length - 1, 1);
+                    }
+
+                    file->Append("\n");
+                }
+
+                StreamWriter ^ fileWriter = gcnew StreamWriter(myStream);
+
+                fileWriter->Write(file->ToString());
+
+                fileWriter->Close();
+                myStream->Close();
+            }
+        }
+
     }
 };
 }
