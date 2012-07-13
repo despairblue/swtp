@@ -738,10 +738,10 @@ namespace Logik_Simulator
 				for each(String^ key in keys)
 						{
 							this->inputGridView->Columns->Add(key, key);
-							this->inputGridView->CellClick -= gcnew System::Windows::Forms::DataGridViewCellEventHandler(this, &MainForm::inputGridView_CellClick);
-							this->inputGridView->CellClick += gcnew System::Windows::Forms::DataGridViewCellEventHandler(this, &MainForm::inputGridView_CellClick);
-							this->inputGridView->CellContentClick -= gcnew System::Windows::Forms::DataGridViewCellEventHandler(this, &MainForm::inputGridView_CellClick);
-							this->inputGridView->CellContentClick += gcnew System::Windows::Forms::DataGridViewCellEventHandler(this, &MainForm::inputGridView_CellClick);
+							this->inputGridView->CellMouseClick -= gcnew System::Windows::Forms::DataGridViewCellMouseEventHandler(this, &MainForm::inputGridView_CellClick);
+							this->inputGridView->CellMouseClick += gcnew System::Windows::Forms::DataGridViewCellMouseEventHandler(this, &MainForm::inputGridView_CellClick);
+							//this->inputGridView->CellContentClick -= gcnew System::Windows::Forms::DataGridViewCellEventHandler(this, &MainForm::inputGridView_CellClick);
+							//this->inputGridView->CellContentClick += gcnew System::Windows::Forms::DataGridViewCellEventHandler(this, &MainForm::inputGridView_CellClick);
 											
 							//inputNames->Add(pair1->Key);
 
@@ -1548,7 +1548,7 @@ private: System::Void inputGridView_CellValueChanged(System::Object^  sender, Sy
 		 }
 
 	
-private: System::Void inputGridView_CellClick(System::Object^  sender, System::Windows::Forms::DataGridViewCellEventArgs^  e) {
+private: System::Void inputGridView_CellClick(System::Object^  sender, System::Windows::Forms::DataGridViewCellMouseEventArgs^  e) {
 			 if(this->inputGridView->CurrentCell->Value == nullptr)
 			 {
 				 this->inputGridView->CurrentCell->Value = false;
