@@ -148,8 +148,6 @@ private:
 
     #pragma region Windows Form Designer generated code
     /// <summary>
-    /// Erforderliche Methode für die Designerunterstützung.
-    /// Der Inhalt der Methode darf nicht mit dem Code-Editor geändert werden.
     /// </summary>
     void InitializeComponent(void)
     {
