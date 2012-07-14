@@ -665,7 +665,7 @@ INPUT                  = "."
 # into libc) for the transcoding. See http://www.gnu.org/software/libiconv for
 # the list of possible encodings.
 
-INPUT_ENCODING         = UTF-8
+INPUT_ENCODING         = latin1
 
 # If the value of the INPUT tag contains directories, you can use the
 # FILE_PATTERNS tag to specify one or more wildcard pattern (like *.cpp
@@ -1292,7 +1292,7 @@ USE_PDFLATEX           = YES
 # This option is also used when generating formulas in HTML.
 
 ## changed
-LATEX_BATCHMODE        = YES
+LATEX_BATCHMODE        = NO
 
 # If LATEX_HIDE_INDICES is set to YES then doxygen will not
 # include the index chapters (such as File Index, Compound Index, etc.)
