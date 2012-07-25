@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg height="588" version="1.1" width="860" xmlns="http://www.w3.org/2000/svg">
+<rect fill="#ffffff" height="560" stroke="#ffffff" stroke-width="1" width="720" x="126" y="14"/>
+<rect fill="none" height="560" stroke="#000000" stroke-width="1" width="720" x="126" y="14"/>
+<text font-family="Dialog" font-size="12" x="19" y="290">
+Benutzer</text>
+<ellipse cx="46" cy="239" fill="#000000" rx="8.0" ry="7.5" stroke="#000000" stroke-width="1"/>
+<ellipse cx="46" cy="239" fill="#ffffff" rx="7.0" ry="6.5" stroke="#ffffff" stroke-width="1"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="46" x2="46" y1="247" y2="262"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="36" x2="56" y1="252" y2="252"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="46" x2="41" y1="262" y2="277"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="46" x2="51" y1="262" y2="277"/>
+<ellipse cx="231" cy="61" fill="#000000" rx="65.0" ry="23.0" stroke="#000000" stroke-width="1"/>
+<ellipse cx="231" cy="61" fill="#ffffff" rx="64.0" ry="22.0" stroke="#ffffff" stroke-width="1"/>
+<text font-family="Dialog" font-size="12" x="180" y="62">
+Schaltung laden</text>
+<ellipse cx="233" cy="191" fill="#000000" rx="75.0" ry="25.0" stroke="#000000" stroke-width="1"/>
+<ellipse cx="233" cy="191" fill="#ffffff" rx="74.0" ry="24.0" stroke="#ffffff" stroke-width="1"/>
+<text font-family="Dialog" font-size="12" x="172" y="192">
+Schaltung erstellen</text>
+<ellipse cx="502" cy="430" fill="#000000" rx="72.0" ry="24.0" stroke="#000000" stroke-width="1"/>
+<ellipse cx="502" cy="430" fill="#ffffff" rx="71.0" ry="23.0" stroke="#ffffff" stroke-width="1"/>
+<text font-family="Dialog" font-size="12" x="444" y="431">
+Berechnung laden</text>
+<ellipse cx="495" cy="296" fill="#000000" rx="81.0" ry="26.0" stroke="#000000" stroke-width="1"/>
+<ellipse cx="495" cy="296" fill="#ffffff" rx="80.0" ry="25.0" stroke="#ffffff" stroke-width="1"/>
+<text font-family="Dialog" font-size="12" x="427" y="297">
+Berechnung erstellen</text>
+<polyline fill="none" points="55,239 174,206" stroke="#333399" stroke-width="1"/>
+<text font-family="Dialog" font-size="12" x="65" y="225">
+1</text>
+<text font-family="Dialog" font-size="12" x="147" y="203">
+1</text>
+<polyline fill="none" points="51,300 447,414" stroke="#333399" stroke-width="1"/>
+<text font-family="Dialog" font-size="12" x="67" y="297">
+1</text>
+<text font-family="Dialog" font-size="12" x="429" y="401">
+1</text>
+<polyline fill="none" points="56,252 417,288" stroke="#333399" stroke-width="1"/>
+<text font-family="Dialog" font-size="12" x="68" y="246">
+1</text>
+<text font-family="Dialog" font-size="12" x="399" y="281">
+1</text>
+<polyline fill="none" points="53,234 208,82" stroke="#333399" stroke-width="1"/>
+<text font-family="Dialog" font-size="12" x="52" y="211">
+1</text>
+<text font-family="Dialog" font-size="12" x="173" y="91">
+1</text>
+<polyline fill="none" points="281,210 444,275" stroke="#000000" stroke-width="1"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="430" x2="444" y1="277" y2="275"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="435" x2="444" y1="264" y2="275"/>
+<text font-family="Dialog" font-size="12" x="300" y="208">
+1</text>
+<text font-family="Dialog" font-size="12" x="427" y="259">
+1</text>
+<ellipse cx="747" cy="295" fill="#000000" rx="77.0" ry="25.0" stroke="#000000" stroke-width="1"/>
+<ellipse cx="747" cy="295" fill="#ffffff" rx="76.0" ry="24.0" stroke="#ffffff" stroke-width="1"/>
+<text font-family="Dialog" font-size="12" x="684" y="296">
+Berechnung starten</text>
+<polyline fill="none" points="575,295 670,295" stroke="#000000" stroke-width="1"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="658" x2="670" y1="302" y2="295"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="658" x2="670" y1="288" y2="295"/>
+<text font-family="Dialog" font-size="12" x="586" y="290">
+1</text>
+<text font-family="Dialog" font-size="12" x="651" y="290">
+1</text>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="498" x2="498" y1="406" y2="401"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="498" x2="498" y1="396" y2="391"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="498" x2="498" y1="386" y2="381"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="498" x2="498" y1="376" y2="371"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="498" x2="498" y1="366" y2="361"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="498" x2="498" y1="356" y2="351"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="498" x2="498" y1="346" y2="341"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="498" x2="498" y1="336" y2="331"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="498" x2="498" y1="326" y2="321"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="505" x2="498" y1="333" y2="321"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="491" x2="498" y1="333" y2="321"/>
+<text font-family="Dialog" font-size="12" x="413" y="360">
+&lt;&lt;extend&gt;&gt;</text>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="231" x2="231" y1="83" y2="88"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="231" x2="231" y1="93" y2="98"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="231" x2="231" y1="103" y2="108"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="231" x2="231" y1="113" y2="118"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="231" x2="231" y1="123" y2="128"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="231" x2="231" y1="133" y2="138"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="231" x2="231" y1="143" y2="148"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="231" x2="231" y1="153" y2="158"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="231" x2="231" y1="163" y2="166"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="224" x2="231" y1="154" y2="166"/>
+<line fill="#000000" stroke="#000000" stroke-width="1" x1="238" x2="231" y1="154" y2="166"/>
+<text font-family="Dialog" font-size="12" x="234" y="120">
+&lt;&lt;extend&gt;&gt;</text>
+</svg>
